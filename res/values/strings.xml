@@ -12,5 +12,7 @@
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="draweraction_search">Search</string>
+    <string name="search_hint">Search for things to do, places to stay, etc.</string>
 
 </resources>
