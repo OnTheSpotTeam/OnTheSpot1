@@ -3,6 +3,7 @@ package com.swat.onthespot;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -109,7 +110,14 @@ public class MainActivity extends Activity {
             return true;
         }
         
-        
+		switch (item.getItemId()){
+		case R.id.action_settings:
+			startActivity(new Intent(this, SettingsActivity.class));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		
         // TODO: Peng: This will be useful when we handle option menu buttons.
         /*
         switch(item.getItemId()) {
@@ -128,7 +136,6 @@ public class MainActivity extends Activity {
             return super.onOptionsItemSelected(item);
         }
         */
-        return super.onOptionsItemSelected(item);
     }
     
     /* The click listner for ListView in the navigation drawer */
