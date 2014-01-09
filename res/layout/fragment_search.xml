@@ -12,4 +12,14 @@
         android:layout_height="match_parent"
         android:gravity="center" />
 
+    <SearchView
+        android:id="@+id/search_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:queryHint="@string/search_hint" >
+    </SearchView>
+
 </FrameLayout>
