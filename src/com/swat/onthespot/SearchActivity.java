@@ -8,16 +8,16 @@ import android.util.Log;
 import android.widget.TextView;
 
 // Started every time the user submits a search query - see AndroidManifest.xml
-public class SearchResultsActivity extends Activity {
+public class SearchActivity extends Activity {
 
 	// handle the search Intent every time this activity is created
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_searchresults);
+		setContentView(R.layout.activity_search);
 		handleIntent(getIntent());
 		
-		Log.i("SEARCHRESULTSACTIVITY", "Activity started!");
+		Log.i("SEARCHACTIVITY", "Activity started!");
 	}
 	
 	// handle the search Intent every time a new query is passed in

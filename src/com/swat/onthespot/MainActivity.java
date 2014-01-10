@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.ClipData.Item;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -90,10 +92,17 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		
+		String tag = "SearchConfig"; // for debugging
 		//Setting up search configuration
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		
+		SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
+		searchView.setSearchableInfo(info);
+		
+		if (info == null) {
+			Log.wtf("SearchableInfo", "is null!");
+		}
 		
 		return true;
 	}

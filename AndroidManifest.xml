@@ -21,12 +21,26 @@
             <meta-data android:name="android.app.searchable"
             	android:resource="@xml/searchable" />
             
+            <meta-data android:name="android.app.default_searchable"
+                android:value=".SearchActivity" />
+            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity 
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search"
+            android:parentActivityName=".MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+            	android:resource="@xml/searchable" />
+        </activity>
+        
         <activity
             android:name="com.swat.onthespot.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -35,14 +49,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.swat.onthespot.MainActivity" />
         </activity>
-        <activity 
-            android:name=".SearchResultsActivity"
-            android:label="@string/title_activity_searchresults"
-            android:parentActivityName=".MainActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-        </activity>
+        
     </application>
 
 </manifest>
