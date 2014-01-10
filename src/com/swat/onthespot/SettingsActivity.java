@@ -1,5 +1,6 @@
 package com.swat.onthespot;
 
+
 import java.util.List;
 import android.annotation.TargetApi;
 import android.app.Activity;
