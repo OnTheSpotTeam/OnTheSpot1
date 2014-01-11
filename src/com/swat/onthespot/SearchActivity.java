@@ -23,7 +23,7 @@ public class SearchActivity extends Activity {
 	// handle the search Intent every time a new query is passed in
 	@Override
 	protected void onNewIntent(Intent intent) {
-		handleIntent(getIntent());
+		handleIntent(intent);
 	}
 
 	private void handleIntent(Intent intent) {

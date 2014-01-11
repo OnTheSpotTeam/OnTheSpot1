@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
-import android.content.ClipData.Item;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -13,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -99,6 +99,14 @@ public class MainActivity extends Activity {
 		
 		SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
 		searchView.setSearchableInfo(info);
+		
+		// Change the maximum width of the searchView. Original one is not wide enough
+		// setMaxWidth() function takes pixel value. Need to convert from 
+		// resolution-independent unit dp;
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+		float dp = 1000f; // 6 inches in a 160 dpi screen is probably enough.
+		int pixels = (int) (metrics.density * dp + 0.5f);
+		searchView.setMaxWidth(pixels);
 		
 		if (info == null) {
 			Log.wtf("SearchableInfo", "is null!");
