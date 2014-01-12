@@ -9,7 +9,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract.Contacts;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;

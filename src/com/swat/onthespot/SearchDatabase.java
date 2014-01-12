@@ -38,13 +38,13 @@ import java.util.HashMap;
  * load the dictionary table when it needs to be created.
  */
 public class SearchDatabase {
-    private static final String TAG = "SearchDatabase";
+    private static final String TAG = "DictionaryDatabase";
 
-    private static final String DATABASE_NAME = "search";
+    private static final String DATABASE_NAME = "content";
     private static final String FTS_VIRTUAL_TABLE = "FTSTable";
     private static final int DATABASE_VERSION = 2;
 
-    private final DatabaseHelper mDatabaseOpenHelper;
+    private final DatabaseOpenHelper mDatabaseOpenHelper;
     private static final HashMap<String,String> mColumnMap = buildColumnMap();
 
     /**
@@ -52,7 +52,7 @@ public class SearchDatabase {
      * @param context The Context within which to work, used to create the DB
      */
     public SearchDatabase(Context context) {
-        mDatabaseOpenHelper = new DatabaseHelper(context);
+        mDatabaseOpenHelper = new DatabaseOpenHelper(context);
     }
 
     /**
@@ -152,7 +152,7 @@ public class SearchDatabase {
     /**
      * This creates/opens the database.
      */
-    private static class DatabaseHelper extends SQLiteOpenHelper {
+    private static class DatabaseOpenHelper extends SQLiteOpenHelper {
 
         private final Context mHelperContext;
         private SQLiteDatabase mDatabase;
@@ -167,7 +167,7 @@ public class SearchDatabase {
                     SearchContract.COL_NAME + ", " +
                     SearchContract.COL_TYPE + ");";
 
-        DatabaseHelper(Context context) {
+        DatabaseOpenHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
             mHelperContext = context;
         }
@@ -238,3 +238,5 @@ public class SearchDatabase {
     }
 
 }
+
+
