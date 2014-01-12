@@ -99,6 +99,9 @@ public class MainActivity extends Activity {
 		
 		SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
 		searchView.setSearchableInfo(info);
+		if (info == null) {
+			Log.wtf("SearchableInfo", "is null!");
+		}
 		
 		// Change the maximum width of the searchView. Original one is not wide enough
 		// setMaxWidth() function takes pixel value. Need to convert from 
@@ -108,10 +111,9 @@ public class MainActivity extends Activity {
 		int pixels = (int) (metrics.density * dp + 0.5f);
 		searchView.setMaxWidth(pixels);
 		
-		if (info == null) {
-			Log.wtf("SearchableInfo", "is null!");
-		}
-		
+		// Display the submit button while searching.
+		// searchView.setSubmitButtonEnabled(true);
+		 	
 		return true;
 	}
 	
@@ -137,7 +139,7 @@ public class MainActivity extends Activity {
         }
         
 		switch (item.getItemId()){
-		case R.id.action_settings:
+		case R.id.menu_action_settings:
 			startActivity(new Intent(this, SettingsActivity.class));
 			return true;
 		default:

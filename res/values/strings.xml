@@ -3,18 +3,17 @@
 
     <string name="app_name">On The Spot</string>
     <string name="action_settings">Settings</string>
+
     <string-array name="fragment_names">
         <item>Profile</item>
         <item>Near Me</item>
         <item>Search</item>
         <item>News Feed</item>
     </string-array>
+
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="draweraction_search">Search</string>
+    <string name="menu_action_search">Search</string>
     <string name="search_hint">Experiences, lodgings, people, etc.</string>
-    <string name="title_activity_search">Search Results</string>
-    
-    <string name="debug_query">DEBUGGING - Your Query (if shown then your query is in SearchActivity class): </string>
 
 </resources>

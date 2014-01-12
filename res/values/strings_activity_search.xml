@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_search">Search Results</string>
+    <string name="debug_query">DEBUGGING - Your Query (if shown then your query is in SearchActivity class): </string>
+    <string name="hello_world">Hello world!</string>    
+</resources>
