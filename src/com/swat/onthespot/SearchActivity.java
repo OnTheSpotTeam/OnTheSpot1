@@ -3,6 +3,8 @@ package com.swat.onthespot;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -10,10 +12,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 
 public class SearchActivity extends Activity
@@ -89,6 +93,22 @@ public class SearchActivity extends Activity
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.search, menu);
+		
+		//Setting up search configuration
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+		
+		SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
+		searchView.setSearchableInfo(info);
+
+		// Change the maximum width of the searchView. Original one is not wide enough
+		// setMaxWidth() function takes pixel value. Need to convert from 
+		// resolution-independent unit dp;
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+		float dp = 1000f; // 6 inches in a 160 dpi screen is probably enough.
+		int pixels = (int) (metrics.density * dp + 0.5f);
+		searchView.setMaxWidth(pixels);
+		
 		return true;
 	}
 

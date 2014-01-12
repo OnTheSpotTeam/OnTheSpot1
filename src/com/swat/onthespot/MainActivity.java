@@ -92,17 +92,13 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		
-		String tag = "SearchConfig"; // for debugging
 		//Setting up search configuration
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
 		
 		SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
 		searchView.setSearchableInfo(info);
-		if (info == null) {
-			Log.wtf("SearchableInfo", "is null!");
-		}
-		
+
 		// Change the maximum width of the searchView. Original one is not wide enough
 		// setMaxWidth() function takes pixel value. Need to convert from 
 		// resolution-independent unit dp;
