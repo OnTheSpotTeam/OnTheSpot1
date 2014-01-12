@@ -202,12 +202,6 @@ public class MainActivity extends Activity {
         	fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         	break;
         case 2:
-        	fragment = new SearchFragment();
-        	args.putString("key", "This is the search tab.");
-        	fragment.setArguments(args);
-        	fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-        	break;
-        case 3:
         	fragment = new NewsFeedFragment();
         	args.putString("key", "This is the news feed tab.");
         	fragment.setArguments(args);

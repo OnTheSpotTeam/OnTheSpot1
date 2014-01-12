@@ -7,7 +7,6 @@
     <string-array name="fragment_names">
         <item>Profile</item>
         <item>Near Me</item>
-        <item>Search</item>
         <item>News Feed</item>
     </string-array>
 
