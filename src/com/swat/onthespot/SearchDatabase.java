@@ -179,13 +179,15 @@ public class SearchDatabase {
         @Override
         public void onCreate(SQLiteDatabase db) {
             mDatabase = db;
-            mDatabase.execSQL(FTS_TABLE_CREATE);
+            mDatabase.execSQL(FTS_TABLE_CREATE);        
+            /*
             Cursor ti = db.rawQuery("PRAGMA table_info(mytable)", null);
             if ( ti.moveToFirst() ) {
                 do {
                     Log.d(TAG, "databseCol = " + ti.getString(1));
                 } while (ti.moveToNext());
             }
+            */
             loadDictionary();
         }
 

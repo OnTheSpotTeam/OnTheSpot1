@@ -108,10 +108,12 @@ public class SearchProvider extends ContentProvider {
             };
 
         Cursor results =  mDatabase.getWordMatches(query, columns);
+        /*
         String[] cols = results.getColumnNames();
         for (int i=0; i< cols.length; i++){
         	Log.d(TAG, "suggest result col " + i + " = " + cols[i]);
         }
+        */
         return results;
       }
 
