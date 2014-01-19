@@ -32,6 +32,7 @@ public class SearchActivity extends Activity
 			
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.d("TAG", "Started Search Activity");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
 		

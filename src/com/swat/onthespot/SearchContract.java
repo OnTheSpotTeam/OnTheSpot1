@@ -9,7 +9,7 @@ public class SearchContract{
 		
 		/* Column Names */
 		public static final String _ID = BaseColumns._ID;
-		// Name is also used for suggestions.
+		// Column names are also used for suggestions.
 		// See http://developer.android.com/guide/topics/search/adding-custom-suggestions.html#SuggestionTable
 		public static final String COL_NAME = SearchManager.SUGGEST_COLUMN_TEXT_1; 
 		public static final String COL_TYPE = SearchManager.SUGGEST_COLUMN_TEXT_2; 
