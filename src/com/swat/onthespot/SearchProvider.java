@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 public class SearchProvider extends ContentProvider {
 	
@@ -101,11 +102,17 @@ public class SearchProvider extends ContentProvider {
             BaseColumns._ID,
             SearchContract.COL_NAME,
             SearchContract.COL_TYPE,
+            SearchManager.SUGGEST_COLUMN_INTENT_DATA
          /* SearchManager.SUGGEST_COLUMN_SHORTCUT_ID,
                           (only if you want to refresh shortcuts) */
-            SearchManager.SUGGEST_COLUMN_INTENT_DATA_ID};
+            };
 
-        return mDatabase.getWordMatches(query, columns);
+        Cursor results =  mDatabase.getWordMatches(query, columns);
+        String[] cols = results.getColumnNames();
+        for (int i=0; i< cols.length; i++){
+        	Log.d(TAG, "suggest result col " + i + " = " + cols[i]);
+        }
+        return results;
       }
 
       private Cursor search(String query) {

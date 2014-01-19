@@ -79,6 +79,10 @@ public class SearchActivity extends Activity
             // Change the stored query to the new query, so the (new / restared)
             // CursorLoader can use this query.
             mQuery = query;
+        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            // Handle a suggestions click (because the suggestions all use ACTION_VIEW)
+            String query = intent.getDataString();
+            mQuery = query;
         }
     }
     

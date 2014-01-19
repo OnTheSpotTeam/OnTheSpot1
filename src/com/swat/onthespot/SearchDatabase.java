@@ -16,6 +16,12 @@
 
 package com.swat.onthespot;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+
 import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
@@ -27,11 +33,6 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashMap;
 
 /**
  * Contains logic to return specific words from the dictionary, and
@@ -61,12 +62,14 @@ public class SearchDatabase {
      * all columns, even if the value is the key. This allows the ContentProvider to request
      * columns w/o the need to know real column names and create the alias itself.
      */
+     
     private static HashMap<String,String> buildColumnMap() {
         HashMap<String,String> map = new HashMap<String,String>();
         map.put(SearchContract.COL_NAME, SearchContract.COL_NAME);
         map.put(SearchContract.COL_TYPE, SearchContract.COL_TYPE);
         map.put(BaseColumns._ID, "rowid AS " +
                 BaseColumns._ID);
+        map.put(SearchManager.SUGGEST_COLUMN_INTENT_DATA, SearchManager.SUGGEST_COLUMN_INTENT_DATA);
         map.put(SearchManager.SUGGEST_COLUMN_INTENT_DATA_ID, "rowid AS " +
                 SearchManager.SUGGEST_COLUMN_INTENT_DATA_ID);
         map.put(SearchManager.SUGGEST_COLUMN_SHORTCUT_ID, "rowid AS " +
@@ -165,7 +168,8 @@ public class SearchDatabase {
                     "CREATE VIRTUAL TABLE " + FTS_VIRTUAL_TABLE +
                     " USING fts3 (" +
                     SearchContract.COL_NAME + ", " +
-                    SearchContract.COL_TYPE + ");";
+                    SearchContract.COL_TYPE + ", " +
+                    SearchManager.SUGGEST_COLUMN_INTENT_DATA + ");";
 
         DatabaseOpenHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -176,6 +180,12 @@ public class SearchDatabase {
         public void onCreate(SQLiteDatabase db) {
             mDatabase = db;
             mDatabase.execSQL(FTS_TABLE_CREATE);
+            Cursor ti = db.rawQuery("PRAGMA table_info(mytable)", null);
+            if ( ti.moveToFirst() ) {
+                do {
+                    Log.d(TAG, "databseCol = " + ti.getString(1));
+                } while (ti.moveToNext());
+            }
             loadDictionary();
         }
 
@@ -224,6 +234,7 @@ public class SearchDatabase {
             ContentValues initialValues = new ContentValues();
             initialValues.put(SearchContract.COL_NAME, word);
             initialValues.put(SearchContract.COL_TYPE, definition);
+            initialValues.put(SearchManager.SUGGEST_COLUMN_INTENT_DATA, word);
 
             return mDatabase.insert(FTS_VIRTUAL_TABLE, null, initialValues);
         }
