@@ -56,6 +56,9 @@ public class SearchActivity extends Activity
 	    
 		// Start the query by initializing the cursor loader
 		getLoaderManager().initLoader(SEARCH_LOADER, null, this);
+		
+		// Set transition animations:
+		overridePendingTransition(0, 0);
 	}
 	
     @Override
@@ -174,7 +177,6 @@ public class SearchActivity extends Activity
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		// TODO Auto-generated method stub
-		
 	}
-
+	
 }
