@@ -4,4 +4,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+ 
+	<dimen name="profile_picture_vertical_margin">40dp</dimen>
+	<dimen name="profile_picture_horizontal_margin">60dp</dimen>
+	<dimen name="profile_name_indent">40dp</dimen>
+	<dimen name="profile_name_font_size">30sp</dimen>
 </resources>

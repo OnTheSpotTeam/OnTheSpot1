@@ -2,23 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ProfileFragment" >
+    android:orientation="vertical" >
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:id="@+id/profile_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center" />
-
-    <Button
-        android:id="@+id/profile_btn_itin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="View My Itinerary" />
+        
+    <android.support.v4.view.ViewPager
+	    android:id="@+id/profile_pager"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1" />
 
 </LinearLayout>

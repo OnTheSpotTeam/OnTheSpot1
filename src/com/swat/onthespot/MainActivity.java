@@ -1,5 +1,6 @@
 package com.swat.onthespot;
 
+
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -23,18 +25,27 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import com.viewpagerindicator.TabPageIndicator;
+
 
 public class MainActivity extends FragmentActivity {
 	private static final String TAG = "OTS_MainActivity";
 	
+	// For Navigation Drawer
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
-
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+    private String[] mPageNames;
+    View mProfileView = null;
+    View mNearMeView = null;
+    View mNewsFeedView = null;
     
-    private String[] mFragmentNames;
+    // For Tabs in Profile Page
+    private ProfileTabsAdapter mProfileAdapter;
+    private ViewPager mProfileViewPager;
+    private TabPageIndicator mProfileIndicator;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +56,7 @@ public class MainActivity extends FragmentActivity {
 		
 		// Record the initial title (app name)
 	    mTitle = mDrawerTitle = getTitle();
-        mFragmentNames = getResources().getStringArray(R.array.fragment_names);
+        mPageNames = getResources().getStringArray(R.array.fragment_names);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);	
         
@@ -53,7 +64,7 @@ public class MainActivity extends FragmentActivity {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mFragmentNames));
+                R.layout.drawer_list_item, mPageNames));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
@@ -88,8 +99,17 @@ public class MainActivity extends FragmentActivity {
         if (savedInstanceState == null) {
             selectItem(0);
         }
+        
 	}
 
+    /* The click listener for ListView in the navigation drawer */
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+    
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -165,14 +185,6 @@ public class MainActivity extends FragmentActivity {
         */
     }
     
-    /* The click listner for ListView in the navigation drawer */
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-    
     private void selectItem(int position) {
         // update the main content by replacing fragments
     	
@@ -182,40 +194,67 @@ public class MainActivity extends FragmentActivity {
         //FragmentManager fragmentManager = getFragmentManager();
         //Bundle args = new Bundle();
         //Fragment fragment;
-    	View fill; 
-    	TextView text;
+
     	LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE); 
     	ViewGroup contentFrame = (ViewGroup) findViewById(R.id.content_frame);
     	contentFrame.removeAllViews();
         switch (position){
         case 0: // Profile Tab pressed
-        	fill = inflater.inflate(R.layout.profile, null);
-        	text = (TextView)fill.findViewById(R.id.profile_text);
-        	text.setText("This is the profile page");
-        	contentFrame.addView(fill, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	
+        	fillProfilePage(inflater, contentFrame);
         	break;
         case 1:
-        	fill = inflater.inflate(R.layout.near_me, null);
-        	text = (TextView)fill.findViewById(R.id.near_me_text);
-        	text.setText("This is the near me page");
-        	contentFrame.addView(fill, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	
+        	fillNearMePage(inflater, contentFrame);
         	break;
         case 2:
-        	fill = inflater.inflate(R.layout.news_feed, null);
-        	text = (TextView)fill.findViewById(R.id.news_feed_text);
-        	text.setText("This is the news feed page");
-        	contentFrame.addView(fill, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	
+        	fillNewsFeedPage(inflater, contentFrame);
         	break;
         default:
         	Log.e(TAG, "Drawer selection out of range!");
         }
         
-        
         mDrawerList.setItemChecked(position, true);
-        setTitle(mFragmentNames[position]);
+        setTitle(mPageNames[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
-        
     }
+    
+    private void fillProfilePage(LayoutInflater inflater, ViewGroup contentFrame){
+    	Log.d(TAG, "in fillProfilePage");
+    	if (mProfileView == null){
+    		mProfileView = inflater.inflate(R.layout.profile, null);
+    		//TextView text = (TextView)mProfileView.findViewById(R.id.profile_text);
+    		//text.setText("This is the profile page");
+    	}
+    	contentFrame.addView(mProfileView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	
+
+        // For tabs in Profile Page.
+        mProfileAdapter = new ProfileTabsAdapter(getSupportFragmentManager(), this);
+        mProfileAdapter.notifyDataSetChanged();
+        mProfileViewPager = (ViewPager) findViewById(R.id.profile_pager);
+        mProfileViewPager.setAdapter(mProfileAdapter);
+        mProfileIndicator = (TabPageIndicator)findViewById(R.id.indicator);
+        mProfileIndicator.setViewPager(mProfileViewPager);
+    }
+    
+    
+    private void fillNearMePage(LayoutInflater inflater, ViewGroup contentFrame){
+    	if (mNearMeView == null){
+    		mNearMeView = inflater.inflate(R.layout.near_me, null);
+    		TextView text = (TextView)mNearMeView.findViewById(R.id.near_me_text);
+    		text.setText("This is the near me page");
+    	}
+    	contentFrame.addView(mNearMeView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	
+    }
+    
+    private void fillNewsFeedPage(LayoutInflater inflater, ViewGroup contentFrame){
+    	if (mNewsFeedView == null){
+    		mNewsFeedView = inflater.inflate(R.layout.news_feed, null);
+    		TextView text = (TextView)mNewsFeedView.findViewById(R.id.news_feed_text);
+    		text.setText("This is the news feed page");
+    	}
+    	contentFrame.addView(mNewsFeedView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	
+    }
+    
+
 
     @Override
     public void setTitle(CharSequence title) {

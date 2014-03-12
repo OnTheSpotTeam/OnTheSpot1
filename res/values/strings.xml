@@ -9,10 +9,19 @@
         <item>Near Me</item>
         <item>News Feed</item>
     </string-array>
+    
+    <string-array name="profile_tab_titles">
+        <item>Itins</item>
+        <item>Favorites</item>
+        <item>Reviews</item>
+        <item>Photos</item>
+    </string-array>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="menu_action_search">Search</string>
     <string name="search_hint">Experiences, lodgings, people, etc.</string>
 
+    <!-- Strings for profile page -->
+    <string name="user_full_name">Sam Green</string>
 </resources>
