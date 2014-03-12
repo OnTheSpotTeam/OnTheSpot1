@@ -1,8 +1,5 @@
 package com.swat.onthespot;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
@@ -10,19 +7,24 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 	private static final String TAG = "OTS_MainActivity";
 	
     private DrawerLayout mDrawerLayout;
@@ -177,32 +179,32 @@ public class MainActivity extends Activity {
     	Log.d(TAG, "Selected " + position);
         
     	
-    	/* TODO: Peng: This is a temporary solution. 
-    	 * Creating new fragments and Bundles for each selection is really inefficient.
-    	 * We will need to create corresponding fields in the class, and store them once we create them.
-    	 * In this way, we only need to create them once.
-    	 */
-        FragmentManager fragmentManager = getFragmentManager();
-        Bundle args = new Bundle();
-        Fragment fragment;
+        //FragmentManager fragmentManager = getFragmentManager();
+        //Bundle args = new Bundle();
+        //Fragment fragment;
+    	View fill; 
+    	TextView text;
+    	LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE); 
+    	ViewGroup contentFrame = (ViewGroup) findViewById(R.id.content_frame);
+    	contentFrame.removeAllViews();
         switch (position){
         case 0: // Profile Tab pressed
-        	fragment = new ProfileFragment();
-        	args.putString("key", "This is the profile tab.");
-        	fragment.setArguments(args);
-        	fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        	fill = inflater.inflate(R.layout.profile, null);
+        	text = (TextView)fill.findViewById(R.id.profile_text);
+        	text.setText("This is the profile page");
+        	contentFrame.addView(fill, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	
         	break;
         case 1:
-        	fragment = new NearMeFragment();
-        	args.putString("key", "This is the near me tab.");
-        	fragment.setArguments(args);
-        	fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        	fill = inflater.inflate(R.layout.near_me, null);
+        	text = (TextView)fill.findViewById(R.id.near_me_text);
+        	text.setText("This is the near me page");
+        	contentFrame.addView(fill, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	
         	break;
         case 2:
-        	fragment = new NewsFeedFragment();
-        	args.putString("key", "This is the news feed tab.");
-        	fragment.setArguments(args);
-        	fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        	fill = inflater.inflate(R.layout.news_feed, null);
+        	text = (TextView)fill.findViewById(R.id.news_feed_text);
+        	text.setText("This is the news feed page");
+        	contentFrame.addView(fill, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	
         	break;
         default:
         	Log.e(TAG, "Drawer selection out of range!");

@@ -66,7 +66,7 @@ public class SearchProvider extends ContentProvider {
             return SearchManager.SHORTCUT_MIME_TYPE;
         default:
             throw new IllegalArgumentException("Unknown URL " + uri);
-    }
+        }
 	}
 
 	@Override
