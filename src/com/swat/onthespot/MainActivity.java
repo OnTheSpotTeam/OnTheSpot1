@@ -29,6 +29,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 
 public class MainActivity extends FragmentActivity {
+	public static final String USER_NAME = "Sam Green";
 	private static final String TAG = "OTS_MainActivity";
 	
 	// For Navigation Drawer
@@ -64,7 +65,7 @@ public class MainActivity extends FragmentActivity {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mPageNames));
+                R.layout.list_item_drawer, mPageNames));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer

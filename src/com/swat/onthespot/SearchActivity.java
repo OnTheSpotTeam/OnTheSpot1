@@ -43,7 +43,7 @@ public class SearchActivity extends Activity
 		mListView = (ListView) findViewById(R.id.search_results_list);
 		mAdapter = new SimpleCursorAdapter(
 	            this,                // Current context
-	            R.layout.searchresult_list_item,  // Layout for a single row
+	            R.layout.list_item_searchresult,  // Layout for a single row
 	            null,                // No Cursor yet
 	            new String[] { SearchContract.COL_NAME, SearchContract.COL_TYPE }, // Cursor columns to use
                 new int[] { R.id.searchresult_word, R.id.searchresult_definition }, // Layout fields to use

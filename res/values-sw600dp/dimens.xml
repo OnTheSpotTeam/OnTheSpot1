@@ -4,8 +4,28 @@
          Customize dimensions originally defined in res/values/dimens.xml (such as
          screen margins) for sw600dp devices (e.g. 7" tablets) here.
     -->
-	<dimen name="profile_picture_vertical_margin">30dp</dimen>
+    
+	<dimen name="profile_picture_vertical_margin">40dp</dimen>
 	<dimen name="profile_picture_horizontal_margin">60dp</dimen>
 	<dimen name="profile_name_indent">40dp</dimen>
 	<dimen name="profile_name_font_size">30sp</dimen>
+	
+	<dimen name="itinlist_allpadtop">20dp</dimen>
+	<dimen name="itinlist_allpadbottom">20dp</dimen>
+    <dimen name="itinlist_totalheight">200dp</dimen>
+   
+	<dimen name="itinlist_imageheight">160dp</dimen>
+	<dimen name="itinlist_imagewidth">210dp</dimen>
+	<dimen name="itinlist_imagepadleft">10dp</dimen>
+	<dimen name="itinlist_imagepadright">40dp</dimen>
+	
+	<dimen name="itinlist_textheight">160dp</dimen>
+	<dimen name="itinlist_textwidth">370dp</dimen>
+	<dimen name="itinlist_textpadleft">20dp</dimen>
+	
+	<dimen name="itinlist_name_size">30sp</dimen>
+	
+	<dimen name="itinlist_date_size">20sp</dimen>
+	
+	<dimen name="itinlist_comment_size">20sp</dimen>
 </resources>
