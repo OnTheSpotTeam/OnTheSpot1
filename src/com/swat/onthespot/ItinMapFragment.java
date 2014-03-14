@@ -176,4 +176,9 @@ public class ItinMapFragment extends FragmentActivity
 		mHideHandler.removeCallbacks(mHideRunnable);
 		mHideHandler.postDelayed(mHideRunnable, delayMillis);
 	}
+	
+	public void exitItin(View v)
+	{
+		finish();
+	}
 }

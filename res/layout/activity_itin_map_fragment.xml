@@ -37,16 +37,30 @@
             android:layout_gravity="bottom|center_horizontal"
             android:background="@color/black_overlay"
             android:orientation="horizontal"
-            tools:ignore="UselessParent" >
+            tools:ignore="UselessParent" 
+            android:weightSum="2">
 
             <Button
-                android:id="@+id/dummy_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/back"/>
+              android:id="@+id/dummy_button"
+              style="?metaButtonBarButtonStyle"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_weight ="1"
+              android:onClick="exitItin"
+              android:text="Back to Itins" />
+            
+            <Button
+              android:id="@+id/button1"
+              style="?metaButtonBarButtonStyle"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_weight ="1"
+              android:text="Journal View" />
+
         </LinearLayout>
+
+       
+
     </FrameLayout>
 
 </FrameLayout>
