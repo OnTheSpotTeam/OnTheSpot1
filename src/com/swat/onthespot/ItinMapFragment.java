@@ -1,9 +1,20 @@
 package com.swat.onthespot;
 
+import com.directions.route.Routing;
+import com.directions.route.RoutingListener;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.swat.onthespot.util.SystemUiHider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,7 +28,7 @@ import android.view.View;
  * 
  * @see SystemUiHider
  */
-public class ItinMapFragment extends FragmentActivity
+public class ItinMapFragment extends FragmentActivity implements RoutingListener
 {
 	/**
 	 * Whether or not the system UI should be auto-hidden after
@@ -46,13 +57,29 @@ public class ItinMapFragment extends FragmentActivity
 	 * The instance of the {@link SystemUiHider} for this activity.
 	 */
 	private SystemUiHider mSystemUiHider;
-
+  GoogleMap map;
+  LatLng start;
+  LatLng end;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-    setTitle("Map View");
 		setContentView(R.layout.activity_itin_map_fragment);
+    setTitle("Map View");
+    SupportMapFragment fm = (SupportMapFragment)  getSupportFragmentManager().findFragmentById(R.id.map);
+    map = fm.getMap();
+    CameraUpdate center=CameraUpdateFactory.newLatLng(new LatLng(18.013610,-77.498803));
+    CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
+
+    map.moveCamera(center);
+    map.animateCamera(zoom);
+
+    start = new LatLng(18.015365, -77.499382);
+    end = new LatLng(18.012590, -77.500659);
+
+    Routing routing = new Routing(Routing.TravelMode.WALKING);
+    routing.registerListener(this);
+    routing.execute(start, end);
 
 		final View controlsView = findViewById(R.id.fullscreen_content_controls);
 		final View contentView = findViewById(R.id.map);
@@ -181,4 +208,35 @@ public class ItinMapFragment extends FragmentActivity
 	{
 		finish();
 	}
+	
+	@Override 
+	public void onRoutingFailure() {
+     // The Routing request failed
+   }
+
+	 @Override
+   public void onRoutingStart() {
+     // The Routing Request starts
+   }
+
+	 @Override
+   public void onRoutingSuccess(PolylineOptions mPolyOptions) {
+     PolylineOptions polyoptions = new PolylineOptions();
+     polyoptions.color(Color.BLUE);
+     polyoptions.width(10);
+     polyoptions.addAll(mPolyOptions.getPoints());
+     map.addPolyline(polyoptions);
+
+     // Start marker
+     MarkerOptions options = new MarkerOptions();
+     options.position(start);
+     options.icon(BitmapDescriptorFactory.fromResource(R.drawable.start_blue));
+     map.addMarker(options);
+
+     // End marker
+     options = new MarkerOptions();
+     options.position(end);
+     options.icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green));  
+     map.addMarker(options);
+   }
 }
