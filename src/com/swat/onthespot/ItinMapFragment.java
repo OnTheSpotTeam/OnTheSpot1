@@ -1,5 +1,8 @@
 package com.swat.onthespot;
 
+import java.io.IOException;
+import java.util.List;
+
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
 import com.google.android.gms.maps.CameraUpdate;
@@ -15,6 +18,8 @@ import com.swat.onthespot.util.SystemUiHider;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -68,18 +73,49 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
     setTitle("Map View");
     SupportMapFragment fm = (SupportMapFragment)  getSupportFragmentManager().findFragmentById(R.id.map);
     map = fm.getMap();
-    CameraUpdate center=CameraUpdateFactory.newLatLng(new LatLng(18.013610,-77.498803));
+    CameraUpdate center=CameraUpdateFactory.newLatLng(new LatLng(39.907036, -75.352040));
     CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
 
     map.moveCamera(center);
     map.animateCamera(zoom);
+    LatLng start = null;
+    LatLng end= null;
+    Geocoder coder = new Geocoder(this);
+    String startAddress = "500 College Avenue, Swarthmore, PA 19081";
+    String endAddress = "101 N Merion Ave, Bryn Mawr, PA 19010";
+    List<Address> address;
+ 
+  	try
+    {
+      //Convert Start Address into LatLng.
+  		address = coder.getFromLocationName(startAddress,5);
+      Address location = address.get(0);
+    	location.getLatitude();
+    	location.getLongitude();
+    	start = new LatLng((int) (location.getLatitude() * 1E6),
+      (int) (location.getLongitude() * 1E6));
+    	
+    	//Convert End Address into LatLng
+      address = coder.getFromLocationName(endAddress,5);
+      location = address.get(0);
+    	location.getLatitude();
+    	location.getLongitude();
+    	end = new LatLng((int) (location.getLatitude() * 1E6),
+      (int) (location.getLongitude() * 1E6));
+    	
+      Routing routing = new Routing(Routing.TravelMode.DRIVING);
+      routing.registerListener(this);
+      routing.execute(start, end);
+    } catch (IOException e)
+    {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+        	
 
-    start = new LatLng(18.015365, -77.499382);
-    end = new LatLng(18.012590, -77.500659);
-
-    Routing routing = new Routing(Routing.TravelMode.WALKING);
-    routing.registerListener(this);
-    routing.execute(start, end);
+        
+    
+    
 
 		final View controlsView = findViewById(R.id.fullscreen_content_controls);
 		final View contentView = findViewById(R.id.map);
