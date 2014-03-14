@@ -1,6 +1,7 @@
 package com.swat.onthespot;
 
 
+import android.app.Dialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
