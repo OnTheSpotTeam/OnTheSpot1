@@ -281,9 +281,18 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	 
    public LatLng getLatLngFromLoc(String address) throws IOException
 	 {
-  	 List<Address> list = gc.getFromLocationName(address, 1);
-  	 Address add = list.get(0);
-  	 return new LatLng(add.getLatitude(), add.getLongitude());
+  	 
+  	 	List<Address> list = null;
+  	 	for(int i = 0; i < 100; i++)
+  	 	{
+  	 		 list = gc.getFromLocationName(address, 1);
+  	 		 if(list.size() > 0)
+  	 			break;
+  	 	}
+  	 	if(list.size() == 0)
+  	 		return null;
+  	 	Address add = list.get(0);
+  	 	return new LatLng(add.getLatitude(), add.getLongitude());
 	 }
 	 
 }
