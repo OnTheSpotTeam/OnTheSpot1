@@ -1,13 +1,20 @@
 package com.swat.onthespot;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import android.annotation.TargetApi;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
+
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
 import com.google.android.gms.maps.CameraUpdate;
@@ -58,6 +65,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
   GoogleMap map;
   LatLng start;
   LatLng end;
+  Geocoder gc;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -65,19 +73,32 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		setContentView(R.layout.activity_itin_map_fragment);
     setTitle("Map View");
     SupportMapFragment fm = (SupportMapFragment)  getSupportFragmentManager().findFragmentById(R.id.map);
+    gc = new Geocoder(this, Locale.getDefault());
     map = fm.getMap();
-    CameraUpdate center=CameraUpdateFactory.newLatLng(new LatLng(39.907036, -75.352040));
-    CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
+    
 
-    map.moveCamera(center);
-    map.animateCamera(zoom);
-  
-    start = new LatLng(39.907053, -75.352094);
-    end = new LatLng(40.027084, -75.314361);
-    Routing routing = new Routing(Routing.TravelMode.DRIVING);
-    routing.registerListener(this);
-    routing.execute(start, end);
-  
+ 
+   
+   try
+  {
+  	CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc("Phiadelphia"));
+    CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
+	  start = getLatLngFromLoc("New York");
+	  end = getLatLngFromLoc("Philadelphia");
+	  map.moveCamera(center);
+	  map.animateCamera(zoom);
+  } catch (IOException e)
+  {
+	  // TODO Auto-generated catch block
+  	start = null;
+  	end = null;
+	  e.printStackTrace();
+  }
+
+   
+   Routing routing = new Routing(Routing.TravelMode.DRIVING);
+   routing.registerListener(this);
+   routing.execute(start, end);
     
         
     
@@ -241,4 +262,12 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
      options.icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green));  
      map.addMarker(options);
    }
+	 
+   public LatLng getLatLngFromLoc(String address) throws IOException
+	 {
+  	 List<Address> list = gc.getFromLocationName(address, 1);
+  	 Address add = list.get(0);
+  	 return new LatLng(add.getLatitude(), add.getLongitude());
+	 }
+	 
 }
