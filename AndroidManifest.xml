@@ -87,6 +87,14 @@
             android:label="@string/title_activity_fullscreen"
             android:theme="@style/FullscreenTheme" >
         </activity>
+        <activity
+            android:name="com.swat.onthespot.ItineraryActivity"
+            android:label="@string/title_activity_itinerary"
+            android:parentActivityName="com.swat.onthespot.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.swat.onthespot.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

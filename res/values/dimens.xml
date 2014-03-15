@@ -12,19 +12,29 @@
 	<dimen name="itinlist_allpadtop">20dp</dimen>
 	<dimen name="itinlist_allpadbottom">20dp</dimen>
     <dimen name="itinlist_totalheight">200dp</dimen>
-   
 	<dimen name="itinlist_imageheight">160dp</dimen>
 	<dimen name="itinlist_imagewidth">210dp</dimen>
 	<dimen name="itinlist_imagepadleft">10dp</dimen>
 	<dimen name="itinlist_imagepadright">40dp</dimen>
-	
 	<dimen name="itinlist_textheight">160dp</dimen>
 	<dimen name="itinlist_textwidth">370dp</dimen>
 	<dimen name="itinlist_textpadleft">20dp</dimen>
-	
 	<dimen name="itinlist_name_size">30sp</dimen>
-	
 	<dimen name="itinlist_date_size">20sp</dimen>
-	
 	<dimen name="itinlist_comment_size">20sp</dimen>
+	
+	<dimen name="explist_allpadtop">20dp</dimen>
+	<dimen name="explist_allpadbottom">20dp</dimen>
+    <dimen name="explist_totalheight">200dp</dimen>
+	<dimen name="explist_imageheight">160dp</dimen>
+	<dimen name="explist_imagewidth">210dp</dimen>
+	<dimen name="explist_imagepadleft">10dp</dimen>
+	<dimen name="explist_imagepadright">40dp</dimen>
+	<dimen name="explist_textheight">160dp</dimen>
+	<dimen name="explist_textwidth">370dp</dimen>
+	<dimen name="explist_textpadleft">20dp</dimen>
+	<dimen name="explist_name_size">30sp</dimen>
+	<dimen name="explist_action_size">20sp</dimen>
+	<dimen name="explist_comment_size">20sp</dimen>
+	<dimen name="explist_itin_name_size">30sp</dimen>
 </resources>

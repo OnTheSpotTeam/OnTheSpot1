@@ -26,5 +26,7 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="back">Back</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    
+    <string name="title_activity_itinerary">ItineraryActivity</string>
 
 </resources>

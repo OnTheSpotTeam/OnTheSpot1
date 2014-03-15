@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/explist_totalheight"
+    android:paddingBottom="@dimen/explist_allpadbottom"
+    android:paddingTop="@dimen/explist_allpadtop">
+
+    <LinearLayout
+        android:layout_width="@dimen/explist_textwidth"
+        android:layout_height="@dimen/explist_textheight"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="@dimen/explist_textpadleft"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/explist_item_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:layout_weight="1"
+            android:textSize="@dimen/explist_action_size" />
+           
+        <TextView android:id="@+id/explist_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:layout_weight="2"
+            android:textSize="@dimen/explist_name_size" />
+        
+        <TextView
+            android:id="@+id/explist_item_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:layout_weight="1"
+            android:textSize="@dimen/explist_comment_size" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/explist_item_image"
+        android:layout_width="@dimen/explist_imagewidth"
+        android:layout_height="@dimen/explist_imageheight"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:paddingLeft="@dimen/explist_imagepadleft"
+        android:paddingRight="@dimen/explist_imagepadright" />
+
+</RelativeLayout>
+
+

@@ -46,8 +46,8 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_weight ="1"
-              android:onClick="exitItin"
-              android:text="Back to Itins" />
+              android:onClick="exitToJournal"
+              android:text="Journal View" />
             
             <Button
               android:id="@+id/button1"
@@ -55,7 +55,8 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_weight ="1"
-              android:text="Journal View" />
+              android:onClick="exitToMain"
+              android:text="Back to Itins" />
 
         </LinearLayout>
 

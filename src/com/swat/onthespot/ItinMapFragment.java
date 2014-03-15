@@ -1,6 +1,7 @@
 package com.swat.onthespot;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
+
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
 import com.google.android.gms.maps.CameraUpdate;
@@ -28,6 +30,10 @@ import com.swat.onthespot.util.SystemUiHider;
  */
 public class ItinMapFragment extends FragmentActivity implements RoutingListener
 {
+	public static final String INTENT_EXTRA = "result";
+	public static final String RESULT_JOURNAL = "journal";
+	public static final String RESULT_MAIN = "main";
+	
 	/**
 	 * Whether or not the system UI should be auto-hidden after
 	 * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -206,8 +212,19 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		mHideHandler.postDelayed(mHideRunnable, delayMillis);
 	}
 	
-	public void exitItin(View v)
+	public void exitToJournal(View v)
 	{
+		Intent returnIntent = new Intent();
+		returnIntent.putExtra(INTENT_EXTRA, RESULT_JOURNAL);
+		setResult(RESULT_OK,returnIntent);     
+		finish();
+	}
+	
+	public void exitToMain(View v)
+	{
+		Intent returnIntent = new Intent();
+		returnIntent.putExtra(INTENT_EXTRA, RESULT_MAIN);
+		setResult(RESULT_OK,returnIntent);     
 		finish();
 	}
 	
