@@ -1,8 +1,13 @@
 package com.swat.onthespot;
 
-import java.io.IOException;
-import java.util.List;
-
+import android.annotation.TargetApi;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
+import android.view.MotionEvent;
+import android.view.View;
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
 import com.google.android.gms.maps.CameraUpdate;
@@ -14,18 +19,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.swat.onthespot.util.SystemUiHider;
-
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
-import android.view.MotionEvent;
-import android.view.View;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
