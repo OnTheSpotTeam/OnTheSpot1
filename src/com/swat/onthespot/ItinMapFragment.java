@@ -78,41 +78,14 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 
     map.moveCamera(center);
     map.animateCamera(zoom);
-    LatLng start = null;
-    LatLng end= null;
-    Geocoder coder = new Geocoder(this);
-    String startAddress = "500 College Avenue, Swarthmore, PA 19081";
-    String endAddress = "101 N Merion Ave, Bryn Mawr, PA 19010";
-    List<Address> address;
- 
-  	try
-    {
-      //Convert Start Address into LatLng.
-  		address = coder.getFromLocationName(startAddress,5);
-      Address location = address.get(0);
-    	location.getLatitude();
-    	location.getLongitude();
-    	start = new LatLng((int) (location.getLatitude() * 1E6),
-      (int) (location.getLongitude() * 1E6));
-    	
-    	//Convert End Address into LatLng
-      address = coder.getFromLocationName(endAddress,5);
-      location = address.get(0);
-    	location.getLatitude();
-    	location.getLongitude();
-    	end = new LatLng((int) (location.getLatitude() * 1E6),
-      (int) (location.getLongitude() * 1E6));
-    	
-      Routing routing = new Routing(Routing.TravelMode.DRIVING);
-      routing.registerListener(this);
-      routing.execute(start, end);
-    } catch (IOException e)
-    {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-        	
-
+  
+    start = new LatLng(39.907053, -75.352094);
+    end = new LatLng(40.027084, -75.314361);
+    Routing routing = new Routing(Routing.TravelMode.DRIVING);
+    routing.registerListener(this);
+    routing.execute(start, end);
+  
+    
         
     
     
