@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -35,6 +36,10 @@ import com.swat.onthespot.util.SystemUiHider;
  */
 public class ItinMapFragment extends FragmentActivity implements RoutingListener
 {
+	public static final String INTENT_EXTRA = "result";
+	public static final String RESULT_JOURNAL = "journal";
+	public static final String RESULT_MAIN = "main";
+	
 	/**
 	 * Whether or not the system UI should be auto-hidden after
 	 * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -227,8 +232,19 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		mHideHandler.postDelayed(mHideRunnable, delayMillis);
 	}
 	
-	public void exitItin(View v)
+	public void exitToJournal(View v)
 	{
+		Intent returnIntent = new Intent();
+		returnIntent.putExtra(INTENT_EXTRA, RESULT_JOURNAL);
+		setResult(RESULT_OK,returnIntent);     
+		finish();
+	}
+	
+	public void exitToMain(View v)
+	{
+		Intent returnIntent = new Intent();
+		returnIntent.putExtra(INTENT_EXTRA, RESULT_MAIN);
+		setResult(RESULT_OK,returnIntent);     
 		finish();
 	}
 	

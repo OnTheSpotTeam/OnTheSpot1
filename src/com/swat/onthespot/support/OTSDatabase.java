@@ -77,6 +77,19 @@ public class OTSDatabase extends SQLiteOpenHelper {
           sInstance.addItinForUser(MainActivity.USER_NAME, "Exploring Philly 8th St");
           sInstance.addItinForUser(MainActivity.USER_NAME, "New York or Bust!");
           sInstance.addItinForUser(MainActivity.USER_NAME, "A Week in Madrid");
+          sInstance.addExperience("King of Prussia mall", "160 N Gulph Rd, King of Prussia, PA 19406", 
+        		  "Cologne Sampling", 4.5, "Lots of great fragrances with decent ...");
+          sInstance.addExperience("One Liberty Place", "1625 Chestnut Street, Philadelphia, PA 19103", 
+        		  "Watching the sunset", 5.0, "Absolutely Stunning");
+          sInstance.addExperience("Shake Shack", "2000 Sansom St, Philadelphia, PA 19103", 
+        		  "Harlem Shaking", 3.0, "The locale was a little too approriate ...");
+          sInstance.addExperience("Moo Tattoo", "513 South St #2, Philadelphia, PA 19147", 
+        		  "Get Tattoo", 4.5, "Beautifully done. Couldn't have asked ...");
+          sInstance.addExpForItin("Exploring Philly 8th St", "King of Prussia mall");
+          sInstance.addExpForItin("Exploring Philly 8th St", "One Liberty Place");
+          sInstance.addExpForItin("Exploring Philly 8th St", "Shake Shack");
+          sInstance.addExpForItin("Exploring Philly 8th St", "Moo Tattoo");
+          
         }
         return sInstance;
     }

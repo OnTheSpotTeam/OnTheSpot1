@@ -1,7 +1,6 @@
 package com.swat.onthespot;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import com.swat.onthespot.support.ItinListAdapter;
 import com.swat.onthespot.support.OTSDatabase;
 
@@ -56,16 +54,15 @@ public class ProfileFragmentItins extends Fragment {
 	    list.setClickable(true);
 	    list.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
-		@Override
-	      public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-	          long arg3)
-	      {
-					Intent i = new Intent(getActivity(), ItinMapFragment.class);
-					startActivity(i);
-	      }
-	    	
-			});
-	
-	        return rootView;
-	    }
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				String itinName = ((TextView)view.findViewById(R.id.itinlist_item_name)).getText().toString();
+				Intent intent = new Intent(getActivity(), ItineraryActivity.class);
+				intent.putExtra(INTENT_EXTRA, itinName);
+				startActivity(intent);
+			}
+		});
+	    return rootView;
+	}
 }
