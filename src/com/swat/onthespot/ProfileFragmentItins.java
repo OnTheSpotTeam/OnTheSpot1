@@ -1,18 +1,26 @@
 package com.swat.onthespot;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import com.swat.onthespot.support.ItinListAdapter;
 import com.swat.onthespot.support.OTSDatabase;
 
 public class ProfileFragmentItins extends Fragment {
 	
+	// Key for the new activity to retrieve extra message
+	public static final String INTENT_EXTRA = "Extra Message";
+	
+	// OTSDatabase instance.
 	private OTSDatabase mDatabase;
 	
     @Override
@@ -42,7 +50,18 @@ public class ProfileFragmentItins extends Fragment {
 		// Get and populate the listview
 		ListView list = (ListView)rootView.findViewById(R.id.profile_itins_itinList);
 		list.setAdapter(itinsAdapter);
-        
+		 
+		/*
+		list.setOnItemClickListener( new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				String itinName = ((TextView)view.findViewById(R.id.itinlist_item_name)).getText().toString();
+			    Intent intent = new Intent(SeeUserActivity.this, ItineraryActivity.class);
+			    intent.putExtra(INTENT_EXTRA, itinName);
+			    startActivity(intent);
+			}
+		});
+        */
         return rootView;
     }
 }
