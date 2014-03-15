@@ -9,7 +9,6 @@
         <item>Near Me</item>
         <item>News Feed</item>
     </string-array>
-    
     <string-array name="profile_tab_titles">
         <item>Itins</item>
         <item>Favorites</item>
@@ -24,4 +23,8 @@
 
     <!-- Strings for profile page -->
     <string name="user_full_name">Sam Green</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="back">Back</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>

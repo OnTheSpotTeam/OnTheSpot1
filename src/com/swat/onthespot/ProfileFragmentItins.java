@@ -1,6 +1,7 @@
 package com.swat.onthespot;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -23,10 +24,11 @@ public class ProfileFragmentItins extends Fragment {
 	// OTSDatabase instance.
 	private OTSDatabase mDatabase;
 	
+	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
- 
+  
         View rootView = inflater.inflate(R.layout.profile_tab_itins, container, false);
         
 		mDatabase = OTSDatabase.getInstance(getActivity());
@@ -50,18 +52,20 @@ public class ProfileFragmentItins extends Fragment {
 		// Get and populate the listview
 		ListView list = (ListView)rootView.findViewById(R.id.profile_itins_itinList);
 		list.setAdapter(itinsAdapter);
-		 
-		/*
-		list.setOnItemClickListener( new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				String itinName = ((TextView)view.findViewById(R.id.itinlist_item_name)).getText().toString();
-			    Intent intent = new Intent(SeeUserActivity.this, ItineraryActivity.class);
-			    intent.putExtra(INTENT_EXTRA, itinName);
-			    startActivity(intent);
-			}
-		});
-        */
-        return rootView;
-    }
+
+	    list.setClickable(true);
+	    list.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		{
+		@Override
+	      public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+	          long arg3)
+	      {
+					Intent i = new Intent(getActivity(), ItinMapFragment.class);
+					startActivity(i);
+	      }
+	    	
+			});
+	
+	        return rootView;
+	    }
 }
