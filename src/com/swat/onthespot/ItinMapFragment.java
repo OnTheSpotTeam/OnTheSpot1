@@ -38,7 +38,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.directions.route.GeocodeJSONParser;
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
 import com.google.android.gms.maps.CameraUpdate;
