@@ -1,21 +1,44 @@
 package com.swat.onthespot;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
+import android.os.StrictMode.ThreadPolicy;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.directions.route.GeocodeJSONParser;
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
 import com.google.android.gms.maps.CameraUpdate;
@@ -76,39 +99,12 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_itin_map_fragment);
+		ThreadPolicy tp = ThreadPolicy.LAX;
+		StrictMode.setThreadPolicy(tp);
     setTitle("Map View");
     SupportMapFragment fm = (SupportMapFragment)  getSupportFragmentManager().findFragmentById(R.id.map);
-    gc = new Geocoder(this, Locale.getDefault());
+    gc = new Geocoder(ItinMapFragment.this, Locale.getDefault());
     map = fm.getMap();
-    
-
- 
-   
-   try
-  {
-  	CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc("Phiadelphia"));
-    CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
-	  start = getLatLngFromLoc("New York");
-	  end = getLatLngFromLoc("Philadelphia");
-	  map.moveCamera(center);
-	  map.animateCamera(zoom);
-  } catch (IOException e)
-  {
-	  // TODO Auto-generated catch block
-  	start = null;
-  	end = null;
-	  e.printStackTrace();
-  }
-
-   
-   Routing routing = new Routing(Routing.TravelMode.DRIVING);
-   routing.registerListener(this);
-   routing.execute(start, end);
-    
-        
-    
-    
-
 		final View controlsView = findViewById(R.id.fullscreen_content_controls);
 		final View contentView = findViewById(R.id.map);
 
@@ -181,6 +177,18 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		// operations to prevent the jarring behavior of controls going away
 		// while interacting with the UI.
 		findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+	   Log.i("GETLL", "INIT");
+		CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(new String("Philadelphia")));
+		 CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
+		start = getLatLngFromLoc(new String("New York"));
+		end = getLatLngFromLoc(new String("Philadelphia"));
+		map.moveCamera(center);	
+		map.animateCamera(zoom);
+
+	    
+	    Routing routing = new Routing(Routing.TravelMode.DRIVING);
+	    routing.registerListener(this);
+	    routing.execute(start, end);
 	}
 
 	@Override
@@ -279,13 +287,13 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
      map.addMarker(options);
    }
 	 
-   public LatLng getLatLngFromLoc(String address) throws IOException
-	 {
+   /*public LatLng getLatLngFromLoc(String address) throws IOException{
   	 
   	 	List<Address> list = null;
   	 	for(int i = 0; i < 100; i++)
   	 	{
   	 		 list = gc.getFromLocationName(address, 1);
+  	 		 Log.i("GETLL", "Loop Number" + i);
   	 		 if(list.size() > 0)
   	 			break;
   	 	}
@@ -293,6 +301,58 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
   	 		return null;
   	 	Address add = list.get(0);
   	 	return new LatLng(add.getLatitude(), add.getLongitude());
-	 }
-	 
+	 }*/
+   
+   public LatLng getLatLngFromLoc(String address) {
+  	 address = address.replace("\n"," ").replace(" ", "%20");
+ 		HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?address=" +address+"&ka&sensor=false");
+ 		HttpClient client = new DefaultHttpClient();
+ 		HttpResponse response;
+ 		StringBuilder stringBuilder = new StringBuilder();
+
+ 		try {
+ 			response = client.execute(httpGet);
+ 			HttpEntity entity = response.getEntity();
+ 			InputStream stream = entity.getContent();
+ 			int b;
+ 			while ((b = stream.read()) != -1) {
+ 				stringBuilder.append((char) b);
+ 			}
+ 		} catch (ClientProtocolException e) {
+ 		} catch (IOException e) {
+ 		}
+
+ 		JSONObject jsonObject = new JSONObject();
+ 		try {
+ 			jsonObject = new JSONObject(stringBuilder.toString());
+ 		} catch (JSONException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
+
+ 		Double lon = new Double(0);
+		Double lat = new Double(0);
+
+		try {
+
+			lon = ((JSONArray)jsonObject.get("results")).getJSONObject(0)
+				.getJSONObject("geometry").getJSONObject("location")
+				.getDouble("lng");
+
+			lat = ((JSONArray)jsonObject.get("results")).getJSONObject(0)
+				.getJSONObject("geometry").getJSONObject("location")
+				.getDouble("lat");
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return new LatLng(lat, lon);
+ 	}
+   
+  
 }
+  
+	 
+
