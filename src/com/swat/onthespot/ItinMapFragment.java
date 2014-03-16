@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -177,8 +178,11 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		// while interacting with the UI.
 		findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 	   Log.i("GETLL", "INIT");
-		CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(new String("Swarthmore College")));
-		 CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
+		
+	  ArrayList<String> addresses;
+	  addresses = getIntent().getStringArrayListExtra("addr");
+	   CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(new String("Swarthmore College")));
+		CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
 		start = getLatLngFromLoc(new String("Swarthmore College"));
 		end = getLatLngFromLoc(new String("Philadelphia"));
 		map.moveCamera(center);	

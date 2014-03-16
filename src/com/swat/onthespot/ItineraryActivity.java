@@ -1,5 +1,7 @@
 package com.swat.onthespot;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,7 +20,7 @@ import com.swat.onthespot.support.ExpListAdapter;
 import com.swat.onthespot.support.OTSDatabase;
 
 public class ItineraryActivity extends Activity {
-
+	ArrayList<String> addresses;
 	private OTSDatabase mDatabase;
 	private final String TAG = "ItineraryActivity";
 	
@@ -28,7 +30,7 @@ public class ItineraryActivity extends Activity {
 		setContentView(R.layout.activity_itinerary);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		
+		addresses = new ArrayList<String>();
 		// Get the OTSDatabase instance
 		mDatabase = OTSDatabase.getInstance(this);
 		String itinName = getIntent().getStringExtra(ProfileFragmentItins.INTENT_EXTRA);
@@ -39,6 +41,7 @@ public class ItineraryActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				Intent intent = new Intent(ItineraryActivity.this, ItinMapFragment.class);
+				intent.putStringArrayListExtra("addr", addresses);
 				startActivityForResult(intent, 1);
 			}
 		});
