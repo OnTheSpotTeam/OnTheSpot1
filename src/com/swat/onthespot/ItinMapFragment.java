@@ -178,9 +178,9 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		// while interacting with the UI.
 		findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 	   Log.i("GETLL", "INIT");
-		CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(new String("Philadelphia")));
+		CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(new String("Swarthmore College")));
 		 CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
-		start = getLatLngFromLoc(new String("New York"));
+		start = getLatLngFromLoc(new String("Swarthmore College"));
 		end = getLatLngFromLoc(new String("Philadelphia"));
 		map.moveCamera(center);	
 		map.animateCamera(zoom);
