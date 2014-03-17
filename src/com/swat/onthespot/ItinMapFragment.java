@@ -243,17 +243,17 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
     	String endAdd = addresses.get(i + 1);
     	start = getLatLngFromLoc(startAdd);
     	end = getLatLngFromLoc(endAdd);
+      Routing routing = new Routing(Routing.TravelMode.DRIVING);
+      routing.registerListener(this);
+      routing.execute(start, end);
     }
-    CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(new String("Swarthmore College")));
+    CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(addresses.get(i)));
     CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
-    start = getLatLngFromLoc(new String("Swarthmore College"));
-    end = getLatLngFromLoc(new String("Philadelphia"));
+
     map.moveCamera(center);	
     map.animateCamera(zoom);
 
-    Routing routing = new Routing(Routing.TravelMode.DRIVING);
-    routing.registerListener(this);
-    routing.execute(start, end);
+
 	}
 	
 	public void exitToJournal(View v)
