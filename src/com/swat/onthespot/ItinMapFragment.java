@@ -247,7 +247,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
       routing.registerListener(this);
       routing.execute(start, end);
     }
-    CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(addresses.get(i)));
+    CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(addresses.get(0)));
     CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
 
     map.moveCamera(center);	

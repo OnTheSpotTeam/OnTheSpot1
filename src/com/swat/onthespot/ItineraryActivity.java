@@ -65,7 +65,7 @@ public class ItineraryActivity extends Activity {
 		while(!expsCursor.isAfterLast())
 		{
 			address = expsCursor.getString(addCol);
-			adresses.add(address);
+			addresses.add(address);
 			expsCursor.moveToNext();
 		}
 		// Get and populate the listview
