@@ -46,7 +46,7 @@ public class ExpListAdapter extends CursorAdapter {
        ViewHolder holder = (ViewHolder) view.getTag();
 
        String name = cursor.getString(cursor.getColumnIndex(OTSDatabase.EXPS_KEY_NAME));
-       String action = cursor.getString(cursor.getColumnIndex(OTSDatabase.EXPS_KEY_ACTION)) + " at";
+       String action = cursor.getString(cursor.getColumnIndex(OTSDatabase.EXPS_KEY_ACTION));
        String comment = cursor.getString(cursor.getColumnIndex(OTSDatabase.EXPS_KEY_COMMENT));
        Log.d("Adapter", ""+holder);
        Log.d("Adapter", ""+holder.name);
