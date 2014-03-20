@@ -321,10 +321,10 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
    
    public LatLng getLatLngFromLoc(String address) {
   	 address = address.replace("\n"," ").replace(" ", "%20");
- 		HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?address=" +address+"&ka&sensor=false");
- 		HttpClient client = new DefaultHttpClient();
- 		HttpResponse response;
- 		StringBuilder stringBuilder = new StringBuilder();
+ 		 HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?address=" +address+"&ka&sensor=false");
+ 		 HttpClient client = new DefaultHttpClient();
+ 		 HttpResponse response;
+ 		 StringBuilder stringBuilder = new StringBuilder();
 
  		try {
  			response = client.execute(httpGet);
@@ -365,10 +365,5 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		}
 
 		return new LatLng(lat, lon);
- 	}
-   
-  
+ 	} 
 }
-  
-	 
-
