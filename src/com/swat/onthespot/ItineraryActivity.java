@@ -60,7 +60,17 @@ public class ItineraryActivity extends Activity {
 				mDatabase.ItinNameToIds(itinName)[0] + ")";
 		Cursor expsCursor = mDatabase.rawQuery(expsQuery, null);
 		ExpListAdapter itinsAdapter = new ExpListAdapter(this, expsCursor);
-		
+		expsCursor.moveToFirst();
+		int addCol = expsCursor.getColumnIndex(OTSDatabase.EXPS_KEY_ADDR);
+		String address;
+		Log.i("ADDRESS", "RA");
+		while(!expsCursor.isAfterLast())
+		{
+			address = expsCursor.getString(addCol);
+			Log.i("ADDRESS", address);
+			addresses.add(address);
+			expsCursor.moveToNext();
+		}
 		// Get and populate the listview
 		ListView list = (ListView)findViewById(R.id.itinerary_expList);
 		list.setAdapter(itinsAdapter);

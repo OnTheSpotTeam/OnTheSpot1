@@ -90,10 +90,13 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	 * The instance of the {@link SystemUiHider} for this activity.
 	 */
 	private SystemUiHider mSystemUiHider;
-  GoogleMap map;
-  LatLng start;
-  LatLng end;
-  Geocoder gc;
+  private GoogleMap map;
+  private LatLng start;
+  private LatLng end;
+  private Geocoder gc;
+  private ArrayList<String> addresses;
+  
+  /*TODO: Make LatLng Queries AsyncTasks*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -179,19 +182,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 	   Log.i("GETLL", "INIT");
 		
-	  ArrayList<String> addresses;
-	  addresses = getIntent().getStringArrayListExtra("addr");
-	   CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(new String("Swarthmore College")));
-		CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
-		start = getLatLngFromLoc(new String("Swarthmore College"));
-		end = getLatLngFromLoc(new String("Philadelphia"));
-		map.moveCamera(center);	
-		map.animateCamera(zoom);
-
-	    
-	    Routing routing = new Routing(Routing.TravelMode.DRIVING);
-	    routing.registerListener(this);
-	    routing.execute(start, end);
+	  updateMap();
 	}
 
 	@Override
@@ -241,6 +232,28 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	{
 		mHideHandler.removeCallbacks(mHideRunnable);
 		mHideHandler.postDelayed(mHideRunnable, delayMillis);
+	}
+	
+	public void updateMap()
+	{
+    addresses = getIntent().getStringArrayListExtra("addr");
+    for(int i = 0; i < addresses.size() - 1; i++)
+    {
+    	String startAdd = addresses.get(i);
+    	String endAdd = addresses.get(i + 1);
+    	start = getLatLngFromLoc(startAdd);
+    	end = getLatLngFromLoc(endAdd);
+      Routing routing = new Routing(Routing.TravelMode.DRIVING);
+      routing.registerListener(this);
+      routing.execute(start, end);
+    }
+    CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(addresses.get(0)));
+    CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
+
+    map.moveCamera(center);	
+    map.animateCamera(zoom);
+
+
 	}
 	
 	public void exitToJournal(View v)
@@ -308,10 +321,10 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
    
    public LatLng getLatLngFromLoc(String address) {
   	 address = address.replace("\n"," ").replace(" ", "%20");
- 		HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?address=" +address+"&ka&sensor=false");
- 		HttpClient client = new DefaultHttpClient();
- 		HttpResponse response;
- 		StringBuilder stringBuilder = new StringBuilder();
+ 		 HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?address=" +address+"&ka&sensor=false");
+ 		 HttpClient client = new DefaultHttpClient();
+ 		 HttpResponse response;
+ 		 StringBuilder stringBuilder = new StringBuilder();
 
  		try {
  			response = client.execute(httpGet);
@@ -352,10 +365,5 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		}
 
 		return new LatLng(lat, lon);
- 	}
-   
-  
+ 	} 
 }
-  
-	 
-
