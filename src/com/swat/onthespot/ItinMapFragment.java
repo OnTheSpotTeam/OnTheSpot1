@@ -95,7 +95,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
   private LatLng end;
   private Geocoder gc;
   private ArrayList<String> addresses;
-  
+  private boolean doneRouting;
   /*TODO: Make LatLng Queries AsyncTasks*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -237,8 +237,10 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	public void updateMap()
 	{
     addresses = getIntent().getStringArrayListExtra("addr");
+    
     for(int i = 0; i < addresses.size() - 1; i++)
     {
+    	doneRouting = false;
     	String startAdd = addresses.get(i);
     	String endAdd = addresses.get(i + 1);
     	start = getLatLngFromLoc(startAdd);
@@ -246,6 +248,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
       Routing routing = new Routing(Routing.TravelMode.DRIVING);
       routing.registerListener(this);
       routing.execute(start, end);
+      while(!doneRouting); 
     }
     CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(addresses.get(0)));
     CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
@@ -289,17 +292,18 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
      polyoptions.width(10);
      polyoptions.addAll(mPolyOptions.getPoints());
      map.addPolyline(polyoptions);
+     doneRouting = true;
 
      // Start marker
      MarkerOptions options = new MarkerOptions();
      options.position(start);
-     options.icon(BitmapDescriptorFactory.fromResource(R.drawable.start_blue));
+     //options.icon(BitmapDescriptorFactory.fromResource(R.drawable.start_blue));
      map.addMarker(options);
 
      // End marker
      options = new MarkerOptions();
      options.position(end);
-     options.icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green));  
+     //options.icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green));  
      map.addMarker(options);
    }
 	 
