@@ -50,7 +50,9 @@ public class ItinListAdapter extends CursorAdapter {
        holder.name.setText(name);
        holder.date.setText(date);
        holder.comment.setText(comment);
-       holder.image.setImageResource(R.drawable.placeholder);
+       holder.image.setImageResource(context.getResources().getIdentifier(
+    		   cursor.getString(cursor.getColumnIndex(OTSDatabase.ITINS_KEY_IMAGE)), 
+    		   "drawable", context.getPackageName()));
 	}
 	
 }

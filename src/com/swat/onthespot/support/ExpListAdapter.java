@@ -53,7 +53,9 @@ public class ExpListAdapter extends CursorAdapter {
        holder.name.setText(name);
        holder.action.setText(action);
        holder.comment.setText(comment);
-       holder.image.setImageResource(R.drawable.placeholder2);
+       holder.image.setImageResource(context.getResources().getIdentifier(
+    		   cursor.getString(cursor.getColumnIndex(OTSDatabase.EXPS_KEY_IMAGE)), 
+    		   "drawable", context.getPackageName()));
 	}
 	
 }

@@ -38,6 +38,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
     public static final String ITINS_KEY_DATE = "date";
     public static final String ITINS_KEY_RATE = "rating";
     public static final String ITINS_KEY_COMMENT = "comment";
+    public static final String ITINS_KEY_IMAGE = "imagename";
     
     // Itins-Exps Table Column Names
     public static final String ITINS_EXPS_KEY_ITINID = "iid";
@@ -50,6 +51,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
     public static final String EXPS_KEY_ACTION = "action";
     public static final String EXPS_KEY_RATE = "rating";
     public static final String EXPS_KEY_COMMENT = "comment";
+    public static final String EXPS_KEY_IMAGE = "imagename";
     
     // Error codes (for read / write method exceptions).
     public static final int ERR_NO_USER_NAME = -1;
@@ -69,22 +71,26 @@ public class OTSDatabase extends SQLiteOpenHelper {
         if (sInstance == null) {
           sInstance = new OTSDatabase(context.getApplicationContext());
           sInstance.addUser(MainActivity.USER_NAME);
-          sInstance.addItinerary("Houston Roadtrip", "20th Nov 2013", 3.5, "Almost tripped on a tumbleweed.");
-          sInstance.addItinerary("Exploring Philly 8th St", "8-9th Nov 2013", 4.5, "Jim's Sticks was heaven in my belly.");
-          sInstance.addItinerary("New York or Bust!", "15th Dec 2013", 4.5, "In all my years living on the East");
-          sInstance.addItinerary("A Week in Madrid", "5th Jan 2014", 5, "Spain is just drop-dead gorgeous, and ...");
+          sInstance.addItinerary("Houston Roadtrip", "20th Nov 2013", 3.5, 
+        		  "Almost tripped on a tumbleweed.", "houston_roadtrip");
+          sInstance.addItinerary("Exploring Philly 8th St", "8-9th Nov 2013", 4.5, 
+        		  "Jim's Sticks was heaven in my belly.", "philly_8th_street");
+          sInstance.addItinerary("New York or Bust!", "15th Dec 2013", 4.5, 
+        		  "In all my years living on the East", "new_york_or_bust");
+          sInstance.addItinerary("A Week in Madrid", "5th Jan 2014", 5, 
+        		  "Spain is just drop-dead gorgeous, and ...", "a_week_in_madrid");
           sInstance.addItinForUser(MainActivity.USER_NAME, "Houston Roadtrip");
           sInstance.addItinForUser(MainActivity.USER_NAME, "Exploring Philly 8th St");
           sInstance.addItinForUser(MainActivity.USER_NAME, "New York or Bust!");
           sInstance.addItinForUser(MainActivity.USER_NAME, "A Week in Madrid");
           sInstance.addExperience("King of Prussia mall", "160 N Gulph Rd, King of Prussia, PA 19406", 
-        		  "Cologne Sampling", 4.5, "Lots of great fragrances with decent ...");
+        		  "Cologne Sampling", 4.5, "Lots of great fragrances with decent ...", "king_of_prussia");
           sInstance.addExperience("One Liberty Place", "1625 Chestnut Street, Philadelphia, PA 19103", 
-        		  "Watching the sunset", 5.0, "Absolutely Stunning");
+        		  "Watching the sunset", 5.0, "Absolutely Stunning", "one_liberty_place");
           sInstance.addExperience("Shake Shack", "2000 Sansom St, Philadelphia, PA 19103", 
-        		  "Harlem Shaking", 3.0, "The locale was a little too approriate ...");
+        		  "Harlem Shaking", 3.0, "The locale was a little too approriate ...", "shake_shack");
           sInstance.addExperience("Moo Tattoo", "513 South St #2, Philadelphia, PA 19147", 
-        		  "Get Tattoo", 4.5, "Beautifully done. Couldn't have asked ...");
+        		  "Get Tattoo", 4.5, "Beautifully done. Couldn't have asked ...", "moo_tattoo");
           sInstance.addExpForItin("Exploring Philly 8th St", "King of Prussia mall");
           sInstance.addExpForItin("Exploring Philly 8th St", "One Liberty Place");
           sInstance.addExpForItin("Exploring Philly 8th St", "Shake Shack");
@@ -123,7 +129,8 @@ public class OTSDatabase extends SQLiteOpenHelper {
         		+ ITINS_KEY_NAME + " TEXT, "
         		+ ITINS_KEY_DATE + " TEXT, "
         		+ ITINS_KEY_RATE + " REAL, "
-        		+ ITINS_KEY_COMMENT + " TEXT"
+        		+ ITINS_KEY_COMMENT + " TEXT, "
+        		+ ITINS_KEY_IMAGE + " TEXT"
         		+ ")";
         db.execSQL(CREATE_ITINS_TABLE);
         
@@ -143,7 +150,8 @@ public class OTSDatabase extends SQLiteOpenHelper {
         		+ EXPS_KEY_ADDR + " TEXT, "
         		+ EXPS_KEY_ACTION + " TEXT, "
         		+ EXPS_KEY_RATE + " REAL, "
-        		+ EXPS_KEY_COMMENT + " TEXT"
+        		+ EXPS_KEY_COMMENT + " TEXT, "
+        		+ EXPS_KEY_IMAGE + " TEXT"
         		+ ")";
         db.execSQL(CREATE_EXPS_TABLE);
 	}	
@@ -195,13 +203,14 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		}
 	}
 	
-	public void addItinerary(String Name, String Date, double Rate, String Comment){
+	public void addItinerary(String Name, String Date, double Rate, String Comment, String ImageName){
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(ITINS_KEY_NAME, Name);
 		values.put(ITINS_KEY_DATE, Date);
 		values.put(ITINS_KEY_RATE, Rate);
 		values.put(ITINS_KEY_COMMENT, Comment);
+		values.put(ITINS_KEY_IMAGE, ImageName);
 		db.insert(TABLE_ITINS, null, values);
 		db.close();
 	}
@@ -232,7 +241,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		}
 	}
 	
-	public void addExperience(String Name, String Addr, String Action, double Rate, String Comment){
+	public void addExperience(String Name, String Addr, String Action, double Rate, String Comment, String ImageName){
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(EXPS_KEY_NAME, Name);
@@ -240,6 +249,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		values.put(EXPS_KEY_ACTION, Action);
 		values.put(EXPS_KEY_RATE, Rate);
 		values.put(EXPS_KEY_COMMENT, Comment);
+		values.put(EXPS_KEY_IMAGE, ImageName);
 		db.insert(TABLE_EXPS, null, values);
 		db.close();
 	}

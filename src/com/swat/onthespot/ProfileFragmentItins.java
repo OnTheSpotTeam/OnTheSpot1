@@ -37,7 +37,8 @@ public class ProfileFragmentItins extends Fragment {
 						   OTSDatabase.ITINS_KEY_NAME + " , " +
 						   OTSDatabase.ITINS_KEY_DATE + " , " +
 						   OTSDatabase.ITINS_KEY_RATE + " , " + 
-						   OTSDatabase.ITINS_KEY_COMMENT; 						   
+						   OTSDatabase.ITINS_KEY_COMMENT + " , " +
+						   OTSDatabase.ITINS_KEY_IMAGE; 						   
 		String itinQuery = 	"SELECT " + selection + " FROM " + OTSDatabase.TABLE_ITINS + " " +
 				"WHERE " + OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_ID + " IN " + 
 				"(SELECT " + OTSDatabase.USERS_ITINS_KEY_ITINID + " FROM " + OTSDatabase.TABLE_USERS_ITINS + " " +

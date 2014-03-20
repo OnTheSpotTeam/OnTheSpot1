@@ -51,7 +51,8 @@ public class ItineraryActivity extends Activity {
 						   OTSDatabase.EXPS_KEY_ADDR + " , " +
 						   OTSDatabase.EXPS_KEY_ACTION + " , " +
 						   OTSDatabase.EXPS_KEY_RATE + " , " + 
-						   OTSDatabase.EXPS_KEY_COMMENT; 						   
+						   OTSDatabase.EXPS_KEY_COMMENT + " , " +
+						   OTSDatabase.EXPS_KEY_IMAGE; 						   
 		String expsQuery = 	"SELECT " + selection + " FROM " + OTSDatabase.TABLE_EXPS + " " +
 				"WHERE " + OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_ID + " IN " + 
 				"(SELECT " + OTSDatabase.ITINS_EXPS_KEY_EXPID + " FROM " + OTSDatabase.TABLE_ITINS_EXPS + " " +
