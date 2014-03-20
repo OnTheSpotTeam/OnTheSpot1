@@ -248,7 +248,8 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
       Routing routing = new Routing(Routing.TravelMode.DRIVING);
       routing.registerListener(this);
       routing.execute(start, end);
-      while(!doneRouting); 
+      while(!doneRouting)
+      	; 
     }
     CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(addresses.get(0)));
     CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
@@ -292,7 +293,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
      polyoptions.width(10);
      polyoptions.addAll(mPolyOptions.getPoints());
      map.addPolyline(polyoptions);
-     doneRouting = true;
+     
 
      // Start marker
      MarkerOptions options = new MarkerOptions();
@@ -305,6 +306,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
      options.position(end);
      //options.icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green));  
      map.addMarker(options);
+     doneRouting = true;
    }
 	 
    /*public LatLng getLatLngFromLoc(String address) throws IOException{
