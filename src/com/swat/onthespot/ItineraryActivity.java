@@ -2,8 +2,10 @@ package com.swat.onthespot;
 
 import java.util.ArrayList;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -14,17 +16,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.swat.onthespot.support.ExpListAdapter;
 import com.swat.onthespot.support.ItinDragDropList;
 import com.swat.onthespot.support.OTSDatabase;
 
 public class ItineraryActivity extends FragmentActivity {
 	ArrayList<String> addresses;
 	private OTSDatabase mDatabase;
-	private final String TAG = "ItineraryActivity";
+	
+	private static final String TAG = "ItineraryActivity";
+	private static final String fragmentTAG = "DragSortFragment";
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,9 @@ public class ItineraryActivity extends FragmentActivity {
 		});
 		
 		// Query the Itineraries that a User has.
+		// To Richard: The query for listview has already been moved into the adapter.
+		// Could you move this into the MapView Activity? It's really easy, and it makes
+		// the code look cleaner.
 		String selection = OTSDatabase.EXPS_KEY_ID + " AS _id , " +
 						   OTSDatabase.EXPS_KEY_NAME + " , " +
 						   OTSDatabase.EXPS_KEY_ADDR + " , " +
@@ -68,10 +73,6 @@ public class ItineraryActivity extends FragmentActivity {
 				"WHERE " + OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_ITINID + " = " +
 				mDatabase.ItinNameToIds(itinName)[0] + ")";
 		Cursor expsCursor = mDatabase.rawQuery(expsQuery, null);
-		
-		
-		
-		ExpListAdapter itinsAdapter = new ExpListAdapter(this, expsCursor);
 		expsCursor.moveToFirst();
 		int addCol = expsCursor.getColumnIndex(OTSDatabase.EXPS_KEY_ADDR);
 		String address;
@@ -84,16 +85,11 @@ public class ItineraryActivity extends FragmentActivity {
 			expsCursor.moveToNext();
 		}
 		
-		// Get and populate the listview
-		/*
-		ListView list = (ListView)findViewById(R.id.itinerary_expList);
-		list.setAdapter(itinsAdapter);
-		*/
 		
 		// Instantiate the DragSortListView.
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.itinerary_expList, 
-            		getItinListFragment(itinName), TAG).commit();
+            		getItinListFragment(itinName), fragmentTAG).commit();
         }
 	}
 
@@ -111,9 +107,7 @@ public class ItineraryActivity extends FragmentActivity {
 	 * Set up the {@link android.app.ActionBar}.
 	 */
 	private void setupActionBar() {
-
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 	}
 
 	@Override
@@ -142,6 +136,8 @@ public class ItineraryActivity extends FragmentActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
+		// Decide whether we go back to MainActivity, or stay in ItineraryActivity.
 		if (requestCode == 1) {
 			if(resultCode == RESULT_OK){      
 				String result=data.getStringExtra("result");
@@ -152,6 +148,43 @@ public class ItineraryActivity extends FragmentActivity {
 		    if (resultCode == RESULT_CANCELED) {    
 		        //Write your code if there's no result
 		    }
+		}
+	}
+	
+	@Override
+	protected void onPause(){
+		super.onPause();
+		
+		ItinDragDropList list = (ItinDragDropList) 
+				getSupportFragmentManager().findFragmentByTag(fragmentTAG);
+		
+		// User may have dragged or removed the experiences list.
+		// Write these changes back to the database.
+		
+		// First get the changes stored in mappings:
+		ArrayList<Integer> posToRowIdMapping = list.getPositionRowIdMap();
+		ArrayList<Integer> posToSortMapping = list.getPositionSortMap();
+		ArrayList<Integer> removedRowIds = list.getRemovedRowIds();
+		
+		// Write back change of positions:
+		for (int i=0; i<posToRowIdMapping.size(); i++){
+			ContentValues values = new ContentValues();
+			values.put(OTSDatabase.ITINS_EXPS_KEY_SORT, posToSortMapping.get(i));
+			String whereClause = "ROWID=" + posToRowIdMapping.get(i); 
+			int rowsAffected = mDatabase.updateWithOnConflict(OTSDatabase.TABLE_ITINS_EXPS, 
+					values, whereClause, null, SQLiteDatabase.CONFLICT_ROLLBACK);
+			if (rowsAffected!=1){
+				Log.e(TAG, "Not exactly one rows updated");
+			}
+		}
+		
+		// Write back deletes:
+		for (int i=0; i<removedRowIds.size(); i++){
+			String whereClause = "ROWID=" + removedRowIds.get(i);
+			int rowsDeleted = mDatabase.delete(OTSDatabase.TABLE_ITINS_EXPS, whereClause, null);
+			if (rowsDeleted!=1){
+				Log.e(TAG, "Not exactly one row deleted");
+			}
 		}
 	}
 	

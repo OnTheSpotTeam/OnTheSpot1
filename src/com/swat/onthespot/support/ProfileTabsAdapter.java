@@ -1,4 +1,11 @@
-package com.swat.onthespot;
+package com.swat.onthespot.support;
+
+import com.swat.onthespot.ProfileFragmentFavorites;
+import com.swat.onthespot.ProfileFragmentItins;
+import com.swat.onthespot.ProfileFragmentPhotos;
+import com.swat.onthespot.ProfileFragmentReviews;
+import com.swat.onthespot.R;
+import com.swat.onthespot.R.array;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -19,7 +26,7 @@ public class ProfileTabsAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-    	Log.d(TAG, "getItem() called with position = " + position);
+    	//Log.d(TAG, "getItem() called with position = " + position);
         switch (position) {
         case 0:
             return new ProfileFragmentItins();

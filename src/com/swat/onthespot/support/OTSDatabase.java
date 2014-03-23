@@ -121,8 +121,12 @@ public class OTSDatabase extends SQLiteOpenHelper {
                 + USERS_ITINS_KEY_USRID + " INTEGER, "
                 + USERS_ITINS_KEY_ITINID + " INTEGER, "
                 + "PRIMARY KEY (" 
-                  + USERS_ITINS_KEY_USRID + ", " + USERS_ITINS_KEY_ITINID
-                + "))";
+                  + USERS_ITINS_KEY_USRID + ", " + USERS_ITINS_KEY_ITINID+ "), " 
+                + "FOREIGN KEY (" + USERS_ITINS_KEY_USRID + ") REFERENCES " + 
+                  TABLE_USERS + "(" + USERS_KEY_ID + ") ON DELETE CASCADE, "
+                + "FOREIGN KEY (" + USERS_ITINS_KEY_ITINID + ") REFERENCES " + 
+                  TABLE_ITINS + "(" + ITINS_KEY_ID + ") ON DELETE NO ACTION" 
+                + ")";
         
         // Create the Itineraries Table
         db.execSQL(CREATE_USERS_ITINS_TABLE);
@@ -143,8 +147,12 @@ public class OTSDatabase extends SQLiteOpenHelper {
                 + ITINS_EXPS_KEY_EXPID + " INTEGER, "
                 + ITINS_EXPS_KEY_SORT + " INTEGER, "
                 + "PRIMARY KEY (" 
-                  + ITINS_EXPS_KEY_ITINID + ", " + ITINS_EXPS_KEY_EXPID
-                + "))";
+                  + ITINS_EXPS_KEY_ITINID + ", " + ITINS_EXPS_KEY_EXPID + "), " 
+                + "FOREIGN KEY (" + ITINS_EXPS_KEY_ITINID + ") REFERENCES " + 
+                  TABLE_ITINS + "(" + ITINS_KEY_ID + ") ON DELETE CASCADE, "
+                + "FOREIGN KEY (" + ITINS_EXPS_KEY_EXPID + ") REFERENCES " + 
+                  TABLE_EXPS + "(" + EXPS_KEY_ID + ") ON DELETE NO ACTION" 
+                + ")";
         db.execSQL(CREATE_ITINS_EXPS_TABLE);
         
         // Create the Experiences Table
@@ -329,6 +337,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		}
 	}
 	
+	// Wrapper Functions.
 	
 	public Cursor query(String table, String[] columns, String selection, String[] selectionArgs, 
 			String groupBy, String having, String orderBy, String limit){
@@ -341,4 +350,30 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		return db.rawQuery(query, selectionArgs);
 	}
 	
+	public int update(String table, ContentValues values, String whereClause, 
+			String[] whereArgs){
+		SQLiteDatabase db = this.getWritableDatabase();
+		return db.update(table, values, whereClause, whereArgs);
+	}
+	
+	public int updateWithOnConflict(String table, ContentValues values, String whereClause, 
+			String[] whereArgs, int conflictAlgorithm){
+		SQLiteDatabase db = this.getWritableDatabase();
+		return db.updateWithOnConflict(table, values, whereClause, whereArgs, conflictAlgorithm);
+	}
+	
+	public int delete(String table, String whereClause, String[] whereArgs){
+		SQLiteDatabase db = this.getWritableDatabase();
+		return db.delete(table, whereClause, whereArgs);
+	}
+	
+	public void execSQL (String sql){
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL(sql);
+	}
+	
+	public void execSQL (String sql, Object[] bindArgs){
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL(sql, bindArgs);
+	}
 }

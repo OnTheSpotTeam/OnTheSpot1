@@ -25,8 +25,7 @@ public class ItinDragDropList extends ListFragment {
     private DragSortController mController;
     private ExpListAdapter mAdapter;
 
-    
-    // OnTheSpot Database Instance
+    // Needed Variables.
 	private OTSDatabase mDatabase;
 	private String mItinName;
 	private Context mContext;
@@ -37,33 +36,7 @@ public class ItinDragDropList extends ListFragment {
     private int removeMode = DragSortController.FLING_REMOVE;
     private boolean sortEnabled = true;
     private boolean dragEnabled = true;
-    
-    
-    private DragSortListView.DropListener onDrop =
-            new DragSortListView.DropListener() {
-                @Override
-                public void drop(int from, int to) {
-                	Log.d(TAG, "on Drop from " + from + " to " + to);
-                	/*
-                    if (from != to) {
-                        String item = mAdapter.getItem(from);
-                        mAdapter.remove(item);
-                        mAdapter.insert(item, to);
-                    }
-                    */
-                }
-            };
 
-    private DragSortListView.RemoveListener onRemove = 
-            new DragSortListView.RemoveListener() {
-                @Override
-                public void remove(int which) {
-                	Log.d(TAG, "on remove " + which );
-                	/*
-                    mAdapter.remove(mAdapter.getItem(which));
-                	*/
-                }
-            };
             
     /**
      * Static factory method for ItinDragDroplist.
@@ -96,12 +69,9 @@ public class ItinDragDropList extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mDslv = (DragSortListView) getListView(); 
-        mDslv.setDropListener(onDrop);
-        mDslv.setRemoveListener(onRemove);
         setListAdapter();
     }
-    
-    
+     
     /**
      * 
      * @return Controller of the DragSortListView
@@ -116,7 +86,11 @@ public class ItinDragDropList extends ListFragment {
     public void setListAdapter() {
 		Cursor expsCursor = queryExpsInItin();
 		mAdapter = new ExpListAdapter(mContext, expsCursor);
-        setListAdapter(mAdapter);
+        
+		// Notice the ExpListAdapter also implements dragListener, 
+		// sortListener, and removeListener, so the DragSortListView 
+		// will also set these listeners while setting adapter.
+		setListAdapter(mAdapter); 
     }
     
     /**
@@ -131,7 +105,8 @@ public class ItinDragDropList extends ListFragment {
 				OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_RATE + " , " + 
 				OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_COMMENT + " , " +
 				OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_IMAGE + " , " +
-				OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_SORT;
+				OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_SORT + " , " +
+				OTSDatabase.TABLE_ITINS_EXPS + "." + "ROWID";
 		
 		String expsQuery = 	"SELECT " + selection + " FROM " + 
 				OTSDatabase.TABLE_EXPS + ", " + OTSDatabase.TABLE_ITINS_EXPS + " " +
@@ -162,6 +137,26 @@ public class ItinDragDropList extends ListFragment {
         return controller;
     }
     
+    /**
+     * Get the current order of Position to RowId mapping in the adapter.
+     */
+    public ArrayList<Integer> getPositionRowIdMap() {
+        return mAdapter.getPositionRowIdMap();
+    }
+    
+    /**
+     * Get the current order of Position to SortOrder mapping in the adapter.
+     */
+    public ArrayList<Integer> getPositionSortMap() {
+        return mAdapter.getPositionSortMap();
+    }
+    
+    /**
+     * Copy the removedRowIds list and return it.
+     */
+    public ArrayList<Integer> getRemovedRowIds() {
+        return mAdapter.getRemovedRowIds();
+    }   
  
     
 }

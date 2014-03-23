@@ -26,6 +26,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+
+import com.swat.onthespot.support.ProfileTabsAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
 
@@ -51,7 +53,6 @@ public class MainActivity extends FragmentActivity {
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.d(TAG, "OnCreate()");
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -189,10 +190,8 @@ public class MainActivity extends FragmentActivity {
     
     private void selectItem(int position) {
         // update the main content by replacing fragments
-    	
-    	Log.d(TAG, "Selected " + position);
+    	//Log.d(TAG, "Selected " + position);
         
-    	
         //FragmentManager fragmentManager = getFragmentManager();
         //Bundle args = new Bundle();
         //Fragment fragment;
@@ -220,7 +219,6 @@ public class MainActivity extends FragmentActivity {
     }
     
     private void fillProfilePage(LayoutInflater inflater, ViewGroup contentFrame){
-    	Log.d(TAG, "in fillProfilePage");
     	if (mProfileView == null){
     		mProfileView = inflater.inflate(R.layout.drawer_profile, null);
     		//TextView text = (TextView)mProfileView.findViewById(R.id.profile_text);
