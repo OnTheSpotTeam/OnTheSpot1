@@ -1,11 +1,13 @@
 package com.swat.onthespot.support;
 
-import com.swat.onthespot.MainActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import com.swat.onthespot.MainActivity;
 
 
 public class OTSDatabase extends SQLiteOpenHelper {
@@ -43,6 +45,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
     // Itins-Exps Table Column Names
     public static final String ITINS_EXPS_KEY_ITINID = "iid";
     public static final String ITINS_EXPS_KEY_EXPID = "eid";
+    public static final String ITINS_EXPS_KEY_SORT = "sortorder";
     
     // Experiences Table Column Names
     public static final String EXPS_KEY_ID = "eid";
@@ -138,6 +141,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
         String CREATE_ITINS_EXPS_TABLE = "CREATE TABLE " + TABLE_ITINS_EXPS + "("
                 + ITINS_EXPS_KEY_ITINID + " INTEGER, "
                 + ITINS_EXPS_KEY_EXPID + " INTEGER, "
+                + ITINS_EXPS_KEY_SORT + " INTEGER, "
                 + "PRIMARY KEY (" 
                   + ITINS_EXPS_KEY_ITINID + ", " + ITINS_EXPS_KEY_EXPID
                 + "))";
@@ -220,6 +224,17 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put(ITINS_EXPS_KEY_ITINID, ItinId);
 		values.put(ITINS_EXPS_KEY_EXPID, ExpId);
+		
+		// Get the max sort-order, and add 1 to preserve uniqueness.
+		String maxSortQuery = "SELECT IFNULL(MAX("+ ITINS_EXPS_KEY_SORT +"),0)+1 FROM " + 
+				"(SELECT " + ITINS_EXPS_KEY_SORT + " FROM " + TABLE_ITINS_EXPS +
+				" WHERE " + ITINS_EXPS_KEY_ITINID + "=" + String.valueOf(ItinId) + ")";
+		Cursor c = rawQuery(maxSortQuery, null);
+		c.moveToFirst();
+		
+		//Peng: pay attention to the column name change!
+		values.put(ITINS_EXPS_KEY_SORT, c.getInt(c.getColumnIndex("IFNULL(MAX("+ ITINS_EXPS_KEY_SORT +"),0)+1")));
+		
 		db.insertWithOnConflict(TABLE_ITINS_EXPS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 		db.close();
 	}
@@ -313,6 +328,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 			return null;
 		}
 	}
+	
 	
 	public Cursor query(String table, String[] columns, String selection, String[] selectionArgs, 
 			String groupBy, String having, String orderBy, String limit){

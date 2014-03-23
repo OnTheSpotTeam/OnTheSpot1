@@ -2,10 +2,11 @@ package com.swat.onthespot;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -16,29 +17,24 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mobeta.android.dslv.DragSortController;
 import com.swat.onthespot.support.ExpListAdapter;
+import com.swat.onthespot.support.ItinDragDropList;
 import com.swat.onthespot.support.OTSDatabase;
 
-public class ItineraryActivity extends Activity {
+public class ItineraryActivity extends FragmentActivity {
 	ArrayList<String> addresses;
 	private OTSDatabase mDatabase;
 	private final String TAG = "ItineraryActivity";
-	
-	// Drag N Drop stuff 
-    private int mDragStartMode = DragSortController.ON_DRAG;
-    private boolean mRemoveEnabled = true;
-    private int mRemoveMode = DragSortController.FLING_REMOVE;
-    private boolean mSortEnabled = true;
-    private boolean mDragEnabled = true;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_itinerary);
+		
 		// Show the Up button in the action bar.
 		setupActionBar();
 		addresses = new ArrayList<String>();
+		
 		// Get the OTSDatabase instance
 		mDatabase = OTSDatabase.getInstance(this);
 		
@@ -72,6 +68,9 @@ public class ItineraryActivity extends Activity {
 				"WHERE " + OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_ITINID + " = " +
 				mDatabase.ItinNameToIds(itinName)[0] + ")";
 		Cursor expsCursor = mDatabase.rawQuery(expsQuery, null);
+		
+		
+		
 		ExpListAdapter itinsAdapter = new ExpListAdapter(this, expsCursor);
 		expsCursor.moveToFirst();
 		int addCol = expsCursor.getColumnIndex(OTSDatabase.EXPS_KEY_ADDR);
@@ -84,13 +83,30 @@ public class ItineraryActivity extends Activity {
 			addresses.add(address);
 			expsCursor.moveToNext();
 		}
+		
 		// Get and populate the listview
+		/*
 		ListView list = (ListView)findViewById(R.id.itinerary_expList);
 		list.setAdapter(itinsAdapter);
+		*/
 		
-		
+		// Instantiate the DragSortListView.
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().add(R.id.itinerary_expList, 
+            		getItinListFragment(itinName), TAG).commit();
+        }
 	}
 
+	/**
+	 * 
+	 * @param itinName Name of the itinerary.
+	 * @return The DragSortListView that populates the experience list.
+	 */
+    private Fragment getItinListFragment(String itinName) {
+        ItinDragDropList f = ItinDragDropList.newInstance(this, itinName);
+        return f;
+    }
+    
 	/**
 	 * Set up the {@link android.app.ActionBar}.
 	 */

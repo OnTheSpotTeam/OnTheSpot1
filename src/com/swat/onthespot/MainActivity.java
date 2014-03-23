@@ -222,7 +222,7 @@ public class MainActivity extends FragmentActivity {
     private void fillProfilePage(LayoutInflater inflater, ViewGroup contentFrame){
     	Log.d(TAG, "in fillProfilePage");
     	if (mProfileView == null){
-    		mProfileView = inflater.inflate(R.layout.profile, null);
+    		mProfileView = inflater.inflate(R.layout.drawer_profile, null);
     		//TextView text = (TextView)mProfileView.findViewById(R.id.profile_text);
     		//text.setText("This is the profile page");
     	}
@@ -240,7 +240,7 @@ public class MainActivity extends FragmentActivity {
     
     private void fillNearMePage(LayoutInflater inflater, ViewGroup contentFrame){
     	if (mNearMeView == null){
-    		mNearMeView = inflater.inflate(R.layout.near_me, null);
+    		mNearMeView = inflater.inflate(R.layout.drawer_near_me, null);
     		TextView text = (TextView)mNearMeView.findViewById(R.id.near_me_text);
     		text.setText("This is the near me page");
     	}
@@ -249,7 +249,7 @@ public class MainActivity extends FragmentActivity {
     
     private void fillNewsFeedPage(LayoutInflater inflater, ViewGroup contentFrame){
     	if (mNewsFeedView == null){
-    		mNewsFeedView = inflater.inflate(R.layout.news_feed, null);
+    		mNewsFeedView = inflater.inflate(R.layout.drawer_news_feed, null);
     		TextView text = (TextView)mNewsFeedView.findViewById(R.id.news_feed_text);
     		text.setText("This is the news feed page");
     	}
