@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mobeta.android.dslv.DragSortController;
 import com.swat.onthespot.support.ExpListAdapter;
 import com.swat.onthespot.support.OTSDatabase;
 
@@ -24,6 +25,13 @@ public class ItineraryActivity extends Activity {
 	private OTSDatabase mDatabase;
 	private final String TAG = "ItineraryActivity";
 	
+	// Drag N Drop stuff 
+    private int mDragStartMode = DragSortController.ON_DRAG;
+    private boolean mRemoveEnabled = true;
+    private int mRemoveMode = DragSortController.FLING_REMOVE;
+    private boolean mSortEnabled = true;
+    private boolean mDragEnabled = true;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,8 +41,12 @@ public class ItineraryActivity extends Activity {
 		addresses = new ArrayList<String>();
 		// Get the OTSDatabase instance
 		mDatabase = OTSDatabase.getInstance(this);
+		
+		// Display the itinerary name
 		String itinName = getIntent().getStringExtra(ProfileFragmentItins.INTENT_EXTRA);
 		((TextView) findViewById(R.id.explist_itinName)).setText(itinName);
+		
+		// Set the "map view" button
 		Button mapViewBtn = (Button)findViewById(R.id.explist_mapViewbtn);
 		mapViewBtn.setText("Map View");
 		mapViewBtn.setOnClickListener(new OnClickListener() {
@@ -45,6 +57,7 @@ public class ItineraryActivity extends Activity {
 				startActivityForResult(intent, 1);
 			}
 		});
+		
 		// Query the Itineraries that a User has.
 		String selection = OTSDatabase.EXPS_KEY_ID + " AS _id , " +
 						   OTSDatabase.EXPS_KEY_NAME + " , " +
@@ -74,6 +87,8 @@ public class ItineraryActivity extends Activity {
 		// Get and populate the listview
 		ListView list = (ListView)findViewById(R.id.itinerary_expList);
 		list.setAdapter(itinsAdapter);
+		
+		
 	}
 
 	/**
