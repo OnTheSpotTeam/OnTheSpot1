@@ -1,16 +1,8 @@
 package com.swat.onthespot;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 import org.apache.http.HttpEntity;
@@ -26,9 +18,7 @@ import org.json.JSONObject;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
-import android.location.Address;
 import android.location.Geocoder;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,7 +35,6 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -240,7 +229,6 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
     
     for(int i = 0; i < addresses.size() - 1; i++)
     {
-    	doneRouting = false;
     	String startAdd = addresses.get(i);
     	String endAdd = addresses.get(i + 1);
     	start = getLatLngFromLoc(startAdd);
@@ -248,8 +236,6 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
       Routing routing = new Routing(Routing.TravelMode.DRIVING);
       routing.registerListener(this);
       routing.execute(start, end);
-      while(!doneRouting)
-      	; 
     }
     CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(addresses.get(0)));
     CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
