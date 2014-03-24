@@ -1,7 +1,6 @@
 package com.swat.onthespot;
 
 
-import android.app.Dialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
@@ -72,9 +71,6 @@ public class MainActivity extends FragmentActivity {
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        // TODO: Peng: The following function is from the sample code. It's added in API level 14.
-        // I didn't see any difference after commenting it.
-        //getActionBar().setHomeButtonEnabled(true); 
 
         
         // ActionBarDrawerToggle ties together the the proper interactions
