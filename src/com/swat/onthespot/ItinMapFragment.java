@@ -287,7 +287,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
    }
 
 	 @Override
-   public void onRoutingSuccess(PolylineOptions mPolyOptions) {
+   public void onRoutingSuccess(PolylineOptions mPolyOptions, LatLng start, LatLng end) {
      PolylineOptions polyoptions = new PolylineOptions();
      polyoptions.color(Color.BLUE);
      polyoptions.width(10);
