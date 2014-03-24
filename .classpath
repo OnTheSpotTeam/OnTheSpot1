@@ -6,10 +6,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="libs/android-support-v4.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Richard/Desktop/adt-bundle-windows-x86-20131030/sdk/extras/google/google_play_services/libproject/google-play-services_lib/libs/google-play-services.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/Users/Richard/Desktop/adt-bundle-windows-x86-20131030/sdk/extras/google/google_play_services/libproject/google-play-services_lib/libs/../../../docs/reference/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
