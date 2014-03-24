@@ -6,6 +6,7 @@ import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
@@ -87,7 +88,7 @@ public class MainActivity extends FragmentActivity {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
-            public void onDrawerOpened(View drawerView) {
+            public void onDrawerOpened(View drawerView){
                 getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
@@ -117,7 +118,6 @@ public class MainActivity extends FragmentActivity {
 		//Setting up search configuration
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-		
 		SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
 		searchView.setSearchableInfo(info);
 
@@ -131,7 +131,19 @@ public class MainActivity extends FragmentActivity {
 		
 		// Display the submit button while searching.
 		// searchView.setSubmitButtonEnabled(true);
-		 	
+
+		
+        int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
+        View searchPlate = searchView.findViewById(searchPlateId);
+        if (searchPlate!=null) {
+            searchPlate.setBackgroundColor(Color.DKGRAY);
+            int searchTextId = searchPlate.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+            TextView searchText = (TextView) searchPlate.findViewById(searchTextId);
+            if (searchText!=null) {
+	            searchText.setTextColor(Color.WHITE);
+	            searchText.setHintTextColor(Color.WHITE);
+            }
+        }
 		return true;
 	}
 	
