@@ -27,6 +27,7 @@ public class ItineraryActivity extends FragmentActivity {
 	
 	private static final String TAG = "ItineraryActivity";
 	private static final String fragmentTAG = "DragSortFragment";
+	public static final String INTENT_EXTRA = "Extra";
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +36,12 @@ public class ItineraryActivity extends FragmentActivity {
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
-		addresses = new ArrayList<String>();
 		
 		// Get the OTSDatabase instance
 		mDatabase = OTSDatabase.getInstance(this);
 		
 		// Display the itinerary name
-		String itinName = getIntent().getStringExtra(ProfileFragmentItins.INTENT_EXTRA);
+		final String itinName = getIntent().getStringExtra(ProfileFragmentItins.INTENT_EXTRA);
 		((TextView) findViewById(R.id.explist_itinName)).setText(itinName);
 		
 		// Set the "map view" button
@@ -51,40 +51,10 @@ public class ItineraryActivity extends FragmentActivity {
 			@Override
 			public void onClick(View view) {
 				Intent intent = new Intent(ItineraryActivity.this, ItinMapFragment.class);
-				intent.putStringArrayListExtra("addr", addresses);
+				intent.putExtra(INTENT_EXTRA, itinName);
 				startActivityForResult(intent, 1);
 			}
 		});
-		
-		// Query the Itineraries that a User has.
-		// To Richard: The query for listview has already been moved into the adapter.
-		// Could you move this into the MapView Activity? It's really easy, and it makes
-		// the code look cleaner.
-		String selection = OTSDatabase.EXPS_KEY_ID + " AS _id , " +
-						   OTSDatabase.EXPS_KEY_NAME + " , " +
-						   OTSDatabase.EXPS_KEY_ADDR + " , " +
-						   OTSDatabase.EXPS_KEY_ACTION + " , " +
-						   OTSDatabase.EXPS_KEY_RATE + " , " + 
-						   OTSDatabase.EXPS_KEY_COMMENT + " , " +
-						   OTSDatabase.EXPS_KEY_IMAGE; 						   
-		String expsQuery = 	"SELECT " + selection + " FROM " + OTSDatabase.TABLE_EXPS + " " +
-				"WHERE " + OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_ID + " IN " + 
-				"(SELECT " + OTSDatabase.ITINS_EXPS_KEY_EXPID + " FROM " + OTSDatabase.TABLE_ITINS_EXPS + " " +
-				"WHERE " + OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_ITINID + " = " +
-				mDatabase.ItinNameToIds(itinName)[0] + ")";
-		Cursor expsCursor = mDatabase.rawQuery(expsQuery, null);
-		expsCursor.moveToFirst();
-		int addCol = expsCursor.getColumnIndex(OTSDatabase.EXPS_KEY_ADDR);
-		String address;
-		Log.i("ADDRESS", "RA");
-		while(!expsCursor.isAfterLast())
-		{
-			address = expsCursor.getString(addCol);
-			Log.i("ADDRESS", address);
-			addresses.add(address);
-			expsCursor.moveToNext();
-		}
-		
 		
 		// Instantiate the DragSortListView.
         if (savedInstanceState == null) {

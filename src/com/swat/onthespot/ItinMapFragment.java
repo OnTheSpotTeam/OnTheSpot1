@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.location.Geocoder;
 import android.os.Build;
@@ -38,6 +39,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.swat.onthespot.support.OTSDatabase;
 import com.swat.onthespot.util.SystemUiHider;
 
 /**
@@ -85,6 +87,8 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
   private Geocoder gc;
   private ArrayList<String> addresses;
   private boolean doneRouting;
+  private OTSDatabase mDatabase;
+  
   /*TODO: Make LatLng Queries AsyncTasks*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -93,13 +97,16 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		setContentView(R.layout.activity_itin_map_fragment);
 		ThreadPolicy tp = ThreadPolicy.LAX;
 		StrictMode.setThreadPolicy(tp);
-    setTitle("Map View");
-    SupportMapFragment fm = (SupportMapFragment)  getSupportFragmentManager().findFragmentById(R.id.map);
-    gc = new Geocoder(ItinMapFragment.this, Locale.getDefault());
-    map = fm.getMap();
+		setTitle("Map View");
+		SupportMapFragment fm = (SupportMapFragment)  getSupportFragmentManager().findFragmentById(R.id.map);
+		gc = new Geocoder(ItinMapFragment.this, Locale.getDefault());
+		map = fm.getMap();
 		final View controlsView = findViewById(R.id.fullscreen_content_controls);
 		final View contentView = findViewById(R.id.map);
 
+		// Get instance of OTS database.
+		mDatabase = OTSDatabase.getInstance(this);
+		
 		// Set up an instance of SystemUiHider to control the system UI for
 		// this activity.
 		mSystemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
@@ -225,7 +232,34 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	
 	public void updateMap()
 	{
-    addresses = getIntent().getStringArrayListExtra("addr");
+	addresses = new ArrayList<String>();
+	String itinName = getIntent().getStringExtra(ItineraryActivity.INTENT_EXTRA);
+	
+	// Get sorted addreses in this itinerary.
+	String selection = OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_ADDR + " , " +
+			OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_SORT;
+	
+	String expsQuery = 	"SELECT " + selection + " FROM " + 
+			OTSDatabase.TABLE_EXPS + ", " + OTSDatabase.TABLE_ITINS_EXPS + " " +
+			"WHERE " + OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_ID + "=" + 
+			OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_EXPID + " AND " +
+			OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_ITINID + "=" + 
+			mDatabase.ItinNameToIds(itinName)[0] + " ORDER BY " + 
+			OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_SORT + " ASC";
+	Cursor expsCursor = mDatabase.rawQuery(expsQuery, null);
+	
+	// Store addresses into the arrag.
+	expsCursor.moveToFirst();
+	int addCol = expsCursor.getColumnIndex(OTSDatabase.EXPS_KEY_ADDR);
+	String address;
+	Log.i("ADDRESS", "RA");
+	while(!expsCursor.isAfterLast())
+	{
+		address = expsCursor.getString(addCol);
+		Log.i("ADDRESS", address);
+		addresses.add(address);
+		expsCursor.moveToNext();
+	}
     
     for(int i = 0; i < addresses.size() - 1; i++)
     {
