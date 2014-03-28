@@ -168,6 +168,7 @@ public class SearchActivity extends Activity
 		case METHOD_RETRIEVE:
 			// Retrieve an experience directly from rowid. mQuery is a complete Uri.
 			// Rowid is the last segment of query.
+			Log.d(TAG, mQuery);
 			baseUri = Uri.parse(mQuery);
 			return new CursorLoader(this, baseUri, null, null, null, null);
 		default:

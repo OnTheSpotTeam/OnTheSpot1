@@ -79,14 +79,6 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDsGz-1vfaQb64BUS1dmcaKtlIVCC0AdVE" />
-
-        <!--  
-        <provider
-            android:name="com.swat.onthespot.SearchProvider"
-            android:authorities="com.swat.onthespot.searchprovider"
-            android:enabled="true"
-            android:exported="false" >
-        </provider> -->
         
         <provider
             android:name="com.swat.onthespot.support.OTSSearchProvider"

@@ -1,7 +1,5 @@
 package com.swat.onthespot.support;
 
-import com.swat.onthespot.SearchContract;
-
 import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -132,7 +130,7 @@ public class OTSSearchProvider extends ContentProvider {
 				OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_ADDR + 
 					" AS " + SearchManager.SUGGEST_COLUMN_TEXT_2 + " , " +
 				OTSDatabase.TABLE_EXPS + "." + "ROWID" + 
-        			" AS " + SearchManager.SUGGEST_COLUMN_INTENT_DATA;
+        			" AS " + SearchManager.SUGGEST_COLUMN_INTENT_DATA_ID;
 
 		String SQL = "SELECT " + selection + " FROM " + OTSDatabase.TABLE_EXPS + " WHERE " + 
 				"LOWER(" + OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_NAME + ")" 
@@ -146,7 +144,6 @@ public class OTSSearchProvider extends ContentProvider {
 				*/
 		
         Cursor results = mDatabase.rawQuery(SQL, null);
-        Log.d(TAG, "suggestion cursor size = " + results.getCount());
         /*
         String[] cols = results.getColumnNames();
         for (int i=0; i< cols.length; i++){
@@ -191,7 +188,7 @@ public class OTSSearchProvider extends ContentProvider {
 				OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_ACTION + " , " +
 				OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_RATE + " , " + 
 				OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_COMMENT + " , " +
-				OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_IMAGE + " , ";
+				OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_IMAGE;
         
 		String SQL = "SELECT " + selection + " FROM " + OTSDatabase.TABLE_EXPS + 
 				" WHERE ROWID = " + rowId;
