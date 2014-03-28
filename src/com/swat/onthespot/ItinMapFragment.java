@@ -56,7 +56,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	public static final String INTENT_EXTRA = "result";
 	public static final String RESULT_JOURNAL = "journal";
 	public static final String RESULT_MAIN = "main";
-	
+
 	/**
 	 * Whether or not the system UI should be auto-hidden after
 	 * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -84,15 +84,15 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	 * The instance of the {@link SystemUiHider} for this activity.
 	 */
 	private SystemUiHider mSystemUiHider;
-  private GoogleMap map;
-  private LatLng start;
-  private LatLng end;
-  private Geocoder gc;
-  private ArrayList<String> addresses;
-  private boolean doneRouting;
-  private OTSDatabase mDatabase;
-  private ArrayList<String>[] directions;
-  /*TODO: Make LatLng Queries AsyncTasks*/
+	private GoogleMap map;
+	private LatLng start;
+	private LatLng end;
+	private Geocoder gc;
+	private ArrayList<String> addresses;
+	private boolean doneRouting;
+	private OTSDatabase mDatabase;
+	private ArrayList<String>[] directions;
+	/*TODO: Make LatLng Queries AsyncTasks*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -109,55 +109,55 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 
 		// Get instance of OTS database.
 		mDatabase = OTSDatabase.getInstance(this);
-		
+
 		// Set up an instance of SystemUiHider to control the system UI for
 		// this activity.
 		mSystemUiHider = SystemUiHider.getInstance(this, contentView, HIDER_FLAGS);
 		mSystemUiHider.setup();
 		mSystemUiHider
-		    .setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener()
-		    {
-			    // Cached values.
-			    int mControlsHeight;
-			    int mShortAnimTime;
+		.setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener()
+		{
+			// Cached values.
+			int mControlsHeight;
+			int mShortAnimTime;
 
-			    @Override
-			    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-			    public void onVisibilityChange(boolean visible)
-			    {
-				    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
-				    {
-					    // If the ViewPropertyAnimator API is available
-					    // (Honeycomb MR2 and later), use it to animate the
-					    // in-layout UI controls at the bottom of the
-					    // screen.
-					    if (mControlsHeight == 0)
-					    {
-						    mControlsHeight = controlsView.getHeight();
-					    }
-					    if (mShortAnimTime == 0)
-					    {
-						    mShortAnimTime = getResources().getInteger(
-						        android.R.integer.config_shortAnimTime);
-					    }
-					    controlsView.animate()
-					        .translationY(visible ? 0 : mControlsHeight)
-					        .setDuration(mShortAnimTime);
-				    } else
-				    {
-					    // If the ViewPropertyAnimator APIs aren't
-					    // available, simply show or hide the in-layout UI
-					    // controls.
-					    controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
-				    }
+			@Override
+			@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+			public void onVisibilityChange(boolean visible)
+			{
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+				{
+					// If the ViewPropertyAnimator API is available
+					// (Honeycomb MR2 and later), use it to animate the
+					// in-layout UI controls at the bottom of the
+					// screen.
+					if (mControlsHeight == 0)
+					{
+						mControlsHeight = controlsView.getHeight();
+					}
+					if (mShortAnimTime == 0)
+					{
+						mShortAnimTime = getResources().getInteger(
+								android.R.integer.config_shortAnimTime);
+					}
+					controlsView.animate()
+					.translationY(visible ? 0 : mControlsHeight)
+					.setDuration(mShortAnimTime);
+				} else
+				{
+					// If the ViewPropertyAnimator APIs aren't
+					// available, simply show or hide the in-layout UI
+					// controls.
+					controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
+				}
 
-				    if (visible && AUTO_HIDE)
-				    {
-					    // Schedule a hide().
-					    delayedHide(AUTO_HIDE_DELAY_MILLIS);
-				    }
-			    }
-		    });
+				if (visible && AUTO_HIDE)
+				{
+					// Schedule a hide().
+					delayedHide(AUTO_HIDE_DELAY_MILLIS);
+				}
+			}
+		});
 
 		// Set up the user interaction to manually show or hide the system UI.
 		contentView.setOnClickListener(new View.OnClickListener()
@@ -179,9 +179,9 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		// operations to prevent the jarring behavior of controls going away
 		// while interacting with the UI.
 		findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
-	   Log.i("GETLL", "INIT");
-		
-	  updateMap();
+		Log.i("GETLL", "INIT");
+
+		updateMap();
 	}
 
 	@Override
@@ -232,60 +232,60 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		mHideHandler.removeCallbacks(mHideRunnable);
 		mHideHandler.postDelayed(mHideRunnable, delayMillis);
 	}
-	
+
 	public void updateMap()
 	{
-	addresses = new ArrayList<String>();
-	String itinName = getIntent().getStringExtra(ItineraryActivity.INTENT_EXTRA);
-	
-	// Get sorted addreses in this itinerary.
-	String selection = OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_ADDR + " , " +
-			OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_SORT;
-	
-	String expsQuery = 	"SELECT " + selection + " FROM " + 
-			OTSDatabase.TABLE_EXPS + ", " + OTSDatabase.TABLE_ITINS_EXPS + " " +
-			"WHERE " + OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_ID + "=" + 
-			OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_EXPID + " AND " +
-			OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_ITINID + "=" + 
-			mDatabase.ItinNameToIds(itinName)[0] + " ORDER BY " + 
-			OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_SORT + " ASC";
-	Cursor expsCursor = mDatabase.rawQuery(expsQuery, null);
-	
-	// Store addresses into the arrag.
-	expsCursor.moveToFirst();
-	int addCol = expsCursor.getColumnIndex(OTSDatabase.EXPS_KEY_ADDR);
-	String address;
-	Log.i("ADDRESS", "RA");
-	while(!expsCursor.isAfterLast())
-	{
-		address = expsCursor.getString(addCol);
-		Log.i("ADDRESS", address);
-		addresses.add(address);
-		expsCursor.moveToNext();
-	}
-	 
-  directions = (ArrayList<String>[])new ArrayList[addresses.size() - 1];
-  for(int i = 0; i < directions.length; i++)
-     directions[i] = new ArrayList<String>();
+		addresses = new ArrayList<String>();
+		String itinName = getIntent().getStringExtra(ItineraryActivity.INTENT_EXTRA);
 
-    for(int i = 0; i < addresses.size() - 1; i++)
-    {
-    	String startAdd = addresses.get(i);
-    	String endAdd = addresses.get(i + 1);
-    	start = getLatLngFromLoc(startAdd);
-    	end = getLatLngFromLoc(endAdd);
-      Routing routing = new Routing(Routing.TravelMode.DRIVING, i + 1);
-      routing.registerListener(this);
-      routing.execute(start, end);
-    }
-    CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(addresses.get(0)));
-    CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
+		// Get sorted addreses in this itinerary.
+		String selection = OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_ADDR + " , " +
+				OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_SORT;
 
-    map.moveCamera(center);	
-    map.animateCamera(zoom);
-   
+		String expsQuery = 	"SELECT " + selection + " FROM " + 
+				OTSDatabase.TABLE_EXPS + ", " + OTSDatabase.TABLE_ITINS_EXPS + " " +
+				"WHERE " + OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_ID + "=" + 
+				OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_EXPID + " AND " +
+				OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_ITINID + "=" + 
+				mDatabase.ItinNameToIds(itinName)[0] + " ORDER BY " + 
+				OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_SORT + " ASC";
+		Cursor expsCursor = mDatabase.rawQuery(expsQuery, null);
+
+		// Store addresses into the arrag.
+		expsCursor.moveToFirst();
+		int addCol = expsCursor.getColumnIndex(OTSDatabase.EXPS_KEY_ADDR);
+		String address;
+		Log.i("ADDRESS", "RA");
+		while(!expsCursor.isAfterLast())
+		{
+			address = expsCursor.getString(addCol);
+			Log.i("ADDRESS", address);
+			addresses.add(address);
+			expsCursor.moveToNext();
+		}
+
+		directions = (ArrayList<String>[])new ArrayList[addresses.size() - 1];
+		for(int i = 0; i < directions.length; i++)
+			directions[i] = new ArrayList<String>();
+
+		for(int i = 0; i < addresses.size() - 1; i++)
+		{
+			String startAdd = addresses.get(i);
+			String endAdd = addresses.get(i + 1);
+			start = getLatLngFromLoc(startAdd);
+			end = getLatLngFromLoc(endAdd);
+			Routing routing = new Routing(Routing.TravelMode.DRIVING, i + 1);
+			routing.registerListener(this);
+			routing.execute(start, end);
+		}
+		CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(addresses.get(0)));
+		CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
+
+		map.moveCamera(center);	
+		map.animateCamera(zoom);
+
 	}
-	
+
 	public void exitToJournal(View v)
 	{
 		Intent returnIntent = new Intent();
@@ -293,7 +293,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		setResult(RESULT_OK,returnIntent);     
 		finish();
 	}
-	
+
 	public void exitToMain(View v)
 	{
 		Intent returnIntent = new Intent();
@@ -301,51 +301,51 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		setResult(RESULT_OK,returnIntent);     
 		finish();
 	}
-	
+
 	@Override 
 	public void onRoutingFailure() {
-     // The Routing request failed
-   }
+		// The Routing request failed
+	}
 
-	 @Override
-   public void onRoutingStart() {
-     // The Routing Request starts
-   }
+	@Override
+	public void onRoutingStart() {
+		// The Routing Request starts
+	}
 
-	 @Override
-   public void onRoutingSuccess(PolylineOptions mPolyOptions, LatLng start, LatLng end, int routeN, Route result) {
-     
-		 List<Segment> segments  = result.getSegments();
-		 for(Segment segment : segments)
-		 {
-			 String segDir = segment.getInstruction();
-			 String dirDist = segment.getText();
-			 directions[routeN - 1].add(segDir + " (" + dirDist + ") ");
-		 }
-		 
-		 PolylineOptions polyoptions = new PolylineOptions();
-     polyoptions.color(Color.BLUE);
-     polyoptions.width(10);
-     polyoptions.addAll(mPolyOptions.getPoints());
-     map.addPolyline(polyoptions);
-     
+	@Override
+	public void onRoutingSuccess(PolylineOptions mPolyOptions, LatLng start, LatLng end, int routeN, Route result) {
 
-     // Start marker
-     MarkerOptions options = new MarkerOptions();
-     options.position(start);
-     //options.icon(BitmapDescriptorFactory.fromResource(R.drawable.start_blue));
-     map.addMarker(options);
+		List<Segment> segments  = result.getSegments();
+		for(Segment segment : segments)
+		{
+			String segDir = segment.getInstruction();
+			String dirDist = segment.getText();
+			directions[routeN - 1].add(segDir + " (" + dirDist + ") ");
+		}
 
-     // End marker
-     options = new MarkerOptions();
-     options.position(end);
-     //options.icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green));  
-     map.addMarker(options);
-     doneRouting = true;
-   }
-	 
-   /*public LatLng getLatLngFromLoc(String address) throws IOException{
-  	 
+		PolylineOptions polyoptions = new PolylineOptions();
+		polyoptions.color(Color.BLUE);
+		polyoptions.width(10);
+		polyoptions.addAll(mPolyOptions.getPoints());
+		map.addPolyline(polyoptions);
+
+
+		// Start marker
+		MarkerOptions options = new MarkerOptions();
+		options.position(start);
+		//options.icon(BitmapDescriptorFactory.fromResource(R.drawable.start_blue));
+		map.addMarker(options);
+
+		// End marker
+		options = new MarkerOptions();
+		options.position(end);
+		//options.icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green));  
+		map.addMarker(options);
+		doneRouting = true;
+	}
+
+	/*public LatLng getLatLngFromLoc(String address) throws IOException{
+
   	 	List<Address> list = null;
   	 	for(int i = 0; i < 100; i++)
   	 	{
@@ -359,46 +359,46 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
   	 	Address add = list.get(0);
   	 	return new LatLng(add.getLatitude(), add.getLongitude());
 	 }*/
-   
-   public LatLng getLatLngFromLoc(String address) {
-  	 address = address.replace("\n"," ").replace(" ", "%20");
- 		 HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?address=" +address+"&ka&sensor=false");
- 		 HttpClient client = new DefaultHttpClient();
- 		 HttpResponse response;
- 		 StringBuilder stringBuilder = new StringBuilder();
 
- 		try {
- 			response = client.execute(httpGet);
- 			HttpEntity entity = response.getEntity();
- 			InputStream stream = entity.getContent();
- 			int b;
- 			while ((b = stream.read()) != -1) {
- 				stringBuilder.append((char) b);
- 			}
- 		} catch (ClientProtocolException e) {
- 		} catch (IOException e) {
- 		}
+	public LatLng getLatLngFromLoc(String address) {
+		address = address.replace("\n"," ").replace(" ", "%20");
+		HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?address=" +address+"&ka&sensor=false");
+		HttpClient client = new DefaultHttpClient();
+		HttpResponse response;
+		StringBuilder stringBuilder = new StringBuilder();
 
- 		JSONObject jsonObject = new JSONObject();
- 		try {
- 			jsonObject = new JSONObject(stringBuilder.toString());
- 		} catch (JSONException e) {
- 			// TODO Auto-generated catch block
- 			e.printStackTrace();
- 		}
+		try {
+			response = client.execute(httpGet);
+			HttpEntity entity = response.getEntity();
+			InputStream stream = entity.getContent();
+			int b;
+			while ((b = stream.read()) != -1) {
+				stringBuilder.append((char) b);
+			}
+		} catch (ClientProtocolException e) {
+		} catch (IOException e) {
+		}
 
- 		Double lon = new Double(0);
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject = new JSONObject(stringBuilder.toString());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Double lon = new Double(0);
 		Double lat = new Double(0);
 
 		try {
 
 			lon = ((JSONArray)jsonObject.get("results")).getJSONObject(0)
-				.getJSONObject("geometry").getJSONObject("location")
-				.getDouble("lng");
+					.getJSONObject("geometry").getJSONObject("location")
+					.getDouble("lng");
 
 			lat = ((JSONArray)jsonObject.get("results")).getJSONObject(0)
-				.getJSONObject("geometry").getJSONObject("location")
-				.getDouble("lat");
+					.getJSONObject("geometry").getJSONObject("location")
+					.getDouble("lat");
 
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -406,5 +406,5 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		}
 
 		return new LatLng(lat, lon);
- 	} 
+	} 
 }
