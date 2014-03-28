@@ -3,6 +3,7 @@ package com.swat.onthespot;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.http.HttpEntity;
@@ -30,8 +31,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.directions.route.Route;
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
+import com.directions.route.Segment;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -88,7 +91,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
   private ArrayList<String> addresses;
   private boolean doneRouting;
   private OTSDatabase mDatabase;
-  
+  private ArrayList<String>[] directions;
   /*TODO: Make LatLng Queries AsyncTasks*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -260,14 +263,18 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		addresses.add(address);
 		expsCursor.moveToNext();
 	}
-    
+	 
+  directions = (ArrayList<String>[])new ArrayList[addresses.size() - 1];
+  for(int i = 0; i < directions.length; i++)
+     directions[i] = new ArrayList<String>();
+
     for(int i = 0; i < addresses.size() - 1; i++)
     {
     	String startAdd = addresses.get(i);
     	String endAdd = addresses.get(i + 1);
     	start = getLatLngFromLoc(startAdd);
     	end = getLatLngFromLoc(endAdd);
-      Routing routing = new Routing(Routing.TravelMode.DRIVING);
+      Routing routing = new Routing(Routing.TravelMode.DRIVING, i + 1);
       routing.registerListener(this);
       routing.execute(start, end);
     }
@@ -276,8 +283,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 
     map.moveCamera(center);	
     map.animateCamera(zoom);
-
-
+   
 	}
 	
 	public void exitToJournal(View v)
@@ -307,8 +313,17 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
    }
 
 	 @Override
-   public void onRoutingSuccess(PolylineOptions mPolyOptions, LatLng start, LatLng end) {
-     PolylineOptions polyoptions = new PolylineOptions();
+   public void onRoutingSuccess(PolylineOptions mPolyOptions, LatLng start, LatLng end, int routeN, Route result) {
+     
+		 List<Segment> segments  = result.getSegments();
+		 for(Segment segment : segments)
+		 {
+			 String segDir = segment.getInstruction();
+			 String dirDist = segment.getText();
+			 directions[routeN - 1].add(segDir + " (" + dirDist + ") ");
+		 }
+		 
+		 PolylineOptions polyoptions = new PolylineOptions();
      polyoptions.color(Color.BLUE);
      polyoptions.width(10);
      polyoptions.addAll(mPolyOptions.getPoints());
