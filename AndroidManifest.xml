@@ -71,6 +71,8 @@
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".SearchActivity" />
+        
+        <!-- Google Map Related Meta-data -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -78,9 +80,17 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDsGz-1vfaQb64BUS1dmcaKtlIVCC0AdVE" />
 
+        <!--  
         <provider
             android:name="com.swat.onthespot.SearchProvider"
             android:authorities="com.swat.onthespot.searchprovider"
+            android:enabled="true"
+            android:exported="false" >
+        </provider> -->
+        
+        <provider
+            android:name="com.swat.onthespot.support.OTSSearchProvider"
+            android:authorities="com.swat.onthespot.support.otssearchprovider"
             android:enabled="true"
             android:exported="false" >
         </provider>

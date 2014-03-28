@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.text.BoringLayout.Metrics;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -20,15 +21,32 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 
+import com.swat.onthespot.support.OTSDatabase;
+import com.swat.onthespot.support.OTSSearchProvider;
+import com.swat.onthespot.support.SearchResultAdapter;
+
 public class SearchActivity extends Activity
 	implements LoaderManager.LoaderCallbacks<Cursor>{
 
-	private static final String TAG = "OTS:SearchActivity";
+	// Tag for LogCat
+	private static final String TAG = "SearchActivity";
 	
+	// OTSDatabase Instance
+	private OTSDatabase mDatabase;
+	
+	// Id of the CursorLoader
 	private static final int SEARCH_LOADER = 0;
-	ListView mListView;
-	SimpleCursorAdapter mAdapter; 
-	private String mQuery; 
+
+	// The List and Adapter
+	private ListView mListView;
+	private SearchResultAdapter mAdapter;
+	
+	// Method could be 0: search experience from string query (user hit search button)
+	//                 1: retrieve experience given rowid in the table (user hit suggestion)
+	private int mMethod;
+	private final int METHOD_QUERY = 0;
+	private final int METHOD_RETRIEVE = 1;
+	private String mQuery;
 			
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +57,12 @@ public class SearchActivity extends Activity
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
+		// Get the database instance.
+		mDatabase = OTSDatabase.getInstance(this);
+		
 		// Setup ListView and Adaptor.
 		mListView = (ListView) findViewById(R.id.search_results_list);
-		mAdapter = new SimpleCursorAdapter(
-	            this,                // Current context
-	            R.layout.list_item_searchresult,  // Layout for a single row
-	            null,                // No Cursor yet
-	            new String[] { SearchContract.COL_NAME, SearchContract.COL_TYPE }, // Cursor columns to use
-                new int[] { R.id.searchresult_word, R.id.searchresult_definition }, // Layout fields to use
-	            0                    // No flags
-	    );
+		mAdapter = new SearchResultAdapter(this, null);
 		mListView.setAdapter(mAdapter);
 		
 		// Handle user's search query.
@@ -78,13 +92,13 @@ public class SearchActivity extends Activity
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            
-            // Change the stored query to the new query, so the (new / restared)
-            // CursorLoader can use this query.
+            // Update Method and Query
+            mMethod = METHOD_QUERY;
             mQuery = query;
         } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             // Handle a suggestions click (because the suggestions all use ACTION_VIEW)
             String query = intent.getDataString();
+            mMethod = METHOD_RETRIEVE;
             mQuery = query;
         }
     }
@@ -143,20 +157,22 @@ public class SearchActivity extends Activity
 	 * Create a new CursorLoader 
 	 */
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		Log.d(TAG, "onCreateLoader");
-		// TODO Auto-generated method stub
-	    Uri baseUri = SearchContract.TABLEURI;
-	    
-	    String[] selectArgs = {mQuery};
-
-	    // Peng:
-	    // Using the constructor CursorLoader (Context, Uri, Projection, Selection, SelectionArgs, sortOrder)
-	    // Here only the Uri and the selectionArgs matter, because the searchProvider's
-	    // query function discards other arguments. 
-	    // basedUri is used in Uri matcher (should match SEARCH_WORDS in this case)
-	    // selectArgs[0] is user's query that will be passed into database.
-	    // See SearchProvider's query() function for more details.
-	    return new CursorLoader(this, baseUri, null, null, selectArgs, null);
+	    Uri baseUri;
+		switch(mMethod){
+		case METHOD_QUERY:
+			baseUri = Uri.parse("content://" + OTSSearchProvider.AUTHORITY + "/" + OTSSearchProvider.TABLE_SEARCH);
+		    String[] selectArgs = {mQuery};
+		    // Normal query. Query is the search word. 
+		    // Put it into selectArgs[0].
+		    return new CursorLoader(this, baseUri, null, null, selectArgs, null);
+		case METHOD_RETRIEVE:
+			// Retrieve an experience directly from rowid. mQuery is a complete Uri.
+			// Rowid is the last segment of query.
+			baseUri = Uri.parse(mQuery);
+			return new CursorLoader(this, baseUri, null, null, null, null);
+		default:
+			return null;
+		}
 	}
 
 
@@ -170,7 +186,7 @@ public class SearchActivity extends Activity
 			mAdapter.swapCursor(cursor); //swap the new cursor in.
 		}
 		else{
-			Log.e(TAG,"OnLoadFinished: mAdapter or cursor is null");
+			Log.e(TAG, "OnLoadFinished: mAdapter or cursor is null");
 		}
 	}
 

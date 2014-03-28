@@ -64,43 +64,43 @@ public class OTSDatabase extends SQLiteOpenHelper {
     public static final int ERR_MULTIPLE_ITIN_NAME = -5;
     public static final int ERR_MULTIPLE_EXP_NAME = -6;
  
-    private static OTSDatabase sInstance;
+    private static OTSDatabase sInstance = null;
     
     // Static factory method for correct management
     public static OTSDatabase getInstance(Context context) {
-        // Use the application context, which will ensure that you 
-        // don't accidentally leak an Activity's context.
-        // See this article for more information: http://bit.ly/6LRzfx
-        if (sInstance == null) {
-          sInstance = new OTSDatabase(context.getApplicationContext());
-          sInstance.addUser(MainActivity.USER_NAME);
-          sInstance.addItinerary("Houston Roadtrip", "20th Nov 2013", 3.5, 
-        		  "Almost tripped on a tumbleweed.", "houston_roadtrip");
-          sInstance.addItinerary("Exploring Philly 8th St", "8-9th Nov 2013", 4.5, 
-        		  "Jim's Sticks was heaven in my belly.", "philly_8th_street");
-          sInstance.addItinerary("New York or Bust!", "15th Dec 2013", 4.5, 
-        		  "In all my years living on the East", "new_york_or_bust");
-          sInstance.addItinerary("A Week in Madrid", "5th Jan 2014", 5, 
-        		  "Spain is just drop-dead gorgeous, and ...", "a_week_in_madrid");
-          sInstance.addItinForUser(MainActivity.USER_NAME, "Houston Roadtrip");
-          sInstance.addItinForUser(MainActivity.USER_NAME, "Exploring Philly 8th St");
-          sInstance.addItinForUser(MainActivity.USER_NAME, "New York or Bust!");
-          sInstance.addItinForUser(MainActivity.USER_NAME, "A Week in Madrid");
-          sInstance.addExperience("King of Prussia mall", "160 N Gulph Rd, King of Prussia, PA 19406", 
-        		  "Cologne Sampling", 4.5, "Lots of great fragrances with decent ...", "king_of_prussia");
-          sInstance.addExperience("One Liberty Place", "1625 Chestnut Street, Philadelphia, PA 19103", 
-        		  "Watching the sunset", 5.0, "Absolutely Stunning", "one_liberty_place");
-          sInstance.addExperience("Shake Shack", "2000 Sansom St, Philadelphia, PA 19103", 
-        		  "Harlem Shaking", 3.0, "The locale was a little too approriate ...", "shake_shack");
-          sInstance.addExperience("Moo Tattoo", "513 South St #2, Philadelphia, PA 19147", 
-        		  "Get Tattoo", 4.5, "Beautifully done. Couldn't have asked ...", "moo_tattoo");
-          sInstance.addExpForItin("Exploring Philly 8th St", "King of Prussia mall");
-          sInstance.addExpForItin("Exploring Philly 8th St", "One Liberty Place");
-          sInstance.addExpForItin("Exploring Philly 8th St", "Shake Shack");
-          sInstance.addExpForItin("Exploring Philly 8th St", "Moo Tattoo");
-          
-        }
-        return sInstance;
+    	// Use the application context, which will ensure that you 
+    	// don't accidentally leak an Activity's context.
+    	// See this article for more information: http://bit.ly/6LRzfx
+    	if (sInstance == null) {
+    		Log.d("Database", "Inserting Entries");
+    		sInstance = new OTSDatabase(context.getApplicationContext());
+    		sInstance.addUser(MainActivity.USER_NAME);
+    		sInstance.addItinerary("Houston Roadtrip", "20th Nov 2013", 3.5, 
+    				"Almost tripped on a tumbleweed.", "houston_roadtrip");
+    		sInstance.addItinerary("Exploring Philly 8th St", "8-9th Nov 2013", 4.5, 
+    				"Jim's Sticks was heaven in my belly.", "philly_8th_street");
+    		sInstance.addItinerary("New York or Bust!", "15th Dec 2013", 4.5, 
+    				"In all my years living on the East", "new_york_or_bust");
+    		sInstance.addItinerary("A Week in Madrid", "5th Jan 2014", 5, 
+    				"Spain is just drop-dead gorgeous, and ...", "a_week_in_madrid");
+    		sInstance.addItinForUser(MainActivity.USER_NAME, "Houston Roadtrip");
+    		sInstance.addItinForUser(MainActivity.USER_NAME, "Exploring Philly 8th St");
+    		sInstance.addItinForUser(MainActivity.USER_NAME, "New York or Bust!");
+    		sInstance.addItinForUser(MainActivity.USER_NAME, "A Week in Madrid");
+    		sInstance.addExperience("King of Prussia mall", "160 N Gulph Rd, King of Prussia, PA 19406", 
+    				"Cologne Sampling", 4.5, "Lots of great fragrances with decent ...", "king_of_prussia");
+    		sInstance.addExperience("One Liberty Place", "1625 Chestnut Street, Philadelphia, PA 19103", 
+    				"Watching the sunset", 5.0, "Absolutely Stunning", "one_liberty_place");
+    		sInstance.addExperience("Shake Shack", "2000 Sansom St, Philadelphia, PA 19103", 
+    				"Harlem Shaking", 3.0, "The locale was a little too approriate ...", "shake_shack");
+    		sInstance.addExperience("Moo Tattoo", "513 South St #2, Philadelphia, PA 19147", 
+    				"Get Tattoo", 4.5, "Beautifully done. Couldn't have asked ...", "moo_tattoo");
+    		sInstance.addExpForItin("Exploring Philly 8th St", "King of Prussia mall");
+    		sInstance.addExpForItin("Exploring Philly 8th St", "One Liberty Place");
+    		sInstance.addExpForItin("Exploring Philly 8th St", "Shake Shack");
+    		sInstance.addExpForItin("Exploring Philly 8th St", "Moo Tattoo");
+    	}
+    	return sInstance;
     }
     
     private OTSDatabase(Context context) {
@@ -109,6 +109,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
     
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+        
 		// Create the Users Table
         String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
                 + USERS_KEY_ID + " INTEGER PRIMARY KEY, "

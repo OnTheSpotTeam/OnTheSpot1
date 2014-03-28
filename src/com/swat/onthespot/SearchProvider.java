@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class SearchProvider extends ContentProvider {
 	
-	private final String TAG = "OTS:SearchProvider";
+	private final String TAG = "SearchProvider";
 	
 	// The Database
     private SearchDatabase mDatabase;
@@ -22,7 +22,7 @@ public class SearchProvider extends ContentProvider {
         mDatabase = new SearchDatabase(getContext());
         return true;
 	}
-	
+
     // Uri Matcher Stuff
     private static final int SEARCH_WORDS = 0;
     private static final int GET_WORD = 1;
