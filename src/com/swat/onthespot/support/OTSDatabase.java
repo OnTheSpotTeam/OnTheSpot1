@@ -3,9 +3,9 @@ package com.swat.onthespot.support;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.swat.onthespot.MainActivity;
 
@@ -376,7 +376,12 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		//Peng: pay attention to the column name change!
 		values.put(ITINS_EXPS_KEY_SORT, c.getInt(c.getColumnIndex("IFNULL(MAX("+ ITINS_EXPS_KEY_SORT +"),0)+1")));
 		
-		long retval = db.insertWithOnConflict(TABLE_ITINS_EXPS, null, values, SQLiteDatabase.CONFLICT_ABORT);
+		long retval;
+		try{
+			retval = db.insertWithOnConflict(TABLE_ITINS_EXPS, null, values, SQLiteDatabase.CONFLICT_ABORT);
+		} catch (SQLiteConstraintException e){
+			retval = -1;
+		}
 		db.close();
 		return retval;
 	}

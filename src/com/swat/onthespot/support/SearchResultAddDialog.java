@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.swat.onthespot.MainActivity;
 import com.swat.onthespot.ProfileFragmentItins;
@@ -63,10 +64,10 @@ public class SearchResultAddDialog extends DialogFragment {
             	   public void onClick(DialogInterface dialog, int which, boolean isChecked) {
             		   if (isChecked) {
             			   // If the user checked the item, add it to the selected items
-            			   mSelectedItems.add(mItinIds[which]);
-            		   } else if (mSelectedItems.contains(mItinIds[which])) {
+            			   mSelectedItems.add(which);
+            		   } else if (mSelectedItems.contains(which)) {
             			   // Else, if the item is already in the array, remove it 
-            			   mSelectedItems.remove(Integer.valueOf(mItinIds[which]));
+            			   mSelectedItems.remove(Integer.valueOf(which));
             		   }
             	   }
                });
@@ -80,8 +81,14 @@ public class SearchResultAddDialog extends DialogFragment {
     	if (mButtonClicked == BUTTON_POSITIVE){
     		// We clicked the positive button.
     		for (int i=0; i<mSelectedItems.size(); i++){
-    			long result = mDatabase.addExpForItin(mSelectedItems.get(i), mEid);
-    			Log.d("TAG", "onDismiss(): insert exp " + mEid + " to " + mSelectedItems.get(i) + " returns " + result );
+    			int itinId = mItinIds[mSelectedItems.get(i)];
+    			String itinName = (String) mItinNames[mSelectedItems.get(i)];
+    			long result = mDatabase.addExpForItin(itinId, mEid);
+    			if (result < 0){
+    				Toast toast = Toast.makeText(getActivity(), "insertion to itin \"" + itinName + "\" failed because of " +
+    						" duplication.", Toast.LENGTH_SHORT);
+    				toast.show();
+    			}
     		}
     	}
 
