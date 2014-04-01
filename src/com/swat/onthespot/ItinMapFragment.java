@@ -309,7 +309,6 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		returnIntent.putExtra(INTENT_EXTRA, RESULT_JOURNAL);
 		setResult(RESULT_OK,returnIntent);     
 		promptSave();
-		finish();
 	}
 
 	public void exitToMain(View v)
@@ -318,7 +317,6 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		returnIntent.putExtra(INTENT_EXTRA, RESULT_MAIN);
 		setResult(RESULT_OK,returnIntent);     
 		promptSave();
-		finish();
 	}
 
 	@Override 
@@ -442,6 +440,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 				.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,int id) {
 						saveMap();
+						finish();
 					}
 				  })
 				.setNegativeButton("No",new DialogInterface.OnClickListener() {
@@ -449,6 +448,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 						// if this button is clicked, just close
 						// the dialog box and do nothing
 						dialog.cancel();
+						finish();
 					}
 				});
  
