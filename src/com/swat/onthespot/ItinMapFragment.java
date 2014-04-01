@@ -440,7 +440,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 				.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,int id) {
 						saveMap();
-						finish();
+						
 					}
 				  })
 				.setNegativeButton("No",new DialogInterface.OnClickListener() {
@@ -475,6 +475,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
                   bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
                   out.flush();
                   out.close();
+                  finish();
            } catch (Exception e) {
                   e.printStackTrace();
            }
