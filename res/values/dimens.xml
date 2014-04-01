@@ -37,4 +37,20 @@
 	<dimen name="explist_action_size">20sp</dimen>
 	<dimen name="explist_comment_size">20sp</dimen>
 	<dimen name="explist_itin_name_size">30sp</dimen>
+	
+	<dimen name="searchresultlist_allpadtop">15dp</dimen>
+	<dimen name="searchresultlist_allpadbottom">15dp</dimen>
+    <dimen name="searchresultlist_totalheight">130dp</dimen>
+	<dimen name="searchresultlist_imageheight">100dp</dimen>
+	<dimen name="searchresultlist_imagewidth">120dp</dimen>
+	<dimen name="searchresultlist_imagepadleft">15dp</dimen>
+	<dimen name="searchresultlist_imagepadright">5dp</dimen>
+	<dimen name="searchresultlist_textheight">110dp</dimen>
+	<dimen name="searchresultlist_textwidth">380dp</dimen>
+	<dimen name="searchresultlist_textpadleft">10dp</dimen>
+	<dimen name="searchresultlist_name_size">25sp</dimen>
+	<dimen name="searchresultlist_action_size">17sp</dimen>
+	<dimen name="searchresultlist_comment_size">17sp</dimen>
+	<dimen name="searchresultlist_plusbtnsize">60dp</dimen>
+	<dimen name="searchresultlist_plusbtnpad">20dp</dimen>
 </resources>

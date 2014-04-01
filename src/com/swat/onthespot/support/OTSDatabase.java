@@ -159,7 +159,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		sInstance.addExperience(db, "King of Prussia mall", "160 N Gulph Rd, King of Prussia, PA 19406", 
 				"Cologne Sampling", 4.5, "Lots of great fragrances with decent ...", "king_of_prussia");
 		sInstance.addExperience(db, "One Liberty Place", "1625 Chestnut Street, Philadelphia, PA 19103", 
-				"Watching the sunset", 5.0, "Absolutely Stunning", "one_liberty_place");
+				"Watching the sunset", 5.0, "This is absolutely stunning!", "one_liberty_place");
 		sInstance.addExperience(db, "Shake Shack", "2000 Sansom St, Philadelphia, PA 19103", 
 				"Harlem Shaking", 3.0, "The locale was a little too approriate ...", "shake_shack");
 		sInstance.addExperience(db, "Moo Tattoo", "513 South St #2, Philadelphia, PA 19147", 

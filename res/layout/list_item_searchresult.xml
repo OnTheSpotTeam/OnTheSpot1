@@ -1,21 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:padding="5dp">
-    
-    <TextView
-            android:id="@+id/searchresult_word"
-            style="@android:style/TextAppearance.Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    
-    <TextView
-            android:id="@+id/searchresult_definition"
-            style="@android:style/TextAppearance.Small"
-            android:singleLine="true"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+    android:layout_height="@dimen/searchresultlist_totalheight"
+    android:paddingBottom="@dimen/searchresultlist_allpadbottom"
+    android:paddingTop="@dimen/searchresultlist_allpadtop" >
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/searchresultlist_item_image"
+        android:layout_width="@dimen/searchresultlist_imagewidth"
+        android:layout_height="@dimen/searchresultlist_imageheight"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:paddingLeft="@dimen/searchresultlist_imagepadleft"
+        android:paddingRight="@dimen/searchresultlist_imagepadright"
+        android:src="@drawable/one_liberty_place" />
+
+    <LinearLayout
+        android:layout_width="@dimen/searchresultlist_textwidth"
+        android:layout_height="@dimen/searchresultlist_textheight"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/searchresultlist_item_image"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/searchresultlist_textpadleft" >
+
+        <TextView
+            android:id="@+id/searchresultlist_item_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:text="Watching the sunset at"
+            android:textSize="@dimen/searchresultlist_action_size" />
+
+        <TextView
+            android:id="@+id/searchresultlist_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="left|center_vertical"
+            android:text="One Liberty Place"
+            android:textSize="@dimen/searchresultlist_name_size" />
+
+        <TextView
+            android:id="@+id/searchresultlist_item_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:text="This is absolutely stunning!"
+            android:textSize="@dimen/searchresultlist_comment_size" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/searchresultlist_plusbtn"
+        android:background="@drawable/exp_plusbutton"
+        android:layout_width="@dimen/searchresultlist_plusbtnsize"
+        android:layout_height="@dimen/searchresultlist_plusbtnsize"
+        android:layout_marginLeft="@dimen/searchresultlist_plusbtnpad"
+        android:layout_marginRight="@dimen/searchresultlist_plusbtnpad"
+        android:layout_marginTop="@dimen/searchresultlist_plusbtnpad"
+        android:layout_marginBottom="@dimen/searchresultlist_plusbtnpad"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>
