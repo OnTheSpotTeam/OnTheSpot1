@@ -22,7 +22,7 @@
     <string name="search_hint">Experiences, lodgings, people, etc.</string>
 
     <!-- Strings for profile page -->
-    <string name="user_full_name">Sam Green</string>
+    <string name="user_full_name">Patrick Han</string>
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="back">Back</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>

@@ -77,7 +77,7 @@ public class SearchResultAdapter extends CursorAdapter {
 	    holder.name = (TextView) rowView.findViewById(R.id.searchresultlist_item_name);
 	    holder.action = (TextView) rowView.findViewById(R.id.searchresultlist_item_action);
 	    holder.comment = (TextView) rowView.findViewById(R.id.searchresultlist_item_comment);
-	    holder.button = (Button) rowView.findViewById(R.id.searchresultlist_plusbtn);
+	    holder.button = (Button) rowView.findViewById(R.id.searchresultlist_item_plusbtn);
 	    rowView.setTag(holder);
 
 	    return rowView;

@@ -53,7 +53,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/searchresultlist_plusbtn"
+        android:id="@+id/searchresultlist_item_plusbtn"
         android:background="@drawable/exp_plusbutton"
         android:layout_width="@dimen/searchresultlist_plusbtnsize"
         android:layout_height="@dimen/searchresultlist_plusbtnsize"
