@@ -14,36 +14,48 @@ import com.swat.onthespot.MainActivity;
 import com.swat.onthespot.ProfileFragmentItins;
 
 public class SearchResultAddDialog extends DialogFragment {
+	public static final String TAG = "SearchResultDialog";
+	
+	// Keys for exp id and name arguments that come in.
 	public static final String KEY_EID = "EID";
 	public static final String KEY_NAME = "NAME";
+	
+	// Instane of OTSDatabase
 	private OTSDatabase mDatabase;
+	
+	// List of itinerary names and ids. Going to be set in setItinNamesAndIds().
 	private CharSequence[] mItinNames = null;
 	private int[] mItinIds = null;
+	private int mEid;
+	
+	// Keeps track of selected items in the dialog.
 	private ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();  // Where we track the selected items
+	
+	// Keeps track of which button is clicked.
+	private int mButtonClicked;
+	private final int BUTTON_POSITIVE = 1;
+	private final int BUTTON_NEGATIVE = -1;
 	
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
     	mDatabase = OTSDatabase.getInstance(this.getActivity());
     	
     	// Get the experience id and name
-    	int eid = getArguments().getInt(KEY_EID);
+    	mEid = getArguments().getInt(KEY_EID);
     	String expName = getArguments().getString(KEY_NAME);
     	
     	setItinNamesAndIds();
-    	for (int i=0; i<mItinNames.length; i++){
-    		Log.d("SearchResultDialog", (String)mItinNames[i]);
-    	}
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Add \"" + expName + "\" to Itinerary:")
                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
-                       // FIRE ZE MISSILES!
+                       mButtonClicked = BUTTON_POSITIVE;
                    }
                })
                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
-                       // User cancelled the dialog
+                       mButtonClicked = BUTTON_NEGATIVE;
                    }
                })
                .setMultiChoiceItems(mItinNames, null, new DialogInterface.OnMultiChoiceClickListener() {
@@ -61,6 +73,22 @@ public class SearchResultAddDialog extends DialogFragment {
         
         // Create the AlertDialog object and return it
         return builder.create();
+    }
+    
+    @Override
+    public void onDismiss(DialogInterface dialog){
+    	if (mButtonClicked == BUTTON_POSITIVE){
+    		// We clicked the positive button.
+    		for (int i=0; i<mSelectedItems.size(); i++){
+    			long result = mDatabase.addExpForItin(mSelectedItems.get(i), mEid);
+    			Log.d("TAG", "onDismiss(): insert exp " + mEid + " to " + mSelectedItems.get(i) + " returns " + result );
+    		}
+    	}
+
+    	
+    	for (int i=0; i<mSelectedItems.size(); i++){
+    		Log.d(TAG, "onDismiss(): selected " + mSelectedItems.get(i));
+    	}
     }
     
     private void setItinNamesAndIds(){

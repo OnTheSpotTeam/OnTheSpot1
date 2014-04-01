@@ -4,8 +4,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-	<dimen name="profile_picture_vertical_margin">40dp</dimen>
-	<dimen name="profile_picture_horizontal_margin">60dp</dimen>
+	<dimen name="profile_picture_vertical_margin">20dp</dimen>
+	<dimen name="profile_picture_horizontal_margin">40dp</dimen>
 	<dimen name="profile_name_indent">40dp</dimen>
 	<dimen name="profile_name_font_size">30sp</dimen>
 	
@@ -23,20 +23,23 @@
 	<dimen name="itinlist_date_size">20sp</dimen>
 	<dimen name="itinlist_comment_size">20sp</dimen>
 	
-	<dimen name="explist_allpadtop">20dp</dimen>
-	<dimen name="explist_allpadbottom">20dp</dimen>
-    <dimen name="explist_totalheight">200dp</dimen>
-	<dimen name="explist_imageheight">160dp</dimen>
-	<dimen name="explist_imagewidth">210dp</dimen>
-	<dimen name="explist_imagepadleft">10dp</dimen>
-	<dimen name="explist_imagepadright">40dp</dimen>
-	<dimen name="explist_textheight">160dp</dimen>
-	<dimen name="explist_textwidth">370dp</dimen>
-	<dimen name="explist_textpadleft">20dp</dimen>
-	<dimen name="explist_name_size">30sp</dimen>
-	<dimen name="explist_action_size">20sp</dimen>
-	<dimen name="explist_comment_size">20sp</dimen>
+	<dimen name="explist_allpadtop">15dp</dimen>
+	<dimen name="explist_allpadbottom">15dp</dimen>
+    <dimen name="explist_totalheight">130dp</dimen>
+	<dimen name="explist_imageheight">100dp</dimen>
+	<dimen name="explist_imagewidth">120dp</dimen>
+	<dimen name="explist_imagepadleft">15dp</dimen>
+	<dimen name="explist_imagepadright">5dp</dimen>
+	<dimen name="explist_textheight">110dp</dimen>
+	<dimen name="explist_textwidth">380dp</dimen>
+	<dimen name="explist_textpadleft">10dp</dimen>
+	<dimen name="explist_name_size">25sp</dimen>
+	<dimen name="explist_action_size">17sp</dimen>
+	<dimen name="explist_comment_size">17sp</dimen>
 	<dimen name="explist_itin_name_size">30sp</dimen>
+	<dimen name="explist_dragimagewidth">60dp</dimen>
+	<dimen name="explist_dragimageheight">40dp</dimen>
+	<dimen name="explist_dragimagepad">15dp</dimen>
 	
 	<dimen name="searchresultlist_allpadtop">15dp</dimen>
 	<dimen name="searchresultlist_allpadbottom">15dp</dimen>

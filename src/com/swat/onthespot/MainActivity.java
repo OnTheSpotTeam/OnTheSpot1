@@ -32,7 +32,7 @@ import com.viewpagerindicator.TabPageIndicator;
 
 
 public class MainActivity extends FragmentActivity {
-	public static final String USER_NAME = "Sam Green";
+	public static final String USER_NAME = "Patrick Han";
 	private static final String TAG = "OTS_MainActivity";
 	
 	// For Navigation Drawer

@@ -127,7 +127,7 @@ public class ItinDragDropList extends ListFragment {
         //   dragStartMode = onDown
         //   removeMode = flingRight
         DragSortController controller = new DragSortController(dslv);
-        controller.setDragHandleId(R.id.explist_item_image);
+        controller.setDragHandleId(R.id.explist_item_dragimage);
         controller.setClickRemoveId(R.id.click_remove);
         controller.setRemoveEnabled(removeEnabled);
         controller.setSortEnabled(sortEnabled);

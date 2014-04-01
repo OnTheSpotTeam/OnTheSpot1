@@ -197,7 +197,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		values.put(EXPS_KEY_IMAGE, ImageName);
 		db.insert(TABLE_EXPS, null, values);
 	}
-	public int addItinForUser(SQLiteDatabase db, String userName, String itinName){
+	private int addItinForUser(SQLiteDatabase db, String userName, String itinName){
 		int[] uids = UserNameToIds(db, userName);
 		int[] iids = ItinNameToIds(db, itinName);
 		if (uids.length < 1){
@@ -216,7 +216,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 			return 0;
 		}
 	}
-	public int addExpForItin(SQLiteDatabase db, String itinName, String expName){
+	private int addExpForItin(SQLiteDatabase db, String itinName, String expName){
 		int[] iids = ItinNameToIds(db, itinName);
 		int[] eids = ExpNameToIds(db, expName);
 		if (iids.length < 1){
@@ -246,7 +246,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 			return 0;
 		}
 	}
-	public int[] UserNameToIds(SQLiteDatabase db, String Name){
+	private int[] UserNameToIds(SQLiteDatabase db, String Name){
 		Cursor cursor = db.query(TABLE_USERS, new String[]{USERS_KEY_ID},
 				USERS_KEY_NAME + "=?", new String[]{Name}, null, null, null, null);
 		
@@ -263,7 +263,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 			return null;
 		}
 	}
-	public int[] ItinNameToIds(SQLiteDatabase db, String Name){
+	private int[] ItinNameToIds(SQLiteDatabase db, String Name){
 		Cursor cursor = db.query(TABLE_ITINS, new String[]{ITINS_KEY_ID},
 				ITINS_KEY_NAME + "=?", new String[]{Name}, null, null, null, null);
 		
@@ -280,7 +280,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 			return null;
 		}
 	}
-	public int[] ExpNameToIds(SQLiteDatabase db, String Name){
+	private int[] ExpNameToIds(SQLiteDatabase db, String Name){
 		Cursor cursor = db.query(TABLE_EXPS, new String[]{EXPS_KEY_ID},
 				EXPS_KEY_NAME + "=?", new String[]{Name}, null, null, null, null);
 		
@@ -297,7 +297,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 			return null;
 		}
 	}
-	public Cursor rawQuery(SQLiteDatabase db, String query, String[] selectionArgs){
+	private Cursor rawQuery(SQLiteDatabase db, String query, String[] selectionArgs){
 		return db.rawQuery(query, selectionArgs);
 	}
 	
@@ -360,7 +360,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		db.close();
 	}
 	
-	public void addExpForItin(int ItinId, int ExpId){
+	public long addExpForItin(int ItinId, int ExpId){
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(ITINS_EXPS_KEY_ITINID, ItinId);
@@ -376,8 +376,9 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		//Peng: pay attention to the column name change!
 		values.put(ITINS_EXPS_KEY_SORT, c.getInt(c.getColumnIndex("IFNULL(MAX("+ ITINS_EXPS_KEY_SORT +"),0)+1")));
 		
-		db.insertWithOnConflict(TABLE_ITINS_EXPS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		long retval = db.insertWithOnConflict(TABLE_ITINS_EXPS, null, values, SQLiteDatabase.CONFLICT_ABORT);
 		db.close();
+		return retval;
 	}
 	
 	public int addExpForItin(String itinName, String expName){
