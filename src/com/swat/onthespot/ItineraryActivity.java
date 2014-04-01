@@ -28,7 +28,7 @@ public class ItineraryActivity extends FragmentActivity {
 	private static final String TAG = "ItineraryActivity";
 	private static final String fragmentTAG = "DragSortFragment";
 	public static final String INTENT_EXTRA = "Extra";
-    
+  
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
