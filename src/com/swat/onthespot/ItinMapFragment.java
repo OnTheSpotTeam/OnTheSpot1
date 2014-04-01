@@ -424,88 +424,89 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 
 		return new LatLng(lat, lon);
 	} 
-	
+
 	public void promptSave()
 	{
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				ItinMapFragment.this);
- 
-			// set title
-			alertDialogBuilder.setTitle("Save");
- 
-			// set dialog message
-			alertDialogBuilder
-				.setMessage("Save This Map?(A snapshot of this current map will be taken for offline use)")
-				.setCancelable(false)
-				.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) {
-						saveMap();
-						
-					}
-				  })
-				.setNegativeButton("No",new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) {
-						// if this button is clicked, just close
-						// the dialog box and do nothing
-						dialog.cancel();
-						finish();
-					}
-				});
- 
-				// create alert dialog
-				AlertDialog alertDialog = alertDialogBuilder.create();
- 
-				// show it
-				alertDialog.show();
-		}
-	
+
+		// set title
+		alertDialogBuilder.setTitle("Save");
+
+		// set dialog message
+		alertDialogBuilder
+		.setMessage("Save This Map?(A snapshot of this current map will be taken for offline use)")
+		.setCancelable(false)
+		.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				saveMap();
+
+			}
+		})
+		.setNegativeButton("No",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				// if this button is clicked, just close
+				// the dialog box and do nothing
+				dialog.cancel();
+				finish();
+			}
+		});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
+	}
+
 
 	public void saveMap()
 	{
-		 SnapshotReadyCallback callback = new SnapshotReadyCallback() {
-       Bitmap bitmap;
+		SnapshotReadyCallback callback = new SnapshotReadyCallback() {
+			Bitmap bitmap;
 
-       @Override
-       public void onSnapshotReady(Bitmap snapshot) {
-           // TODO Auto-generated method stub
-           bitmap = snapshot;
-           try {
-          	 			String FILE_NAME = getIntent().getStringExtra("INTENT_EXTRA");
-                  FileOutputStream out = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-                  bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-                  out.flush();
-                  out.close();
-           } catch (Exception e) {
-                  e.printStackTrace();
-           }
-       }
-		 };
+			@Override
+			public void onSnapshotReady(Bitmap snapshot) {
+				// TODO Auto-generated method stub
+				bitmap = snapshot;
+				try {
+					String FILE_NAME = getIntent().getStringExtra("INTENT_EXTRA");
+					FileOutputStream out = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+					bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+					out.flush();
+					out.close();
+					finish();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
 
-		 map.snapshot(callback);
+		map.snapshot(callback);
 	}
-	
+
 	public void loadSavedMap()
 	{
 		String FILE_NAME = getIntent().getStringExtra("INTENT_EXTRA");
 		try
-    {
-	    FileInputStream in = openFileInput(FILE_NAME);
-	    Bitmap map = BitmapFactory.decodeStream(in);
-	    ImageView imgV = (ImageView)findViewById(R.id.staticMap);
-	    imgV.setImageBitmap(map);
-	    imgV.bringToFront();
-    } catch (FileNotFoundException e)
-    {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	    return;
-    }
+		{
+			FileInputStream in = new FileInputStream(FILE_NAME);
+			Bitmap map = BitmapFactory.decodeStream(in);
+			ImageView imgV = (ImageView)findViewById(R.id.staticMap);
+			imgV.setImageBitmap(map);
+			imgV.bringToFront();
+		} catch (FileNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 	}
-	
+
 	public boolean hasNetworkConnection()
 	{
-		 ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		 NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-		 return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 }
