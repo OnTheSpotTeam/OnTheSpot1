@@ -308,6 +308,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra(INTENT_EXTRA, RESULT_JOURNAL);
 		setResult(RESULT_OK,returnIntent);     
+		promptSave();
 		finish();
 	}
 
@@ -316,6 +317,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra(INTENT_EXTRA, RESULT_MAIN);
 		setResult(RESULT_OK,returnIntent);     
+		promptSave();
 		finish();
 	}
 
