@@ -2,7 +2,10 @@ package com.swat.onthespot;
 
 import java.util.ArrayList;
 
+import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,12 +13,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.swat.onthespot.support.ItinDragDropList;
@@ -29,6 +34,9 @@ public class ItineraryActivity extends FragmentActivity {
 	private static final String fragmentTAG = "DragSortFragment";
 	public static final String INTENT_EXTRA = "Extra";
   
+    private SearchView mSearchView = null;
+    private MenuItem mSearchItem = null;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -84,6 +92,21 @@ public class ItineraryActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.itinerary, menu);
+		//Setting up search configuration
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+	   	mSearchItem = menu.findItem(R.id.menu_action_search);
+		mSearchView = (SearchView)mSearchItem.getActionView();
+		SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
+		mSearchView.setSearchableInfo(info);
+
+		// Change the maximum width of the searchView. Original one is not wide enough
+		// setMaxWidth() function takes pixel value. Need to convert from 
+		// resolution-independent unit dp;
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+		float dp = 1000f; // 6 inches in a 160 dpi screen is probably enough.
+		int pixels = (int) (metrics.density * dp + 0.5f);
+		mSearchView.setMaxWidth(pixels);
+		
 		return true;
 	}
 

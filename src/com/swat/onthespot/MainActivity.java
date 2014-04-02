@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
@@ -42,14 +43,18 @@ public class MainActivity extends FragmentActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private String[] mPageNames;
-    View mProfileView = null;
-    View mNearMeView = null;
-    View mNewsFeedView = null;
+    private View mProfileView = null;
+    private View mNearMeView = null;
+    private View mNewsFeedView = null;
     
     // For Tabs in Profile Page
     private ProfileTabsAdapter mProfileAdapter;
     private ViewPager mProfileViewPager;
     private TabPageIndicator mProfileIndicator;
+    
+    // Used to collapse SearchView when drawer opens.
+    private SearchView mSearchView = null;
+    private MenuItem mSearchItem = null;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +78,6 @@ public class MainActivity extends FragmentActivity {
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -91,6 +95,14 @@ public class MainActivity extends FragmentActivity {
             public void onDrawerOpened(View drawerView){
                 getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                
+                // If SearchView has focus, collapse it.
+                if(mSearchView != null){
+                	if(mSearchView.hasFocus()){
+                		MenuItemCompat.collapseActionView(mSearchItem);
+                	}
+                }
+
             }
         };
         
@@ -117,9 +129,10 @@ public class MainActivity extends FragmentActivity {
 		
 		//Setting up search configuration
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+	   	mSearchItem = menu.findItem(R.id.menu_action_search);
+		mSearchView = (SearchView)mSearchItem.getActionView();
 		SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
-		searchView.setSearchableInfo(info);
+		mSearchView.setSearchableInfo(info);
 
 		// Change the maximum width of the searchView. Original one is not wide enough
 		// setMaxWidth() function takes pixel value. Need to convert from 
@@ -127,14 +140,14 @@ public class MainActivity extends FragmentActivity {
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
 		float dp = 1000f; // 6 inches in a 160 dpi screen is probably enough.
 		int pixels = (int) (metrics.density * dp + 0.5f);
-		searchView.setMaxWidth(pixels);
+		mSearchView.setMaxWidth(pixels);
 		
 		// Display the submit button while searching.
 		// searchView.setSubmitButtonEnabled(true);
 
 		
-        int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
-        View searchPlate = searchView.findViewById(searchPlateId);
+        int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
+        View searchPlate = mSearchView.findViewById(searchPlateId);
         if (searchPlate!=null) {
             searchPlate.setBackgroundColor(Color.DKGRAY);
             int searchTextId = searchPlate.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);

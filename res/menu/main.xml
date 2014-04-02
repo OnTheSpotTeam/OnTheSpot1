@@ -8,7 +8,7 @@
         android:title="@string/action_settings"/>
     
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/menu_action_search"
         android:title="@string/menu_action_search"
         android:icon="@drawable/ic_search"
         android:showAsAction="collapseActionView|ifRoom"

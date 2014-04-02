@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
 import android.text.BoringLayout.Metrics;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -48,6 +49,11 @@ public class SearchActivity extends Activity
 	private final int METHOD_RETRIEVE = 1;
 	private String mQuery;
 			
+	
+    // Used to collapse SearchView when user enters a new search query.
+    private SearchView mSearchView = null;
+    private MenuItem mSearchItem = null;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d("TAG", "Started Search Activity");
@@ -83,8 +89,13 @@ public class SearchActivity extends Activity
      * launch, and this method will be called.
      */
     protected void onNewIntent(Intent intent) {
+        // If SearchView has focus, collapse it.
+        if(mSearchView != null){
+        	if(mSearchView.hasFocus()){
+        		MenuItemCompat.collapseActionView(mSearchItem);
+        	}
+        }
         handleIntent(intent);
-        
         // Restart the loader to get content for the new query.
         getLoaderManager().restartLoader(SEARCH_LOADER, null, this);
     }
@@ -118,10 +129,10 @@ public class SearchActivity extends Activity
 		
 		//Setting up search configuration
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-		
+	   	mSearchItem = menu.findItem(R.id.menu_action_search);
+		mSearchView = (SearchView)mSearchItem.getActionView();
 		SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
-		searchView.setSearchableInfo(info);
+		mSearchView.setSearchableInfo(info);
 
 		// Change the maximum width of the searchView. Original one is not wide enough
 		// setMaxWidth() function takes pixel value. Need to convert from 
@@ -129,7 +140,7 @@ public class SearchActivity extends Activity
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
 		float dp = 1000f; // 6 inches in a 160 dpi screen is probably enough.
 		int pixels = (int) (metrics.density * dp + 0.5f);
-		searchView.setMaxWidth(pixels);
+		mSearchView.setMaxWidth(pixels);
 		
 		return true;
 	}
@@ -145,7 +156,8 @@ public class SearchActivity extends Activity
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
-			NavUtils.navigateUpFromSameTask(this);
+			//NavUtils.navigateUpFromSameTask(this);
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
