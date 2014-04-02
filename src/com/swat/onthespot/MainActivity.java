@@ -281,7 +281,7 @@ public class MainActivity extends FragmentActivity {
     private void fillFriendsPage(LayoutInflater inflater, ViewGroup contentFrame){
     	if (mFriendsView == null){
     		mFriendsView = inflater.inflate(R.layout.drawer_friends, null);
-    		TextView text = (TextView)mNearMeView.findViewById(R.id.friends_text);
+    		TextView text = (TextView)mFriendsView.findViewById(R.id.friends_text);
     		text.setText("This is the friends page");
     	}
     	contentFrame.addView(mFriendsView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	
