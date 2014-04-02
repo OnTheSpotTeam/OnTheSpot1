@@ -106,21 +106,31 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	private boolean doneRouting;
 	private OTSDatabase mDatabase;
 	private ArrayList<String>[] directions;
+	private boolean hasN;
 	/*TODO: Make LatLng Queries AsyncTasks*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_itin_map_fragment);
-		boolean hasN = hasNetworkConnection();
+		hasN = hasNetworkConnection();
+		View contentView;
 		if(!hasN)
+		{
+			contentView = findViewById(R.id.staticMap);
 			loadSavedMap();
+		}
+		else
+		{
+			contentView = findViewById(R.id.map);
+		}
+		
 		setTitle("Map View");
 		SupportMapFragment fm = (SupportMapFragment)  getSupportFragmentManager().findFragmentById(R.id.map);
 		gc = new Geocoder(ItinMapFragment.this, Locale.getDefault());
 		map = fm.getMap();
 		final View controlsView = findViewById(R.id.fullscreen_content_controls);
-		final View contentView = findViewById(R.id.map);
+		
 
 		// Get instance of OTS database.
 		mDatabase = OTSDatabase.getInstance(this);
@@ -310,7 +320,9 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra(INTENT_EXTRA, RESULT_JOURNAL);
 		setResult(RESULT_OK,returnIntent);     
-		promptSave();
+		if(hasN)
+			promptSave();
+		
 	}
 
 	public void exitToMain(View v)
@@ -318,7 +330,8 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra(INTENT_EXTRA, RESULT_MAIN);
 		setResult(RESULT_OK,returnIntent);     
-		promptSave();
+		if(hasN)
+			promptSave();
 	}
 
 	@Override 
@@ -478,7 +491,6 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 					bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
 					out.flush();
 					out.close();
-					finish();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -493,18 +505,13 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		String FILE_NAME = getIntent().getStringExtra("Extra").replace(" ", "");
 		try
 		{
+			View mapV = findViewById(R.id.map);
+			mapV.setVisibility(View.GONE);
 			FileInputStream in = openFileInput(FILE_NAME + ".png");
 			Log.i("FILENAME", FILE_NAME);
 			Bitmap map = BitmapFactory.decodeStream(in);
 			ImageView imgV = (ImageView)findViewById(R.id.staticMap);
-			Button itinB = (Button)findViewById(R.id.itinButton);
-			Button journalB = (Button)findViewById(R.id.journalButton);
-			LinearLayout linearLayout = (LinearLayout) findViewById(R.id.fullscreen_content_controls);
 			imgV.setImageBitmap(map);			
-			imgV.bringToFront();
-			linearLayout.bringToFront();
-			itinB.bringToFront();
-			journalB.bringToFront();
 
 			
 		} catch (FileNotFoundException e)
