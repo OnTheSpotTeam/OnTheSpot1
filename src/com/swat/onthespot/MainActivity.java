@@ -46,6 +46,7 @@ public class MainActivity extends FragmentActivity {
     private View mProfileView = null;
     private View mNearMeView = null;
     private View mNewsFeedView = null;
+    private View mFriendsView = null;
     
     // For Tabs in Profile Page
     private ProfileTabsAdapter mProfileAdapter;
@@ -230,6 +231,8 @@ public class MainActivity extends FragmentActivity {
         case 2:
         	fillNewsFeedPage(inflater, contentFrame);
         	break;
+        case 3:
+        	fillFriendsPage(inflater, contentFrame);
         default:
         	Log.e(TAG, "Drawer selection out of range!");
         }
@@ -275,6 +278,14 @@ public class MainActivity extends FragmentActivity {
     	contentFrame.addView(mNewsFeedView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	
     }
     
+    private void fillFriendsPage(LayoutInflater inflater, ViewGroup contentFrame){
+    	if (mFriendsView == null){
+    		mFriendsView = inflater.inflate(R.layout.drawer_friends, null);
+    		TextView text = (TextView)mNearMeView.findViewById(R.id.friends_text);
+    		text.setText("This is the friends page");
+    	}
+    	contentFrame.addView(mFriendsView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	
+    }
 
 
     @Override

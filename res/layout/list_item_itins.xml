@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:layout_weight="1"
-            android:textSize="@dimen/itinlist_name_size" />
+            android:textSize="@dimen/itinlist_name_size"
+            android:typeface="serif" />
         
         <TextView
             android:id="@+id/itinlist_item_date"
@@ -26,7 +27,8 @@
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:layout_weight="0"
-            android:textSize="@dimen/itinlist_date_size" />
+            android:textSize="@dimen/itinlist_date_size"
+            android:typeface="sans" />
 
         <TextView
             android:id="@+id/itinlist_item_comment"
@@ -34,7 +36,8 @@
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:layout_weight="1"
-            android:textSize="@dimen/itinlist_comment_size" />
+            android:textSize="@dimen/itinlist_comment_size"
+            android:typeface="sans" />
 
     </LinearLayout>
 
