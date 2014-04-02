@@ -50,7 +50,7 @@
             android:weightSum="2">
 
             <Button
-              android:id="@+id/dummy_button"
+              android:id="@+id/journalButton"
               style="?metaButtonBarButtonStyle"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
               android:text="Journal View" />
             
             <Button
-              android:id="@+id/button1"
+              android:id="@+id/itinButton"
               style="?metaButtonBarButtonStyle"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"

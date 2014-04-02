@@ -40,6 +40,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.directions.route.Route;
@@ -470,11 +471,13 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 				// TODO Auto-generated method stub
 				bitmap = snapshot;
 				try {
-					String FILE_NAME = getIntent().getStringExtra("INTENT_EXTRA").replace(" ", "_");
-					FileOutputStream out = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+					String FILE_NAME = getIntent().getStringExtra("Extra").replace(" ", "");
+					Log.i("FILENAME", FILE_NAME);
+					FileOutputStream out = openFileOutput(FILE_NAME +".png", Context.MODE_PRIVATE);
 					bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
 					out.flush();
 					out.close();
+					finish();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -486,14 +489,20 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 
 	public void loadSavedMap()
 	{
-		String FILE_NAME = getIntent().getStringExtra("INTENT_EXTRA").replace(" ", "_");
+		String FILE_NAME = getIntent().getStringExtra("Extra").replace(" ", "");
 		try
 		{
-			FileInputStream in = new FileInputStream(FILE_NAME);
+			FileInputStream in = openFileInput(FILE_NAME + ".png");
+			Log.i("FILENAME", FILE_NAME);
 			Bitmap map = BitmapFactory.decodeStream(in);
 			ImageView imgV = (ImageView)findViewById(R.id.staticMap);
+			Button itinB = (Button)findViewById(R.id.itinButton);
+			Button journalB = (Button)findViewById(R.id.journalButton);
 			imgV.setImageBitmap(map);
 			imgV.bringToFront();
+			itinB.bringToFront();
+			journalB.bringToFront();
+			
 		} catch (FileNotFoundException e)
 		{
 			// TODO Auto-generated catch block
