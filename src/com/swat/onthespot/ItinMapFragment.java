@@ -106,13 +106,14 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	private boolean doneRouting;
 	private OTSDatabase mDatabase;
 	private ArrayList<String>[] directions;
+	private boolean hasN;
 	/*TODO: Make LatLng Queries AsyncTasks*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_itin_map_fragment);
-		boolean hasN = hasNetworkConnection();
+		hasN = hasNetworkConnection();
 		View contentView;
 		if(!hasN)
 		{
@@ -319,7 +320,9 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra(INTENT_EXTRA, RESULT_JOURNAL);
 		setResult(RESULT_OK,returnIntent);     
-		promptSave();
+		if(hasN)
+			promptSave();
+		
 	}
 
 	public void exitToMain(View v)
@@ -327,7 +330,8 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra(INTENT_EXTRA, RESULT_MAIN);
 		setResult(RESULT_OK,returnIntent);     
-		promptSave();
+		if(hasN)
+			promptSave();
 	}
 
 	@Override 
