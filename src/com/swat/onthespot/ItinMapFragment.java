@@ -440,7 +440,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) {
 				saveMap();
-
+				finish();
 			}
 		})
 		.setNegativeButton("No",new DialogInterface.OnClickListener() {
@@ -470,12 +470,11 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 				// TODO Auto-generated method stub
 				bitmap = snapshot;
 				try {
-					String FILE_NAME = getIntent().getStringExtra("INTENT_EXTRA");
+					String FILE_NAME = getIntent().getStringExtra("INTENT_EXTRA").replace(" ", "_");
 					FileOutputStream out = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
 					bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
 					out.flush();
 					out.close();
-					finish();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -487,7 +486,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 
 	public void loadSavedMap()
 	{
-		String FILE_NAME = getIntent().getStringExtra("INTENT_EXTRA");
+		String FILE_NAME = getIntent().getStringExtra("INTENT_EXTRA").replace(" ", "_");
 		try
 		{
 			FileInputStream in = new FileInputStream(FILE_NAME);
