@@ -32,7 +32,7 @@ public class ItinDragDropList extends ListFragment {
 	
     // Configurations.
     private int dragStartMode = DragSortController.ON_DOWN;
-    private boolean removeEnabled = false;
+    private boolean removeEnabled = true;
     private int removeMode = DragSortController.FLING_REMOVE;
     private boolean sortEnabled = true;
     private boolean dragEnabled = true;
