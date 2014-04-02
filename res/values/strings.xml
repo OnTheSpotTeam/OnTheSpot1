@@ -8,6 +8,7 @@
         <item>Profile</item>
         <item>Near Me</item>
         <item>News Feed</item>
+        <item>Friends</item>
     </string-array>
     <string-array name="profile_tab_titles">
         <item>Itins</item>

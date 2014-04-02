@@ -12,7 +12,7 @@ public class ProfileFragmentFavorites extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
  
-        View rootView = inflater.inflate(R.layout.profile_tab_fovorites, container, false);
+        View rootView = inflater.inflate(R.layout.profile_tab_favorites, container, false);
         TextView text = (TextView) rootView.findViewById(R.id.profile_tab_favorites_text);
         text.setText("This is the favorites tab");
         
