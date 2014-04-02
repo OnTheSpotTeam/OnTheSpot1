@@ -42,6 +42,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.directions.route.Route;
 import com.directions.route.Routing;
@@ -192,7 +193,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		// Upon interacting with UI controls, delay any scheduled hide()
 		// operations to prevent the jarring behavior of controls going away
 		// while interacting with the UI.
-		findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+		findViewById(R.id.journalButton).setOnTouchListener(mDelayHideTouchListener);
 		Log.i("GETLL", "INIT");
 		if(hasN)
 		{
@@ -498,10 +499,13 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 			ImageView imgV = (ImageView)findViewById(R.id.staticMap);
 			Button itinB = (Button)findViewById(R.id.itinButton);
 			Button journalB = (Button)findViewById(R.id.journalButton);
-			imgV.setImageBitmap(map);
+			LinearLayout linearLayout = (LinearLayout) findViewById(R.id.fullscreen_content_controls);
+			imgV.setImageBitmap(map);			
 			imgV.bringToFront();
+			linearLayout.bringToFront();
 			itinB.bringToFront();
 			journalB.bringToFront();
+
 			
 		} catch (FileNotFoundException e)
 		{
