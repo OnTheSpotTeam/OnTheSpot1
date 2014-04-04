@@ -274,7 +274,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		addresses = new ArrayList<String>();
 		String itinName = getIntent().getStringExtra(ItineraryActivity.INTENT_EXTRA);
 
-		// Get sorted addreses in this itinerary.
+		// Get sorted addresses in this itinerary.
 		String selection = OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_ADDR + " , " +
 				OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_SORT;
 
@@ -310,7 +310,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 			String endAdd = addresses.get(i + 1);
 			start = getLatLngFromLoc(startAdd);
 			end = getLatLngFromLoc(endAdd);
-			Routing routing = new Routing(Routing.TravelMode.DRIVING, i + 1);
+			Routing routing = new Routing(Routing.TravelMode.WALKING, i + 1);
 			routing.registerListener(this);
 			routing.execute(start, end);
 		}
