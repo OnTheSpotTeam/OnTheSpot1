@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -108,6 +109,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	private OTSDatabase mDatabase;
 	private ArrayList<String>[] directions;
 	private boolean hasN;
+	public Activity activity;
 	/*TODO: Make LatLng Queries AsyncTasks*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -213,6 +215,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 			StrictMode.setThreadPolicy(tp);
 			updateMap();
 		}
+		activity = this;
 	}
 
 	@Override
@@ -482,7 +485,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	public void saveMap()
 	{
 		String FILE_NAME = getIntent().getStringExtra("Extra").replace(" ", "");
-		SaveMapTask smt = new SaveMapTask(FILE_NAME, map, getApplicationContext());
+		SaveMapTask smt = new SaveMapTask(FILE_NAME, map, activity);
 		smt.execute("");
 		
 		/*SnapshotReadyCallback callback = new SnapshotReadyCallback() {

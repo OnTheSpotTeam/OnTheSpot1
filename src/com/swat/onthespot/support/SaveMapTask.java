@@ -24,11 +24,11 @@ public class SaveMapTask extends AsyncTask<String, Void, Void> {
       this.context = context;
       this.FILE_NAME = FILE_NAME;
   }
-
+  
   @Override
   protected void onPreExecute() {
       super.onPreExecute();
-      ProgressDialog progressDialog = ProgressDialog.show(context, "Wait", "Saving...");
+      progressDialog = ProgressDialog.show(context, "Wait", "Saving...");
   }
 
   @Override
@@ -59,7 +59,8 @@ public class SaveMapTask extends AsyncTask<String, Void, Void> {
   /**
   * After completing background task Dismiss the progress dialog
   * **/
-  protected void onPostExecute(Bitmap bitmap) {
+  @Override
+  protected void onPostExecute(Void v) {
       progressDialog.dismiss();
       ((Activity)context).finish();
      
