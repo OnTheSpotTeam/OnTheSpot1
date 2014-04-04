@@ -57,6 +57,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.swat.onthespot.support.OTSDatabase;
+import com.swat.onthespot.support.SaveMapTask;
 import com.swat.onthespot.util.SystemUiHider;
 
 /**
@@ -204,6 +205,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		// operations to prevent the jarring behavior of controls going away
 		// while interacting with the UI.
 		findViewById(R.id.journalButton).setOnTouchListener(mDelayHideTouchListener);
+		findViewById(R.id.itinButton).setOnTouchListener(mDelayHideTouchListener);
 		Log.i("GETLL", "INIT");
 		if(hasN)
 		{
@@ -458,7 +460,6 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) {
 				saveMap();
-				finish();
 			}
 		})
 		.setNegativeButton("No",new DialogInterface.OnClickListener() {
@@ -480,7 +481,11 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 
 	public void saveMap()
 	{
-		SnapshotReadyCallback callback = new SnapshotReadyCallback() {
+		String FILE_NAME = getIntent().getStringExtra("Extra").replace(" ", "");
+		SaveMapTask smt = new SaveMapTask(FILE_NAME, map, getApplicationContext());
+		smt.execute("");
+		
+		/*SnapshotReadyCallback callback = new SnapshotReadyCallback() {
 			Bitmap bitmap;
 
 			@Override
@@ -500,7 +505,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 			}
 		};
 
-		map.snapshot(callback);
+		map.snapshot(callback);*/
 	}
 
 	public void loadSavedMap()
