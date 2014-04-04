@@ -322,7 +322,8 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		setResult(RESULT_OK,returnIntent);     
 		if(hasN)
 			promptSave();
-		
+		else
+			finish();
 	}
 
 	public void exitToMain(View v)
@@ -332,6 +333,8 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		setResult(RESULT_OK,returnIntent);     
 		if(hasN)
 			promptSave();
+		else
+			finish();
 	}
 
 	@Override 
