@@ -46,37 +46,33 @@ public class ProfileFragmentItins extends Fragment {
 				OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_IMAGE + " , " +
 				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION;
 		
-		/*
-		String selection = OTSDatabase.ITINS_KEY_ID + " AS " + BaseColumns._ID + " , " +
-						   OTSDatabase.ITINS_KEY_NAME + " , " +
-						   OTSDatabase.ITINS_KEY_DATE + " , " +
-						   OTSDatabase.ITINS_KEY_RATE + " , " + 
-						   OTSDatabase.ITINS_KEY_COMMENT + " , " +
-						   OTSDatabase.ITINS_KEY_IMAGE; 	
-		*/
 		
-		String itinQuery = "SELECT " + selection + " FROM " + 
+		String curItinQuery = "SELECT " + selection + " FROM " + 
 				OTSDatabase.TABLE_ITINS + ", " + OTSDatabase.TABLE_USERS_ITINS + " " +
 				"WHERE " + OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_ID + "=" + 
 				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_ITINID + " AND " +
 				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_USRID + "=" + 
-				mDatabase.UserNameToIds(userName)[0] + " ORDER BY " + 
-				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION + " ASC";
+				mDatabase.UserNameToIds(userName)[0] + " AND " +
+				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION + "=" +
+				OTSDatabase.SECTION_CURRENT;
 		
-		/*
-		String itinQuery = 	"SELECT " + selection + " FROM " + OTSDatabase.TABLE_ITINS + " " +
-				"WHERE " + OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_ID + " IN " + 
-				"(SELECT " + OTSDatabase.USERS_ITINS_KEY_ITINID + " FROM " + OTSDatabase.TABLE_USERS_ITINS + " " +
-				"WHERE " + OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_USRID + " = " +
-				mDatabase.UserNameToIds(userName)[0] + ")";
-		*/
+		String pastItinQuery = "SELECT " + selection + " FROM " + 
+				OTSDatabase.TABLE_ITINS + ", " + OTSDatabase.TABLE_USERS_ITINS + " " +
+				"WHERE " + OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_ID + "=" + 
+				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_ITINID + " AND " +
+				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_USRID + "=" + 
+				mDatabase.UserNameToIds(userName)[0] + " AND " +
+				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION + "=" +
+				OTSDatabase.SECTION_PAST;
 		
-		Cursor itinsCursor = mDatabase.rawQuery(itinQuery, null);
-		storeItinNames(itinsCursor);
-		ItinListAdapter itinsAdapter = new ItinListAdapter(getActivity(), itinsCursor);
+		Cursor curItinsCursor = mDatabase.rawQuery(curItinQuery, null);
+		Cursor pastItinsCursor = mDatabase.rawQuery(pastItinQuery, null);
+		
+		storeItinNames(pastItinsCursor);
+		ItinListAdapter itinsAdapter = new ItinListAdapter(getActivity(), pastItinsCursor);
 		
 		// Get and populate the listview
-		ListView list = (ListView)rootView.findViewById(R.id.profile_itins_itinList);
+		ListView list = (ListView)rootView.findViewById(R.id.profile_itins_pastItinList);
 		list.setAdapter(itinsAdapter);
 
 	    list.setClickable(true);

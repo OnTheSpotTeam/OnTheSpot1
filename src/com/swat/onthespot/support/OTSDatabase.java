@@ -68,9 +68,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
  
     // Section Codes
     public static final int SECTION_CURRENT = 1;
-    public static final int SECTION_CURRENT_CONTENT = 2;
-    public static final int SECTION_PAST = 3;
-    public static final int SECTION_PAST_CONTENT = 4;
+    public static final int SECTION_PAST = 2;
     
     // Private factory instance.
     private static OTSDatabase sInstance = null;
@@ -169,12 +167,10 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		addItinerary(db, "A Week in Madrid", "5th Jan 2014", 5, 
 				"Spain is just drop-dead gorgeous, and ...", "a_week_in_madrid");
 		
-		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Current Itinerary", SECTION_CURRENT);
-		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Past Itinerary", SECTION_PAST);
-		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Houston Roadtrip", SECTION_PAST_CONTENT);
-		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Exploring Philly 8th St", SECTION_CURRENT_CONTENT);
-		sInstance.addItinForUser(db, MainActivity.USER_NAME, "New York or Bust!", SECTION_PAST_CONTENT);
-		sInstance.addItinForUser(db, MainActivity.USER_NAME, "A Week in Madrid", SECTION_PAST_CONTENT);
+		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Houston Roadtrip", SECTION_PAST);
+		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Exploring Philly 8th St", SECTION_CURRENT);
+		sInstance.addItinForUser(db, MainActivity.USER_NAME, "New York or Bust!", SECTION_PAST);
+		sInstance.addItinForUser(db, MainActivity.USER_NAME, "A Week in Madrid", SECTION_PAST);
 		
 		sInstance.addExperience(db, "King of Prussia mall", "160 N Gulph Rd, King of Prussia, PA 19406", 
 				"Cologne Sampling", 4.5, "Lots of great fragrances with decent ...", "king_of_prussia");
