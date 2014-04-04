@@ -464,13 +464,14 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) {
 				saveMap();
+				dialog.dismiss();
 			}
 		})
 		.setNegativeButton("No",new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) {
 				// if this button is clicked, just close
 				// the dialog box and do nothing
-				dialog.cancel();
+				dialog.dismiss();
 				finish();
 			}
 		});
@@ -486,9 +487,9 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	public void saveMap()
 	{
 		String FILE_NAME = getIntent().getStringExtra("Extra").replace(" ", "");
-		ProgressDialog dialog = ProgressDialog.show(activity, "Save", "Please Wait...");
-		SaveMapTask smt = new SaveMapTask(FILE_NAME, map, dialog, activity);
-		smt.execute("");
+		ProgressDialog dialog = ProgressDialog.show(ItinMapFragment.this, "Save", "Please Wait...");
+		SaveMapTask smt = new SaveMapTask(FILE_NAME, map, dialog, ItinMapFragment.this);
+		smt.execute();
 		
 		/*SnapshotReadyCallback callback = new SnapshotReadyCallback() {
 			Bitmap bitmap;
