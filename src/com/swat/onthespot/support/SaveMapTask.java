@@ -16,10 +16,10 @@ import android.util.Log;
 public class SaveMapTask extends AsyncTask<Void, Void, Void> {
  
   private GoogleMap map;
-  private Context context;
+  private Activity context;
 	private String FILE_NAME;
 	private ProgressDialog progressDialog;
-  public SaveMapTask(String FILE_NAME, GoogleMap map, ProgressDialog dialog, Context context) {
+  public SaveMapTask(String FILE_NAME, GoogleMap map, ProgressDialog dialog, Activity context) {
       this.map = map;
       this.context = context;
       this.FILE_NAME = FILE_NAME;
