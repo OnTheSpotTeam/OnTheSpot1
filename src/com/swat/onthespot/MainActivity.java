@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
@@ -29,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.swat.onthespot.support.ProfileTabsAdapter;
 import com.viewpagerindicator.TabPageIndicator;
@@ -59,15 +61,19 @@ public class MainActivity extends FragmentActivity {
     private SearchView mSearchView = null;
     private MenuItem mSearchItem = null;
     
+    // Intent extra key
+    public static final String INTENT_EXTRA = "Extra Message";
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
 		
 		// Set the action bar color.
-		ActionBar bar = getActionBar();
+		//ActionBar bar = getActionBar();
 		//bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#62a5d4")));
+		
+		setContentView(R.layout.activity_main);
 		
 		// Record the initial title (app name)
 	    mTitle = mDrawerTitle = getTitle();
@@ -156,12 +162,12 @@ public class MainActivity extends FragmentActivity {
         int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
         View searchPlate = mSearchView.findViewById(searchPlateId);
         if (searchPlate!=null) {
-            searchPlate.setBackgroundColor(Color.DKGRAY);
+            searchPlate.setBackgroundColor(0x88ffffff);
             int searchTextId = searchPlate.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
             TextView searchText = (TextView) searchPlate.findViewById(searchTextId);
             if (searchText!=null) {
-	            searchText.setTextColor(Color.WHITE);
-	            searchText.setHintTextColor(Color.WHITE);
+	            searchText.setTextColor(0x66000000);
+	            searchText.setHintTextColor(0x66000000);
             }
         }
 		return true;
@@ -278,7 +284,15 @@ public class MainActivity extends FragmentActivity {
     private void fillNewsFeedPage(LayoutInflater inflater, ViewGroup contentFrame){
     	if (mNewsFeedView == null){
     		mNewsFeedView = inflater.inflate(R.layout.drawer_news_feed, null);
-    		//TextView text = (TextView)mNewsFeedView.findViewById(R.id.news_feed_text);
+    		View dummy = mNewsFeedView.findViewById(R.id.newsfeedlist_dummyitem);
+    		dummy.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(MainActivity.this, DummyItineraryActivity.class);
+					intent.putExtra(INTENT_EXTRA, "Exploring Philly 8th St");
+					startActivity(intent);
+				}
+			});
     		//text.setText("This is the news feed page");
     	}
     	contentFrame.addView(mNewsFeedView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	

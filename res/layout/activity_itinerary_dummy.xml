@@ -18,7 +18,7 @@
             android:layout_weight="1"
             android:background="@drawable/background_itinactivity_tab"
             android:gravity="center"
-            android:text="Share This"
+            android:text="Save to My Itin"
             android:textSize="@dimen/explist_tab_textsize"
             android:typeface="monospace" />
 
@@ -29,7 +29,7 @@
             android:layout_weight="1"
             android:background="@drawable/background_itinactivity_tab"
             android:gravity="center"
-            android:text="Map View"
+            android:text="Like This"
             android:textSize="@dimen/explist_tab_textsize"
             android:typeface="monospace" />
     </LinearLayout>
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:text="Patrick Han"
+                android:text="Dakota Pekerti"
                 android:textSize="@dimen/explist_personnamesize" />
 
             <TextView

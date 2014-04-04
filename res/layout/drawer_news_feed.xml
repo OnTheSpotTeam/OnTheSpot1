@@ -1,16 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#44bbbbbb" >
+    android:background="@color/activity_background_grey" >
 
     <LinearLayout
-        android:id="@+id/newsfeedlist_temporaryitem"
+        android:id="@+id/newsfeedlist_dummyitem"
         android:layout_width="match_parent"
         android:layout_height="@dimen/newsfeedlist_item_totalheight"
         android:layout_marginLeft="@dimen/newsfeedlist_item_allmarginleft"
         android:layout_marginRight="@dimen/newsfeedlist_item_allmarginright"
         android:layout_marginTop="@dimen/newsfeedlist_item_allmargintop"
-        android:background="@drawable/listitem_background_selector"
+        android:background="@drawable/background_itinlist_item"
         android:orientation="vertical"
         android:paddingBottom="@dimen/newsfeedlist_item_allpadbottom"
         android:paddingLeft="@dimen/newsfeedlist_item_allpadleft"

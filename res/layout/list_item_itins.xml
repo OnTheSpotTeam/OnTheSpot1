@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/itinlist_totalheight"
-    android:background="@drawable/listitem_background_selector"
+    android:background="@drawable/background_itinlist_item"
     android:paddingBottom="@dimen/itinlist_allpadbottom"
     android:paddingTop="@dimen/itinlist_allpadtop" >
 

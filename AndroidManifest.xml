@@ -105,6 +105,19 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+        
+        <activity
+            android:name="com.swat.onthespot.DummyItineraryActivity"
+            android:label="@string/title_activity_itinerary"
+            android:parentActivityName="com.swat.onthespot.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.swat.onthespot.MainActivity" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        
     </application>
 
 </manifest>

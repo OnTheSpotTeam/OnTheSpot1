@@ -2,35 +2,27 @@ package com.swat.onthespot;
 
 import java.util.ArrayList;
 
-import android.app.ActionBar;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.swat.onthespot.support.ItinDragDropList;
 import com.swat.onthespot.support.OTSDatabase;
 
-public class ItineraryActivity extends FragmentActivity {
+public class DummyItineraryActivity extends FragmentActivity {
 	ArrayList<String> addresses;
 	private OTSDatabase mDatabase;
 	
@@ -49,7 +41,7 @@ public class ItineraryActivity extends FragmentActivity {
 		//ActionBar bar = getActionBar();
 		//bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#62a5d4")));
 		
-		setContentView(R.layout.activity_itinerary);
+		setContentView(R.layout.activity_itinerary_dummy);
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
@@ -58,7 +50,7 @@ public class ItineraryActivity extends FragmentActivity {
 		mDatabase = OTSDatabase.getInstance(this);
 		
 		// Display the itinerary name
-		final String itinName = getIntent().getStringExtra(ProfileFragmentItins.INTENT_EXTRA);
+		final String itinName = getIntent().getStringExtra(MainActivity.INTENT_EXTRA);
 		((TextView) findViewById(R.id.explist_itinName)).setText(itinName);
 		
 		// Set the "map view" button
@@ -66,7 +58,7 @@ public class ItineraryActivity extends FragmentActivity {
 		mapViewBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(ItineraryActivity.this, ItinMapFragment.class);
+				Intent intent = new Intent(DummyItineraryActivity.this, ItinMapFragment.class);
 				intent.putExtra(INTENT_EXTRA, itinName);
 				startActivityForResult(intent, 1);
 			}
@@ -184,5 +176,4 @@ public class ItineraryActivity extends FragmentActivity {
 				getSupportFragmentManager().findFragmentByTag(fragmentTAG);
 		list.updateList();
 	}
-	
 }

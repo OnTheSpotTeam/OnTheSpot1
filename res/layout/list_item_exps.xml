@@ -1,70 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/explist_totalheight"
-    android:paddingBottom="@dimen/explist_allpadbottom"
-    android:paddingTop="@dimen/explist_allpadtop">
+    android:layout_height="@dimen/explist_item_totalheight"
+    android:background="@drawable/background_itinlist_item"
+    android:paddingBottom="@dimen/explist_item_allpadbottom"
+    android:paddingTop="@dimen/explist_item_allpadtop" >
 
     <ImageView
         android:id="@+id/explist_item_image"
-        android:layout_width="@dimen/explist_imagewidth"
-        android:layout_height="@dimen/explist_imageheight"
+        android:layout_width="@dimen/explist_item_imagewidth"
+        android:layout_height="@dimen/explist_item_imageheight"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
-        android:paddingLeft="@dimen/explist_imagepadleft"
-        android:paddingRight="@dimen/explist_imagepadright"
+        android:paddingLeft="@dimen/explist_item_imagepadleft"
+        android:paddingRight="@dimen/explist_item_imagepadright"
         android:src="@drawable/one_liberty_place" />
-        
+
     <LinearLayout
-        android:layout_width="@dimen/explist_textwidth"
-        android:layout_height="@dimen/explist_textheight"
+        android:layout_width="@dimen/explist_item_textwidth"
+        android:layout_height="@dimen/explist_item_textheight"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/explist_item_image"
-        android:paddingLeft="@dimen/explist_textpadleft"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/explist_item_textpadleft" >
 
         <TextView
             android:id="@+id/explist_item_action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
             android:layout_weight="1"
+            android:gravity="left|center_vertical"
             android:text="Watching the sunset at"
-            android:textSize="@dimen/explist_action_size" />
-           
-        <TextView android:id="@+id/explist_item_name"
+            android:textSize="@dimen/explist_item_actionsize" />
+
+        <TextView
+            android:id="@+id/explist_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
             android:layout_weight="2"
+            android:gravity="left|center_vertical"
             android:text="One Liberty Place"
-            android:textSize="@dimen/explist_name_size" />
-        
+            android:textSize="@dimen/explist_item_namesize" />
+
         <TextView
             android:id="@+id/explist_item_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
             android:layout_weight="1"
+            android:gravity="left|center_vertical"
             android:text="This is absolutely stunning!"
-            android:textSize="@dimen/explist_comment_size" />
-
+            android:textSize="@dimen/explist_item_commentsize" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/explist_item_dragimage"
-        android:src="@drawable/ic_dragsort"
-        android:layout_width="@dimen/explist_dragimagewidth"
-        android:layout_height="@dimen/explist_dragimageheight"
-        android:layout_marginLeft="@dimen/explist_dragimagepad"
-        android:layout_marginRight="@dimen/explist_dragimagepad"
-        android:layout_marginTop="@dimen/explist_dragimagepad"
-        android:layout_marginBottom="@dimen/explist_dragimagepad"
+        android:layout_width="@dimen/explist_item_dragimagewidth"
+        android:layout_height="@dimen/explist_item_dragimageheight"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true" />
-
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/explist_item_dragimagepad"
+        android:layout_marginLeft="@dimen/explist_item_dragimagepad"
+        android:layout_marginRight="@dimen/explist_item_dragimagepad"
+        android:layout_marginTop="@dimen/explist_item_dragimagepad"
+        android:src="@drawable/ic_dragsort" />
 
 </RelativeLayout>
-
-
