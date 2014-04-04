@@ -33,18 +33,34 @@
 
 	</RelativeLayout>
 	
-    <LinearLayout 
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content" >
 	    
 	    <ImageView
-	        android:id="@+id/imageView1"
+	        android:id="@+id/newsfeedlist_userimage"
 	        android:layout_width="@dimen/newsfeedlist_item_imagesize"
 	        android:layout_height="@dimen/newsfeedlist_item_imagesize"
-	        android:layout_alignParentLeft="true"
 	        android:src="@drawable/face_dakota" />
 	    
-	</LinearLayout>
+	    <LinearLayout 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:layout_marginLeft="130dp" >
+	        
+	        	
+		    <TextView
+		        android:id="@+id/newsfeedlist_itinname"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Exploring Philly 8th St"
+		        android:textColor="#ff000000"
+		        android:textSize="@dimen/newsfeedlist_item_itinnamesize" />
+	    
+	        
+	    </LinearLayout>
+        
+	</RelativeLayout>
 
 </LinearLayout>

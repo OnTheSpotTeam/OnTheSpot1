@@ -65,4 +65,5 @@
 	<dimen name="newsfeedlist_item_personnamesize">15sp</dimen>
 	<dimen name="newsfeedlist_item_timeagosize">15sp</dimen>
 	<dimen name="newsfeedlist_item_imagesize">100dp</dimen>
+		<dimen name="newsfeedlist_item_itinnamesize">25sp</dimen>
 </resources>
