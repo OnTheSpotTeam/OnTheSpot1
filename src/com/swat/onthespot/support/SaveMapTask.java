@@ -13,7 +13,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class SaveMapTask extends AsyncTask<String, Void, Void> {
+public class SaveMapTask extends AsyncTask<Void, Void, Void> {
  
   private GoogleMap map;
   private Context context;
@@ -33,38 +33,45 @@ public class SaveMapTask extends AsyncTask<String, Void, Void> {
   }
 
   @Override
-  protected Void doInBackground(String... params) {
-  	SnapshotReadyCallback callback = new SnapshotReadyCallback() {
-			Bitmap bitmap;
+  protected Void doInBackground(Void... params) {
 
-			@Override
-			public void onSnapshotReady(Bitmap snapshot) {
-				// TODO Auto-generated method stub
-				bitmap = snapshot;
-				try {
-					Log.i("FILENAME", FILE_NAME);
-					FileOutputStream out = context.openFileOutput(FILE_NAME +".png", Context.MODE_PRIVATE);
-					bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-					out.flush();
-					out.close();
-					progressDialog.dismiss();
-					((Activity)context).finish();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		};
+  	try{
+  		SnapshotReadyCallback callback = new SnapshotReadyCallback() {
+  			Bitmap bitmap;
 
-	 map.snapshot(callback);
-   return null;
+  			@Override
+  			public void onSnapshotReady(Bitmap snapshot) {
+  				// TODO Auto-generated method stub
+  				try {
+  					bitmap = snapshot;
+  					Log.i("FILENAME", FILE_NAME);
+  					FileOutputStream out = context.openFileOutput(FILE_NAME +".png", Context.MODE_PRIVATE);
+  					bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+  					out.flush();
+  					out.close();
+  					progressDialog.dismiss();
+  					Log.i("MapSave", "onSnap");
+  					((Activity)context).finish();
+  				} catch (Exception e) {
+  					e.printStackTrace();
+  				}
+  			}
+  		};
+
+  		map.snapshot(callback);
+  		return null;
+  	} catch (Exception e) {
+  		e.printStackTrace();
+  		return null;
+  	}
+  	
   }
-
   /**
   * After completing background task Dismiss the progress dialog
   * **/
   @Override
   protected void onPostExecute(Void v) {
-     
+     Log.i("MapSave", "onPost");
   }
 }
 	
