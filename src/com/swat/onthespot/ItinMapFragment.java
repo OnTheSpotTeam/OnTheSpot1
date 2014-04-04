@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -485,7 +486,8 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	public void saveMap()
 	{
 		String FILE_NAME = getIntent().getStringExtra("Extra").replace(" ", "");
-		SaveMapTask smt = new SaveMapTask(FILE_NAME, map, activity);
+		ProgressDialog dialog = ProgressDialog.show(activity, "Save", "Please Wait...");
+		SaveMapTask smt = new SaveMapTask(FILE_NAME, map, dialog, activity);
 		smt.execute("");
 		
 		/*SnapshotReadyCallback callback = new SnapshotReadyCallback() {
