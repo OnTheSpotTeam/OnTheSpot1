@@ -19,16 +19,17 @@ public class SaveMapTask extends AsyncTask<String, Void, Void> {
   private Context context;
 	private String FILE_NAME;
 	private ProgressDialog progressDialog;
-  public SaveMapTask(String FILE_NAME, GoogleMap map, Context context) {
+  public SaveMapTask(String FILE_NAME, GoogleMap map, ProgressDialog dialog, Context context) {
       this.map = map;
       this.context = context;
       this.FILE_NAME = FILE_NAME;
+      progressDialog = dialog;
   }
   
   @Override
   protected void onPreExecute() {
       super.onPreExecute();
-      progressDialog = ProgressDialog.show(context, "Wait", "Saving...");
+     
   }
 
   @Override
@@ -47,6 +48,7 @@ public class SaveMapTask extends AsyncTask<String, Void, Void> {
 					out.flush();
 					out.close();
 					progressDialog.dismiss();
+					((Activity)context).finish();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -62,7 +64,6 @@ public class SaveMapTask extends AsyncTask<String, Void, Void> {
   * **/
   @Override
   protected void onPostExecute(Void v) {
-      ((Activity)context).finish();
      
   }
 }
