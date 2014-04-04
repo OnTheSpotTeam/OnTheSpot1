@@ -71,7 +71,7 @@ public class MainActivity extends FragmentActivity {
 		
 		// Set the action bar color.
 		ActionBar bar = getActionBar();
-		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#62a5dd")));
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#62a5d4")));
 		
 		setContentView(R.layout.activity_main);
 		
