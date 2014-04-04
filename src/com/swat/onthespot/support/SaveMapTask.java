@@ -36,9 +36,9 @@ public class SaveMapTask extends AsyncTask<Void, Void, Void> {
   protected Void doInBackground(Void... params) {
 
   	try{
+  		progressDialog.show();
   		SnapshotReadyCallback callback = new SnapshotReadyCallback() {
   			Bitmap bitmap;
-
   			@Override
   			public void onSnapshotReady(Bitmap snapshot) {
   				// TODO Auto-generated method stub
@@ -50,8 +50,8 @@ public class SaveMapTask extends AsyncTask<Void, Void, Void> {
   					out.flush();
   					out.close();
   					progressDialog.dismiss();
-  					Log.i("MapSave", "onSnap");
   					((Activity)context).finish();
+  					Log.i("MapSave", "onSnap");
   				} catch (Exception e) {
   					e.printStackTrace();
   				}
