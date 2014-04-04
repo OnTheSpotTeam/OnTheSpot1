@@ -1,73 +1,97 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#66666666">
-	
-	<LinearLayout 
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical"
-	    android:paddingBottom="@dimen/newsfeedlist_item_allpadbottom"
-	    android:paddingLeft="@dimen/newsfeedlist_item_allpadleft"
-	    android:paddingRight="@dimen/newsfeedlist_item_allpadright"
-	    android:paddingTop="@dimen/newsfeedlist_item_allpadtop" >
-	
-	    <RelativeLayout 
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content" >
-	        
-		    <TextView
-		        android:id="@+id/newsfeedlist_personname"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_alignParentLeft="true"
-		        android:layout_alignParentTop="true"
-		        android:text="Dakota Pekerti added"
-		        android:textColor="#ff666666"
-		        android:textSize="@dimen/newsfeedlist_item_personnamesize" />
-		
-		    <TextView
-		        android:id="@+id/newsfeedlist_timeago"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_alignParentRight="true"
-		        android:layout_alignParentTop="true"
-		        android:text="2 hours ago"
-		        android:textColor="#ff666666"
-		        android:textSize="@dimen/newsfeedlist_item_timeagosize" />
-	
-		</RelativeLayout>
-		
-	    <RelativeLayout
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content" >
-		    
-		    <ImageView
-		        android:id="@+id/newsfeedlist_userimage"
-		        android:layout_width="@dimen/newsfeedlist_item_imagesize"
-		        android:layout_height="@dimen/newsfeedlist_item_imagesize"
-		        android:src="@drawable/face_dakota" />
-		    
-		    <LinearLayout 
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:orientation="horizontal"
-		        android:layout_marginLeft="130dp" >
-		        
-		        	
-			    <TextView
-			        android:id="@+id/newsfeedlist_itinname"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:text="Exploring Philly 8th St"
-			        android:textColor="#ff000000"
-			        android:textSize="@dimen/newsfeedlist_item_itinnamesize" />
-		    
-		        
-		    </LinearLayout>
-	        
-		</RelativeLayout>
-	
-	</LinearLayout>
-	
-</FrameLayout>
+    android:background="#44bbbbbb" >
+
+    <LinearLayout
+        android:id="@+id/newsfeedlist_temporaryitem"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/newsfeedlist_item_totalheight"
+        android:layout_marginLeft="@dimen/newsfeedlist_item_allmarginleft"
+        android:layout_marginRight="@dimen/newsfeedlist_item_allmarginright"
+        android:layout_marginTop="@dimen/newsfeedlist_item_allmargintop"
+        android:background="@drawable/listitem_background_selector"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/newsfeedlist_item_allpadbottom"
+        android:paddingLeft="@dimen/newsfeedlist_item_allpadleft"
+        android:paddingRight="@dimen/newsfeedlist_item_allpadright"
+        android:paddingTop="@dimen/newsfeedlist_item_allpadtop" >
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/newsfeedlist_item_toplinepadbottom"
+             >
+
+            <TextView
+                android:id="@+id/newsfeedlist_personname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="Dakota Pekerti added"
+                android:textColor="#ff666666"
+                android:textSize="@dimen/newsfeedlist_item_personnamesize" />
+
+            <TextView
+                android:id="@+id/newsfeedlist_timeago"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="2 hours ago"
+                android:textColor="#ff666666"
+                android:textSize="@dimen/newsfeedlist_item_timeagosize" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/newsfeedlist_userimage"
+                android:layout_width="@dimen/newsfeedlist_item_imagesize"
+                android:layout_height="@dimen/newsfeedlist_item_imagesize"
+                android:src="@drawable/face_dakota" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="120dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/newsfeedlist_itinname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Exploring Philly 8th St"
+                    android:textColor="#ff000000"
+                    android:textSize="@dimen/newsfeedlist_item_itinnamesize"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/newsfeedlist_itindate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="20th Nov 2013"
+                    android:textColor="#ff666666"
+                    android:textSize="@dimen/newsfeedlist_item_itindatesize"
+                    android:typeface="sans" />
+
+                <TextView
+                    android:id="@+id/newsfeedlist_itincomment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Jim&apos;s Steaks was heaven in my belly."
+                    android:textColor="#ff666666"
+                    android:textSize="@dimen/newsfeedlist_item_itincommentsize"
+                    android:typeface="sans" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

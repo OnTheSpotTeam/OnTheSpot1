@@ -2,31 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/itinlist_totalheight"
+    android:background="@drawable/listitem_background_selector"
     android:paddingBottom="@dimen/itinlist_allpadbottom"
-    android:paddingTop="@dimen/itinlist_allpadtop">
+    android:paddingTop="@dimen/itinlist_allpadtop" >
 
     <LinearLayout
         android:layout_width="@dimen/itinlist_textwidth"
         android:layout_height="@dimen/itinlist_textheight"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:paddingLeft="@dimen/itinlist_textpadleft"
+        android:layout_marginLeft="@dimen/itinlist_textmarginleft"
         android:orientation="vertical" >
 
-        <TextView android:id="@+id/itinlist_item_name"
+        <TextView
+            android:id="@+id/itinlist_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
             android:layout_weight="1"
+            android:gravity="left|center_vertical"
             android:textSize="@dimen/itinlist_name_size"
             android:typeface="serif" />
-        
+
         <TextView
             android:id="@+id/itinlist_item_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
             android:layout_weight="0"
+            android:gravity="left|center_vertical"
+            android:textColor="#ff666666"
             android:textSize="@dimen/itinlist_date_size"
             android:typeface="sans" />
 
@@ -34,11 +37,11 @@
             android:id="@+id/itinlist_item_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
             android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:textColor="#ff666666"
             android:textSize="@dimen/itinlist_comment_size"
             android:typeface="sans" />
-
     </LinearLayout>
 
     <ImageView
@@ -47,9 +50,7 @@
         android:layout_height="@dimen/itinlist_imageheight"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:adjustViewBounds="true"
-        android:paddingLeft="@dimen/itinlist_imagepadleft"
-        android:paddingRight="@dimen/itinlist_imagepadright" />
+        android:layout_marginRight="@dimen/itinlist_imagemarginright"
+        android:adjustViewBounds="true" />
 
 </RelativeLayout>
-

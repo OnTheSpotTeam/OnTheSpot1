@@ -2,4 +2,7 @@
 
     <color name="black_overlay">#66000000</color>
 
+    <color name="activity_background_grey">#66bbbbbb</color>
+    <color name="listitem_background_white">#ffeeeeee</color>
+    
 </resources>

@@ -12,7 +12,9 @@
         android:id="@+id/profile_itins_itinList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top" >
+        android:layout_gravity="top"
+        android:divider="@android:color/transparent"
+  		android:dividerHeight="10dp">
     </ListView>
 
 </FrameLayout>
