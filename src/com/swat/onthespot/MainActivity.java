@@ -313,5 +313,16 @@ public class MainActivity extends FragmentActivity {
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
     }   
+    
+    @Override 
+    protected void onResume() {
+    	super.onResume();
+        // If SearchView has focus, collapse it.
+        if(mSearchView != null){
+        	if(mSearchView.hasFocus()){
+        		MenuItemCompat.collapseActionView(mSearchItem);
+        	}
+        }
+    }
 
 }

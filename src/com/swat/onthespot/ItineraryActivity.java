@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -147,38 +148,25 @@ public class ItineraryActivity extends FragmentActivity {
 	@Override
 	protected void onPause(){
 		super.onPause();
-		
 		ItinDragDropList list = (ItinDragDropList) 
 				getSupportFragmentManager().findFragmentByTag(fragmentTAG);
+		list.writeBackChanges();
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
 		
-		// User may have dragged or removed the experiences list.
-		// Write these changes back to the database.
-		
-		// First get the changes stored in mappings:
-		ArrayList<Integer> posToRowIdMapping = list.getPositionRowIdMap();
-		ArrayList<Integer> posToSortMapping = list.getPositionSortMap();
-		ArrayList<Integer> removedRowIds = list.getRemovedRowIds();
-		
-		// Write back change of positions:
-		for (int i=0; i<posToRowIdMapping.size(); i++){
-			ContentValues values = new ContentValues();
-			values.put(OTSDatabase.ITINS_EXPS_KEY_SORT, posToSortMapping.get(i));
-			String whereClause = "ROWID=" + posToRowIdMapping.get(i); 
-			int rowsAffected = mDatabase.updateWithOnConflict(OTSDatabase.TABLE_ITINS_EXPS, 
-					values, whereClause, null, SQLiteDatabase.CONFLICT_ROLLBACK);
-			if (rowsAffected!=1){
-				Log.e(TAG, "Not exactly one rows updated");
-			}
-		}
-		
-		// Write back deletes:
-		for (int i=0; i<removedRowIds.size(); i++){
-			String whereClause = "ROWID=" + removedRowIds.get(i);
-			int rowsDeleted = mDatabase.delete(OTSDatabase.TABLE_ITINS_EXPS, whereClause, null);
-			if (rowsDeleted!=1){
-				Log.e(TAG, "Not exactly one row deleted");
-			}
-		}
+        // If SearchView has focus, collapse it.
+        if(mSearchView != null){
+        	if(mSearchView.hasFocus()){
+        		MenuItemCompat.collapseActionView(mSearchItem);
+        	}
+        }
+        
+		ItinDragDropList list = (ItinDragDropList) 
+				getSupportFragmentManager().findFragmentByTag(fragmentTAG);
+		list.updateList();
 	}
 	
 }
