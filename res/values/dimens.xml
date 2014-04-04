@@ -57,7 +57,12 @@
 	<dimen name="searchresultlist_plusbtnsize">60dp</dimen>
 	<dimen name="searchresultlist_plusbtnpad">20dp</dimen>
 	
-	<dimen name="newsfeedlist_item_totalheight">130dp</dimen>
+	<dimen name="newsfeedlist_item_totalheight">170dp</dimen>
 	<dimen name="newsfeedlist_item_allpadtop">15dp</dimen>
 	<dimen name="newsfeedlist_item_allpadbottom">15dp</dimen>
+	<dimen name="newsfeedlist_item_allpadleft">20dp</dimen>
+	<dimen name="newsfeedlist_item_allpadright">20dp</dimen>
+	<dimen name="newsfeedlist_item_personnamesize">15sp</dimen>
+	<dimen name="newsfeedlist_item_timeagosize">15sp</dimen>
+	<dimen name="newsfeedlist_item_imagesize">100dp</dimen>
 </resources>

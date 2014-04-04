@@ -1,28 +1,43 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <TextView
-        android:id="@+id/news_feed_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"/>
-
-</FrameLayout>
-<!--  
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-	android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/newsfeedlist_item_allpadbottom"
+    android:paddingLeft="@dimen/newsfeedlist_item_allpadleft"
+    android:paddingRight="@dimen/newsfeedlist_item_allpadright"
+    android:paddingTop="@dimen/newsfeedlist_item_allpadtop" >
 
     <RelativeLayout 
-	    android:layout_height="@dimen/newsfeedlist_item_totalheight"
-	    android:paddingTop="@dimen/newsfeedlist_item_allpadtop"
-	    android:paddingBottom="@dimen/newsfeedlist_item_allpadbottom" >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
         
-    </RelativeLayout>
-    
-</FrameLayout>
--->
+	    <TextView
+	        android:id="@+id/newsfeedlist_personname"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:text="Dakota Pekerti added"
+	        android:textColor="#ff666666"
+	        android:textSize="@dimen/newsfeedlist_item_personnamesize" />
+	
+	    <TextView
+	        android:id="@+id/newsfeedlist_timeago"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	        android:text="2 hours ago"
+	        android:textColor="#ff666666"
+	        android:textSize="@dimen/newsfeedlist_item_timeagosize" />
+
+	</RelativeLayout>
+	 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="@dimen/newsfeedlist_item_imagesize"
+        android:layout_height="@dimen/newsfeedlist_item_imagesize"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/face_dakota" />
+
+</LinearLayout>

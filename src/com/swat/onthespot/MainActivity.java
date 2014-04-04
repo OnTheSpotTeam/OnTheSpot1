@@ -67,7 +67,7 @@ public class MainActivity extends FragmentActivity {
 		
 		// Set the action bar color.
 		ActionBar bar = getActionBar();
-		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#c2d2da")));
+		//bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#62a5d4")));
 		
 		// Record the initial title (app name)
 	    mTitle = mDrawerTitle = getTitle();
@@ -278,8 +278,8 @@ public class MainActivity extends FragmentActivity {
     private void fillNewsFeedPage(LayoutInflater inflater, ViewGroup contentFrame){
     	if (mNewsFeedView == null){
     		mNewsFeedView = inflater.inflate(R.layout.drawer_news_feed, null);
-    		TextView text = (TextView)mNewsFeedView.findViewById(R.id.news_feed_text);
-    		text.setText("This is the news feed page");
+    		//TextView text = (TextView)mNewsFeedView.findViewById(R.id.news_feed_text);
+    		//text.setText("This is the news feed page");
     	}
     	contentFrame.addView(mNewsFeedView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));	
     }
