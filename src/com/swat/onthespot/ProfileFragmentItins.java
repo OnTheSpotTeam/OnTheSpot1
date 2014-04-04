@@ -47,15 +47,16 @@ public class ProfileFragmentItins extends Fragment {
 				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION;
 		
 		
-		String curItinQuery = "SELECT " + selection + " FROM " + 
+		String itinQuery = "SELECT " + selection + " FROM " + 
 				OTSDatabase.TABLE_ITINS + ", " + OTSDatabase.TABLE_USERS_ITINS + " " +
 				"WHERE " + OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_ID + "=" + 
 				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_ITINID + " AND " +
 				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_USRID + "=" + 
-				mDatabase.UserNameToIds(userName)[0] + " AND " +
-				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION + "=" +
-				OTSDatabase.SECTION_CURRENT;
+				mDatabase.UserNameToIds(userName)[0] + " ORDER BY " + 
+				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION + " ASC";
 		
+		
+		/*
 		String pastItinQuery = "SELECT " + selection + " FROM " + 
 				OTSDatabase.TABLE_ITINS + ", " + OTSDatabase.TABLE_USERS_ITINS + " " +
 				"WHERE " + OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_ID + "=" + 
@@ -64,15 +65,14 @@ public class ProfileFragmentItins extends Fragment {
 				mDatabase.UserNameToIds(userName)[0] + " AND " +
 				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION + "=" +
 				OTSDatabase.SECTION_PAST;
+		*/
 		
-		Cursor curItinsCursor = mDatabase.rawQuery(curItinQuery, null);
-		Cursor pastItinsCursor = mDatabase.rawQuery(pastItinQuery, null);
-		
-		storeItinNames(pastItinsCursor);
-		ItinListAdapter itinsAdapter = new ItinListAdapter(getActivity(), pastItinsCursor);
+		Cursor itinsCursor = mDatabase.rawQuery(itinQuery, null);
+		storeItinNames(itinsCursor);
+		ItinListAdapter itinsAdapter = new ItinListAdapter(getActivity(), itinsCursor);
 		
 		// Get and populate the listview
-		ListView list = (ListView)rootView.findViewById(R.id.profile_itins_pastItinList);
+		ListView list = (ListView)rootView.findViewById(R.id.profile_itins_itinList);
 		list.setAdapter(itinsAdapter);
 
 	    list.setClickable(true);

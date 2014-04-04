@@ -9,6 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
 
+    <!--  
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="@dimen/itinlist_sectionheight"
@@ -24,9 +25,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/itinlist_sectionheight"
         android:text="Past Itinerary" />
+    -->
     
     <ListView
-        android:id="@+id/profile_itins_pastItinList"
+        android:id="@+id/profile_itins_itinList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
