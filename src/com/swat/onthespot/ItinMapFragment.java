@@ -380,8 +380,8 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		polyoptions.addAll(mPolyOptions.getPoints());
 		map.addPolyline(polyoptions);
 		List<LatLng> pts = polyoptions.getPoints();
-		for(int i = 0; i < pts.size() - 1; i++)
-			DrawArrowHead(pts.get(i), pts.get(i + 1));
+		//for(int i = 0; i < pts.size() - 1; i++)
+			//DrawArrowHead(pts.get(i), pts.get(i + 1));
 		// Start marker
 		MarkerOptions options = new MarkerOptions();
 		options.position(start);
