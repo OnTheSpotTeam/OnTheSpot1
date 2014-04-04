@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/itinlist_sectionheight"
+    android:background="#ff0000ee" >
+    
+    <TextView 
+        android:id="@+id/itinlist_sectionname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+       	android:textSize="@dimen/itinlist_sectiontextsize"/>
+    
+
+</RelativeLayout>

@@ -66,6 +66,13 @@ public class OTSDatabase extends SQLiteOpenHelper {
     public static final int ERR_MULTIPLE_ITIN_NAME = -5;
     public static final int ERR_MULTIPLE_EXP_NAME = -6;
  
+    // Section Codes
+    public static final int SECTION_CURRENT = 1;
+    public static final int SECTION_CURRENT_CONTENT = 2;
+    public static final int SECTION_PAST = 3;
+    public static final int SECTION_PAST_CONTENT = 4;
+    
+    // Private factory instance.
     private static OTSDatabase sInstance = null;
     
     // Static factory method for correct management
@@ -147,6 +154,12 @@ public class OTSDatabase extends SQLiteOpenHelper {
         
         // Initialize Database
 		addUser(db, MainActivity.USER_NAME);
+		
+		addItinerary(db, "Current Itinerary", "1th Jan 1970", 5, 
+				"Dummy Current Itinerary Section", "dummy_image");
+		addItinerary(db, "Past Itinerary", "1th Jan 1970", 5, 
+				"Dummy Past Itinerary Section", "dummy_image");
+		
    		addItinerary(db, "Houston Roadtrip", "20th Nov 2013", 3.5, 
 				"Almost tripped on a tumbleweed.", "houston_roadtrip");
 		addItinerary(db, "Exploring Philly 8th St", "8-9th Nov 2013", 4.5, 
@@ -155,10 +168,14 @@ public class OTSDatabase extends SQLiteOpenHelper {
 				"In all my years living on the East", "new_york_or_bust");
 		addItinerary(db, "A Week in Madrid", "5th Jan 2014", 5, 
 				"Spain is just drop-dead gorgeous, and ...", "a_week_in_madrid");
-		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Houston Roadtrip");
-		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Exploring Philly 8th St");
-		sInstance.addItinForUser(db, MainActivity.USER_NAME, "New York or Bust!");
-		sInstance.addItinForUser(db, MainActivity.USER_NAME, "A Week in Madrid");
+		
+		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Current Itinerary", SECTION_CURRENT);
+		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Past Itinerary", SECTION_PAST);
+		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Houston Roadtrip", SECTION_PAST_CONTENT);
+		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Exploring Philly 8th St", SECTION_CURRENT_CONTENT);
+		sInstance.addItinForUser(db, MainActivity.USER_NAME, "New York or Bust!", SECTION_PAST_CONTENT);
+		sInstance.addItinForUser(db, MainActivity.USER_NAME, "A Week in Madrid", SECTION_PAST_CONTENT);
+		
 		sInstance.addExperience(db, "King of Prussia mall", "160 N Gulph Rd, King of Prussia, PA 19406", 
 				"Cologne Sampling", 4.5, "Lots of great fragrances with decent ...", "king_of_prussia");
 		sInstance.addExperience(db, "One Liberty Place", "1625 Chestnut Street, Philadelphia, PA 19103", 
@@ -200,7 +217,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		values.put(EXPS_KEY_IMAGE, ImageName);
 		db.insert(TABLE_EXPS, null, values);
 	}
-	private int addItinForUser(SQLiteDatabase db, String userName, String itinName){
+	private int addItinForUser(SQLiteDatabase db, String userName, String itinName, int section){
 		int[] uids = UserNameToIds(db, userName);
 		int[] iids = ItinNameToIds(db, itinName);
 		if (uids.length < 1){
@@ -215,6 +232,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 			ContentValues values = new ContentValues();
 			values.put(USERS_ITINS_KEY_USRID, uids[0]);
 			values.put(USERS_ITINS_KEY_ITINID, iids[0]);
+			values.put(USERS_ITINS_KEY_SECTION, section);
 			db.insertWithOnConflict(TABLE_USERS_ITINS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 			return 0;
 		}
@@ -325,16 +343,17 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		db.close();
 	}
 	
-	public void addItinForUser(int UserId, int ItinId){
+	public void addItinForUser(int UserId, int ItinId, int section){
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(USERS_ITINS_KEY_USRID, UserId);
 		values.put(USERS_ITINS_KEY_ITINID, ItinId);
+		values.put(USERS_ITINS_KEY_SECTION, section);
 		db.insertWithOnConflict(TABLE_USERS_ITINS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 		db.close();
 	}
 	
-	public int addItinForUser(String userName, String itinName){
+	public int addItinForUser(String userName, String itinName, int section){
 		int[] uids = UserNameToIds(userName);
 		int[] iids = ItinNameToIds(itinName);
 		if (uids.length < 1){
@@ -346,7 +365,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		}else if (iids.length > 1){
 			return ERR_MULTIPLE_ITIN_NAME;
 		}else {
-			addItinForUser(uids[0], iids[0]);
+			addItinForUser(uids[0], iids[0], section);
 			return 0;
 		}
 	}
