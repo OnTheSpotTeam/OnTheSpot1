@@ -111,6 +111,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	private ArrayList<String>[] directions;
 	private boolean hasN;
 	public Activity activity;
+	private ProgressDialog dialog;
 	/*TODO: Make LatLng Queries AsyncTasks*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -487,17 +488,9 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	public void saveMap()
 	{
 		String FILE_NAME = getIntent().getStringExtra("Extra").replace(" ", "");
-		ProgressDialog dialog = ProgressDialog.show(ItinMapFragment.this, "Save", "Please Wait...");
+		dialog = ProgressDialog.show(ItinMapFragment.this, "Save", "Please Wait...");
 		SaveMapTask smt = new SaveMapTask(FILE_NAME, map, dialog, ItinMapFragment.this);
 		smt.execute();
-		try
-    {
-	    Thread.sleep(5000);
-    } catch (InterruptedException e)
-    {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-    }
 		
 		/*SnapshotReadyCallback callback = new SnapshotReadyCallback() {
 			Bitmap bitmap;
