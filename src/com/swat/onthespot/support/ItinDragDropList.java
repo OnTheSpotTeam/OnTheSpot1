@@ -2,8 +2,10 @@ package com.swat.onthespot.support;
 
 import java.util.ArrayList;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -137,26 +139,70 @@ public class ItinDragDropList extends ListFragment {
         return controller;
     }
     
+    public void writeBackChanges(){
+    	
+		// First get the changes stored in mappings:
+		ArrayList<Integer> posToRowIdMapping = mAdapter.getPositionRowIdMap();
+		ArrayList<Integer> posToSortMapping = mAdapter.getPositionSortMap();
+		ArrayList<Integer> removedRowIds = mAdapter.getRemovedRowIds();
+		
+		// Write back change of positions:
+		for (int i=0; i<posToRowIdMapping.size(); i++){
+			ContentValues values = new ContentValues();
+			values.put(OTSDatabase.ITINS_EXPS_KEY_SORT, posToSortMapping.get(i));
+			String whereClause = "ROWID=" + posToRowIdMapping.get(i); 
+			int rowsAffected = mDatabase.updateWithOnConflict(OTSDatabase.TABLE_ITINS_EXPS, 
+					values, whereClause, null, SQLiteDatabase.CONFLICT_ROLLBACK);
+			if (rowsAffected!=1){
+				Log.e(TAG, "Not exactly one rows updated");
+			}
+		}
+		
+		// Write back deletes:
+		for (int i=0; i<removedRowIds.size(); i++){
+			String whereClause = "ROWID=" + removedRowIds.get(i);
+			int rowsDeleted = mDatabase.delete(OTSDatabase.TABLE_ITINS_EXPS, whereClause, null);
+			if (rowsDeleted!=1){
+				Log.e(TAG, "Not exactly one row deleted");
+			}
+		}
+    }
+    
+    /**
+     * Write back changes in the old list, and query again.
+     */
+    public void updateList(){
+    	Cursor newCursor = queryExpsInItin();
+    	mAdapter.swapCursor(newCursor);
+    }
+    
     /**
      * Get the current order of Position to RowId mapping in the adapter.
      */
+    /*
     public ArrayList<Integer> getPositionRowIdMap() {
         return mAdapter.getPositionRowIdMap();
     }
+    */
     
     /**
      * Get the current order of Position to SortOrder mapping in the adapter.
      */
+    /*
     public ArrayList<Integer> getPositionSortMap() {
         return mAdapter.getPositionSortMap();
     }
+    */
     
     /**
      * Copy the removedRowIds list and return it.
      */
+    /*
     public ArrayList<Integer> getRemovedRowIds() {
         return mAdapter.getRemovedRowIds();
-    }   
+    } 
+    */  
  
+
     
 }

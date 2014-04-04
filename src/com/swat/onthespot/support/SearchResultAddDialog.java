@@ -89,6 +89,10 @@ public class SearchResultAddDialog extends DialogFragment {
     						" duplication.", Toast.LENGTH_SHORT);
     				toast.show();
     			}
+    			else{
+    				Toast toast = Toast.makeText(getActivity(), "Successfully inserted to itin \"" + itinName + "\".", Toast.LENGTH_SHORT);
+    				toast.show();
+    			}
     		}
     	}
 

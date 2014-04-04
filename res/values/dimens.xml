@@ -56,4 +56,8 @@
 	<dimen name="searchresultlist_comment_size">17sp</dimen>
 	<dimen name="searchresultlist_plusbtnsize">60dp</dimen>
 	<dimen name="searchresultlist_plusbtnpad">20dp</dimen>
+	
+	<dimen name="newsfeedlist_item_totalheight">130dp</dimen>
+	<dimen name="newsfeedlist_item_allpadtop">15dp</dimen>
+	<dimen name="newsfeedlist_item_allpadbottom">15dp</dimen>
 </resources>

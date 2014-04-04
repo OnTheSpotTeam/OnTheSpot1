@@ -82,7 +82,8 @@ public class ExpListAdapter extends CursorAdapter
 		mPositionToRowId.clear();
 		mPositionToSortOrder.clear();
 		mRowIdToCursorIndex.clear();
-
+		mRemovedRowIds.clear();
+		
     	for (int i=0; i<cursor.getCount(); i++){
     		mPositionToRowId.put(i, cursor.getInt(cursor.getColumnIndex("rowid")) );
     		mPositionToSortOrder.put(i, cursor.getInt(cursor.getColumnIndex(OTSDatabase.ITINS_EXPS_KEY_SORT)) );

@@ -1,12 +1,14 @@
 package com.swat.onthespot;
 
 
+import android.app.ActionBar;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
@@ -62,6 +64,10 @@ public class MainActivity extends FragmentActivity {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		// Set the action bar color.
+		ActionBar bar = getActionBar();
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#c2d2da")));
 		
 		// Record the initial title (app name)
 	    mTitle = mDrawerTitle = getTitle();
@@ -313,5 +319,16 @@ public class MainActivity extends FragmentActivity {
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
     }   
+    
+    @Override 
+    protected void onResume() {
+    	super.onResume();
+        // If SearchView has focus, collapse it.
+        if(mSearchView != null){
+        	if(mSearchView.hasFocus()){
+        		MenuItemCompat.collapseActionView(mSearchItem);
+        	}
+        }
+    }
 
 }
