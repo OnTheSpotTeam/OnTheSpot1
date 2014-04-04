@@ -46,6 +46,7 @@ public class SaveMapTask extends AsyncTask<String, Void, Void> {
 					bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
 					out.flush();
 					out.close();
+					progressDialog.dismiss();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -61,7 +62,6 @@ public class SaveMapTask extends AsyncTask<String, Void, Void> {
   * **/
   @Override
   protected void onPostExecute(Void v) {
-      progressDialog.dismiss();
       ((Activity)context).finish();
      
   }
