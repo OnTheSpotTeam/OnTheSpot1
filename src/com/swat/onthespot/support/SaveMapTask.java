@@ -36,7 +36,7 @@ public class SaveMapTask extends AsyncTask<Void, Void, Void> {
   protected Void doInBackground(Void... params) {
   	try
     {
-	    Thread.sleep(5000);
+	    Thread.sleep(2000);
     } catch (InterruptedException e1)
     {
 	    // TODO Auto-generated catch block
