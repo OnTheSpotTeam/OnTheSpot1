@@ -34,6 +34,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
     // Users-Itins Column Names
     public static final String USERS_ITINS_KEY_USRID = "uid";
     public static final String USERS_ITINS_KEY_ITINID = "iid";
+    public static final String USERS_ITINS_KEY_SECTION = "section";
     
     // Itins Table Column Names
     public static final String ITINS_KEY_ID = "iid";
@@ -96,6 +97,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
         String CREATE_USERS_ITINS_TABLE = "CREATE TABLE " + TABLE_USERS_ITINS + "("
                 + USERS_ITINS_KEY_USRID + " INTEGER, "
                 + USERS_ITINS_KEY_ITINID + " INTEGER, "
+                + USERS_ITINS_KEY_SECTION + " INTEGER, "
                 + "PRIMARY KEY (" 
                   + USERS_ITINS_KEY_USRID + ", " + USERS_ITINS_KEY_ITINID+ "), " 
                 + "FOREIGN KEY (" + USERS_ITINS_KEY_USRID + ") REFERENCES " + 
