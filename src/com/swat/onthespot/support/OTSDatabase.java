@@ -75,6 +75,7 @@ public class OTSDatabase extends SQLiteOpenHelper {
     	if (sInstance == null) {
     		sInstance = new OTSDatabase(context.getApplicationContext());
     	}
+    	
     	return sInstance;
     }
     

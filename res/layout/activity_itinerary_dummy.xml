@@ -18,7 +18,7 @@
             android:layout_weight="1"
             android:background="@drawable/background_itinactivity_tab"
             android:gravity="center"
-            android:text="Save to My Itin"
+            android:text="Save Itin"
             android:textSize="@dimen/explist_tab_textsize"
             android:typeface="monospace" />
 
