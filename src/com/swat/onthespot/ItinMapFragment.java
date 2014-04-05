@@ -63,6 +63,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.ui.IconGenerator;
 import com.swat.onthespot.support.DrawArrowsTask;
 import com.swat.onthespot.support.OTSDatabase;
 import com.swat.onthespot.support.SaveMapTask;
@@ -112,6 +113,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	private LatLng end;
 	private Geocoder gc;
 	private ArrayList<String> addresses;
+	private ArrayList<String> names;
 	private boolean doneRouting;
 	private OTSDatabase mDatabase;
 	private ArrayList<String>[] directions;
@@ -279,10 +281,12 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	public void updateMap()
 	{
 		addresses = new ArrayList<String>();
+		names = new ArrayList<String>();
 		String itinName = getIntent().getStringExtra(ItineraryActivity.INTENT_EXTRA);
 
 		// Get sorted addresses in this itinerary.
 		String selection = OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_ADDR + " , " +
+				OTSDatabase.TABLE_EXPS + "." + OTSDatabase.EXPS_KEY_NAME + " , " +
 				OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_SORT;
 
 		String expsQuery = 	"SELECT " + selection + " FROM " + 
@@ -297,13 +301,17 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		// Store addresses into the arrag.
 		expsCursor.moveToFirst();
 		int addCol = expsCursor.getColumnIndex(OTSDatabase.EXPS_KEY_ADDR);
+		int nameCol = expsCursor.getColumnIndex(OTSDatabase.EXPS_KEY_NAME);
 		String address;
+		String name;
 		Log.i("ADDRESS", "RA");
 		while(!expsCursor.isAfterLast())
 		{
 			address = expsCursor.getString(addCol);
 			Log.i("ADDRESS", address);
 			addresses.add(address);
+			name = expsCursor.getString(nameCol);
+			names.add(name);
 			expsCursor.moveToNext();
 		}
 
@@ -311,12 +319,17 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		for(int i = 0; i < directions.length; i++)
 			directions[i] = new ArrayList<String>();
 
-		for(int i = 0; i < addresses.size() - 1; i++)
+		ArrayList<LatLng> locationData = new ArrayList<LatLng>();
+		for(int i = 0; i < addresses.size(); i++)
 		{
-			String startAdd = addresses.get(i);
-			String endAdd = addresses.get(i + 1);
-			start = getLatLngFromLoc(startAdd);
-			end = getLatLngFromLoc(endAdd);
+			LatLng toAdd = getLatLngFromLoc(addresses.get(i));
+			locationData.add(toAdd);
+			addMarker(toAdd, i+1);
+		}
+		for(int i = 0; i < locationData.size() - 1; i++)
+		{
+			start = locationData.get(i);
+			end = locationData.get(i + 1);
 			Routing routing = new Routing(Routing.TravelMode.WALKING, i + 1);
 			routing.registerListener(this);
 			routing.execute(start, end);
@@ -388,17 +401,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 			DrawArrowsTask dat = new DrawArrowsTask(map, ItinMapFragment.this, pt1, pt2);
 			dat.execute();
 		}
-		MarkerOptions options = new MarkerOptions();
-		options.position(start);
-		//options.icon(BitmapDescriptorFactory.fromResource(R.drawable.start_blue));
-		map.addMarker(options);
-
-		// End marker
-		options = new MarkerOptions();
-		options.position(end);
-		//options.icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green));  
-		map.addMarker(options);
-		doneRouting = true;
+		
 	}
 
 	/*public LatLng getLatLngFromLoc(String address) throws IOException{
@@ -559,5 +562,17 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 	
+	void addMarker(LatLng point, int place)
+	{
+		IconGenerator iconFactory = new IconGenerator(this);
+		iconFactory.setStyle(IconGenerator.STYLE_BLUE);
+		MarkerOptions markerOptions = new MarkerOptions().
+        icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon("(" + place + ") " + names.get(place - 1)))).
+        position(point).
+        anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
+
+			map.addMarker(markerOptions);
+		
+	}
 
 }
