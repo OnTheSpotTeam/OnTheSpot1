@@ -64,6 +64,10 @@ public class MainActivity extends FragmentActivity {
     // Intent extra key
     public static final String INTENT_EXTRA = "Extra Message";
     
+    // Return intent stuff
+    public static final String RI_GOTOPROFILE = "profile";
+    
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -290,7 +294,7 @@ public class MainActivity extends FragmentActivity {
 				public void onClick(View v) {
 					Intent intent = new Intent(MainActivity.this, DummyItineraryActivity.class);
 					intent.putExtra(INTENT_EXTRA, "Exploring Philly 8th St");
-					startActivity(intent);
+					startActivityForResult(intent, 1);
 				}
 			});
     		//text.setText("This is the news feed page");
@@ -344,5 +348,22 @@ public class MainActivity extends FragmentActivity {
         	}
         }
     }
+    
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Decide whether we go back to MainActivity, or stay in ItineraryActivity.
+		if (requestCode == 1) {
+			if(resultCode == RESULT_OK){      
+				String result=data.getStringExtra(INTENT_EXTRA);
+				if (result.equals(RI_GOTOPROFILE)){
+					mProfileView = null;
+					selectItem(0);
+				}
+		    }
+		    if (resultCode == RESULT_CANCELED) {    
+		        //Write your code if there's no result
+		    }
+		}
+	}
 
 }

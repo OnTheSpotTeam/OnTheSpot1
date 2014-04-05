@@ -72,14 +72,12 @@ public class ItinListAdapter extends CursorAdapter {
 			
 			if (mHasCurrent){
 				int sectionHeightDp = (int) mContext.getResources().getDimension(R.dimen.itinlist_sectionheight);
-				int sectionHeightPx = (int) dipToPixels(mContext, sectionHeightDp);
-				rowView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, sectionHeightPx));
+				rowView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, sectionHeightDp));
 				View divider = rowView.findViewById(R.id.itinlist_section_divider);
 				divider.setVisibility(View.GONE);
 			}else{
 				int sectionHeightDp = (int) mContext.getResources().getDimension(R.dimen.itinlist_sectionheightwithdivider);
-				int sectionHeightPx = (int) dipToPixels(mContext, sectionHeightDp);
-				rowView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, sectionHeightPx));
+				rowView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, sectionHeightDp));
 				View divider = rowView.findViewById(R.id.itinlist_section_divider);
 				divider.setVisibility(View.VISIBLE);
 			}
@@ -128,9 +126,5 @@ public class ItinListAdapter extends CursorAdapter {
 		}
 	}
 	
-	public static float dipToPixels(Context context, float dipValue) {
-	    DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-	    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
-	}
 
 }

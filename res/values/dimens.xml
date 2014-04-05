@@ -11,10 +11,11 @@
 	
 	<dimen name="itinlist_allpadtop">10dp</dimen>
 	<dimen name="itinlist_allpadbottom">10dp</dimen>
-	<dimen name="itinlist_sectionheight">50dp</dimen>
-	<dimen name="itinlist_sectionheightwithdivider">50dp</dimen>
+	<dimen name="itinlist_sectionheight">25dp</dimen>
+	<dimen name="itinlist_sectionheightwithdivider">30dp</dimen>
 	<dimen name="itinlist_sectiontextsize">15sp</dimen>
 	<dimen name="itinlist_sectionseparatorheight">2dp</dimen>
+	<dimen name="itinlist_section_textleftpad">6dp</dimen>
     <dimen name="itinlist_totalheight">150dp</dimen>
 	<dimen name="itinlist_imageheight">130dp</dimen>
 	<dimen name="itinlist_imagewidth">130dp</dimen>

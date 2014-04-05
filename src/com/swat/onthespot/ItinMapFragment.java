@@ -344,7 +344,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	{
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra(INTENT_EXTRA, RESULT_MAIN);
-		setResult(RESULT_OK,returnIntent);     
+		setResult(RESULT_OK, returnIntent);     
 		if(hasN)
 			promptSave();
 		else

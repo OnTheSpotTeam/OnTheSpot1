@@ -11,7 +11,7 @@
         android:gravity="left"
        	android:textSize="@dimen/itinlist_sectiontextsize"
        	android:textColor="#aa000000"
-       	android:paddingLeft="4dp"/>
+       	android:paddingLeft="@dimen/itinlist_section_textleftpad"/>
     
     <View 
         android:id="@+id/itinlist_section_divider"

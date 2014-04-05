@@ -71,7 +71,10 @@ public class DummyItineraryActivity extends FragmentActivity {
 		shareBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				// Do nothing right now.
+				Intent returnIntent = new Intent();
+				returnIntent.putExtra(MainActivity.INTENT_EXTRA, MainActivity.RI_GOTOPROFILE);
+				setResult(RESULT_OK, returnIntent);     
+				DummyItineraryActivity.this.finish();
 			}
 		});
 		
