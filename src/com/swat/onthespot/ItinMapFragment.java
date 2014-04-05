@@ -567,7 +567,9 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		IconGenerator iconFactory = new IconGenerator(this);
 		iconFactory.setStyle(IconGenerator.STYLE_BLUE);
 		MarkerOptions markerOptions = new MarkerOptions().
-        icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon("(" + place + ") " + names.get(place - 1)))).
+        icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon("(" + place + ")"))).
+        title(names.get(place - 1)).
+        snippet(addresses.get(place - 1)).
         position(point).
         anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
      
