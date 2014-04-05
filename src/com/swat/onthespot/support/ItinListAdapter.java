@@ -57,7 +57,7 @@ public class ItinListAdapter extends CursorAdapter {
 		holder.section = section;
 
 		if (section == OTSDatabase.SECTION_CURRENT || section == OTSDatabase.SECTION_PAST){
-			rowView=inflater.inflate(R.layout.list_item_itinsection, null, true);
+			rowView=inflater.inflate(R.layout.list_item_itinsection_past, null, true);
 			rowView.setClickable(false);
 			rowView.setFocusable(false);
 			holder.sectionName=(TextView) rowView.findViewById(R.id.itinlist_sectionname);
@@ -79,10 +79,10 @@ public class ItinListAdapter extends CursorAdapter {
 
 
 		if (holder.section == OTSDatabase.SECTION_CURRENT){
-			holder.sectionName.setText("Current Itinerary");
+			holder.sectionName.setText("CURRENT ITINERARY");
 		}
 		else if (holder.section == OTSDatabase.SECTION_PAST){
-			holder.sectionName.setText("Past Itinerary");
+			holder.sectionName.setText("PAST ITINERARY");
 		}
 		else{
 			String name = cursor.getString(cursor.getColumnIndex(OTSDatabase.ITINS_KEY_NAME));
