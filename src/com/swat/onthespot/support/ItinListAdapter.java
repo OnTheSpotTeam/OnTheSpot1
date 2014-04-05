@@ -58,6 +58,8 @@ public class ItinListAdapter extends CursorAdapter {
 
 		if (section == OTSDatabase.SECTION_CURRENT || section == OTSDatabase.SECTION_PAST){
 			rowView=inflater.inflate(R.layout.list_item_itinsection, null, true);
+			rowView.setClickable(false);
+			rowView.setFocusable(false);
 			holder.sectionName=(TextView) rowView.findViewById(R.id.itinlist_sectionname);
 		}
 		else{

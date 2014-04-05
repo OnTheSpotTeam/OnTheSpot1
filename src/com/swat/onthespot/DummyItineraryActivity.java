@@ -58,9 +58,11 @@ public class DummyItineraryActivity extends FragmentActivity {
 		mapViewBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				/*
 				Intent intent = new Intent(DummyItineraryActivity.this, ItinMapFragment.class);
 				intent.putExtra(INTENT_EXTRA, itinName);
 				startActivityForResult(intent, 1);
+				*/
 			}
 		});
 		

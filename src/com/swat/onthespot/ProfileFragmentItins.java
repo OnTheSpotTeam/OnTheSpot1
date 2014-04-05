@@ -81,10 +81,13 @@ public class ProfileFragmentItins extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
-				String itinName = ((TextView)view.findViewById(R.id.itinlist_item_name)).getText().toString();
-				Intent intent = new Intent(getActivity(), ItineraryActivity.class);
-				intent.putExtra(INTENT_EXTRA, itinName);
-				startActivity(intent);
+				TextView nameView = ((TextView)view.findViewById(R.id.itinlist_item_name));
+				if (nameView != null){
+					String itinName = nameView.getText().toString();
+					Intent intent = new Intent(getActivity(), ItineraryActivity.class);
+					intent.putExtra(INTENT_EXTRA, itinName);
+					startActivity(intent);
+				}
 			}
 		});
 	    return rootView;
