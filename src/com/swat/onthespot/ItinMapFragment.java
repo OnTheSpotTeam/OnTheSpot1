@@ -386,6 +386,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 			LatLng pt1 = currSegment.startPoint();
 			LatLng pt2 = segments.get(i + 1).startPoint();
 			DrawArrowsTask dat = new DrawArrowsTask(map, ItinMapFragment.this, pt1, pt2);
+			dat.execute();
 		}
 		MarkerOptions options = new MarkerOptions();
 		options.position(start);
