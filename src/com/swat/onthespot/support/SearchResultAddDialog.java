@@ -8,11 +8,11 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.swat.onthespot.MainActivity;
-import com.swat.onthespot.ProfileFragmentItins;
 
 public class SearchResultAddDialog extends DialogFragment {
 	public static final String TAG = "SearchResultDialog";
@@ -103,10 +103,11 @@ public class SearchResultAddDialog extends DialogFragment {
     }
     
     private void setItinNamesAndIds(){
-    	mItinNames = ProfileFragmentItins.sItinNames;
-    	mItinIds = ProfileFragmentItins.sItinIds;
-    	if (mItinNames == null || mItinIds == null){
+    	//mItinNames = ProfileFragmentItins.sItinNames;
+    	//mItinIds = ProfileFragmentItins.sItinIds;
+    	//if (mItinNames == null || mItinIds == null){
     		// Query the Itineraries that a User has.
+    		/*
     		String selection = OTSDatabase.ITINS_KEY_ID + " AS _id , " +
     						   OTSDatabase.ITINS_KEY_NAME + " , " +
     						   OTSDatabase.ITINS_KEY_DATE + " , " +
@@ -118,14 +119,40 @@ public class SearchResultAddDialog extends DialogFragment {
     				"(SELECT " + OTSDatabase.USERS_ITINS_KEY_ITINID + " FROM " + OTSDatabase.TABLE_USERS_ITINS + " " +
     				"WHERE " + OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_USRID + " = " +
     				mDatabase.UserNameToIds(MainActivity.USER_NAME)[0] + ")";
+    		*/
+    		
+    		// Query the Itineraries that a User has.
+    		String selection = OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_ID + " AS _id , " +
+    				OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_NAME + " , " +
+    				OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_DATE + " , " +
+    				OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_RATE + " , " +
+    				OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_COMMENT + " , " + 
+    				OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_IMAGE + " , " +
+    				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION;
+    		
+    		
+    		String itinQuery = "SELECT " + selection + " FROM " + 
+    				OTSDatabase.TABLE_ITINS + ", " + OTSDatabase.TABLE_USERS_ITINS + " " +
+    				"WHERE " + OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_ID + "=" + 
+    				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_ITINID + " AND " +
+    				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_USRID + "=" + 
+    				mDatabase.UserNameToIds(MainActivity.USER_NAME)[0] + " AND " +
+    				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION + "!=" + 
+    				OTSDatabase.SECTION_CURRENT + " AND " +
+    				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION + "!=" + 
+    				OTSDatabase.SECTION_PAST + " ORDER BY " + 
+    				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION + " ASC";
+    		
+    		//Log.d(TAG, itinQuery);
     		Cursor cursor = mDatabase.rawQuery(itinQuery, null);
         	mItinNames = new CharSequence[cursor.getCount()];
         	mItinIds = new int[cursor.getCount()];
         	cursor.moveToFirst();
         	while (!cursor.isAfterLast()){
         		mItinNames[cursor.getPosition()] = cursor.getString(cursor.getColumnIndex(OTSDatabase.ITINS_KEY_NAME));
-        		mItinIds[cursor.getPosition()] = cursor.getInt(cursor.getColumnIndex(OTSDatabase.ITINS_KEY_ID));
+        		mItinIds[cursor.getPosition()] = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
+        		cursor.moveToNext();
         	}
-    	}
+    	//}
     }
 }

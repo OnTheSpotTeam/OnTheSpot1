@@ -102,7 +102,10 @@ public class ItineraryActivity extends FragmentActivity {
 	 * Set up the {@link android.app.ActionBar}.
 	 */
 	private void setupActionBar() {
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar bar = getActionBar();
+		bar.setDisplayHomeAsUpEnabled(true);
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#62a5d4")));
+		bar.setTitle("Patrick Han's Itinerary");
 	}
 
 	@Override
@@ -124,6 +127,18 @@ public class ItineraryActivity extends FragmentActivity {
 		int pixels = (int) (metrics.density * dp + 0.5f);
 		mSearchView.setMaxWidth(pixels);
 		
+        int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
+        View searchPlate = mSearchView.findViewById(searchPlateId);
+        if (searchPlate!=null) {
+            searchPlate.setBackgroundColor(0x88ffffff);
+            int searchTextId = searchPlate.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+            TextView searchText = (TextView) searchPlate.findViewById(searchTextId);
+            if (searchText!=null) {
+	            searchText.setTextColor(0x66000000);
+	            searchText.setHintTextColor(0x66000000);
+            }
+        }
+        
 		return true;
 	}
 

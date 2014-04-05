@@ -30,8 +30,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.swat.onthespot.support.OTSDatabase;
 import com.swat.onthespot.support.ProfileTabsAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -61,6 +61,8 @@ public class MainActivity extends FragmentActivity {
     private SearchView mSearchView = null;
     private MenuItem mSearchItem = null;
     
+    private OTSDatabase mDatabase;
+    
     // Intent extra key
     public static final String INTENT_EXTRA = "Extra Message";
     
@@ -77,6 +79,10 @@ public class MainActivity extends FragmentActivity {
 		ActionBar bar = getActionBar();
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#62a5d4")));
 		
+		// Get OTSDatabase Instance
+		mDatabase = OTSDatabase.getInstance(this);
+		
+		// Set contetn view
 		setContentView(R.layout.activity_main);
 		
 		// Record the initial title (app name)
@@ -201,6 +207,13 @@ public class MainActivity extends FragmentActivity {
 		switch (item.getItemId()){
 		case R.id.menu_action_settings:
 			startActivity(new Intent(this, SettingsActivity.class));
+			return true;
+		case R.id.menu_action_clearcurrentitin:
+			String whereClause = "" + OTSDatabase.USERS_ITINS_KEY_USRID + "=" + mDatabase.UserNameToIds(USER_NAME)[0] + 
+							" AND " + OTSDatabase.USERS_ITINS_KEY_SECTION + "=" + OTSDatabase.SECTION_CURRENT_CONTENT;
+			mDatabase.delete(OTSDatabase.TABLE_USERS_ITINS, whereClause, null);
+			mProfileAdapter.notifyDataSetChanged();
+	        mProfileViewPager.setAdapter(mProfileAdapter);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -356,8 +369,7 @@ public class MainActivity extends FragmentActivity {
 			if(resultCode == RESULT_OK){      
 				String result=data.getStringExtra(INTENT_EXTRA);
 				if (result.equals(RI_GOTOPROFILE)){
-					mProfileView = null;
-					selectItem(0);
+			    	selectItem(0);
 				}
 		    }
 		    if (resultCode == RESULT_CANCELED) {    

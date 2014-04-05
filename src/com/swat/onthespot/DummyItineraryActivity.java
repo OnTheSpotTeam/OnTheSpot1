@@ -2,10 +2,13 @@ package com.swat.onthespot;
 
 import java.util.ArrayList;
 
+import android.app.ActionBar;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -71,6 +74,7 @@ public class DummyItineraryActivity extends FragmentActivity {
 		shareBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				mDatabase.addItinForUser(MainActivity.USER_NAME, "Exploring Philly 8th St", OTSDatabase.SECTION_CURRENT_CONTENT);
 				Intent returnIntent = new Intent();
 				returnIntent.putExtra(MainActivity.INTENT_EXTRA, MainActivity.RI_GOTOPROFILE);
 				setResult(RESULT_OK, returnIntent);     
@@ -99,7 +103,10 @@ public class DummyItineraryActivity extends FragmentActivity {
 	 * Set up the {@link android.app.ActionBar}.
 	 */
 	private void setupActionBar() {
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar bar = getActionBar();
+		bar.setDisplayHomeAsUpEnabled(true);
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#62a5d4")));
+		bar.setTitle("Dakota Pekerti's Itinerary");
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.swat.onthespot;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.app.SearchManager;
@@ -9,6 +10,8 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -18,9 +21,11 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import com.swat.onthespot.support.OTSDatabase;
 import com.swat.onthespot.support.OTSSearchProvider;
@@ -119,7 +124,9 @@ public class SearchActivity extends Activity
 	 * Set up the {@link android.app.ActionBar}.
 	 */
 	private void setupActionBar() {
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar bar = getActionBar();
+		bar.setDisplayHomeAsUpEnabled(true);
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#62a5d4")));
 	}
 
 	@Override
@@ -142,6 +149,18 @@ public class SearchActivity extends Activity
 		int pixels = (int) (metrics.density * dp + 0.5f);
 		mSearchView.setMaxWidth(pixels);
 		
+        int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
+        View searchPlate = mSearchView.findViewById(searchPlateId);
+        if (searchPlate!=null) {
+            searchPlate.setBackgroundColor(0x88ffffff);
+            int searchTextId = searchPlate.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+            TextView searchText = (TextView) searchPlate.findViewById(searchTextId);
+            if (searchText!=null) {
+	            searchText.setTextColor(0x66000000);
+	            searchText.setHintTextColor(0x66000000);
+            }
+        }
+        
 		return true;
 	}
 
