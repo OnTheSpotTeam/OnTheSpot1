@@ -160,14 +160,19 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		addItinerary(db, "Past Itinerary", "1th Jan 1970", 5, 
 				"Dummy Past Itinerary Section", "dummy_image");
 		
-   		addItinerary(db, "Houston Roadtrip", "20th Nov 2013", 3.5, 
-				"Almost tripped on a tumbleweed.", "houston_roadtrip");
-		addItinerary(db, "Exploring Philly 8th St", "8-9th Nov 2013", 4.5, 
+		addItinerary(db, "Exploring Philly 8th St", "5th Apr 2014", 4.5, 
 				"Jim's Sticks was heaven in my belly.", "philly_8th_street");
-		addItinerary(db, "New York or Bust!", "15th Dec 2013", 4.5, 
-				"In all my years living on the East", "new_york_or_bust");
+		
 		addItinerary(db, "A Week in Madrid", "5th Jan 2014", 5, 
 				"Spain is just drop-dead gorgeous, and ...", "a_week_in_madrid");
+		
+		addItinerary(db, "New York or Bust!", "15th Dec 2013", 4.5, 
+				"In all my years living on the East", "new_york_or_bust");
+		
+   		addItinerary(db, "Houston Roadtrip", "20th Nov 2013", 3.5, 
+				"Almost tripped on a tumbleweed.", "houston_roadtrip");
+
+
 		
 		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Current Itinerary", SECTION_CURRENT);
 		sInstance.addItinForUser(db, MainActivity.USER_NAME, "Past Itinerary", SECTION_PAST);
@@ -182,8 +187,13 @@ public class OTSDatabase extends SQLiteOpenHelper {
 				"Watching the sunset", 5.0, "This is absolutely stunning!", "one_liberty_place");
 		sInstance.addExperience(db, "Shake Shack", "2000 Sansom St, Philadelphia, PA 19103", 
 				"Harlem Shaking", 3.0, "The locale was a little too approriate ...", "shake_shack");
-		sInstance.addExperience(db, "Moo Tattoo", "513 South St #2, Philadelphia, PA 19147", 
-				"Get Tattoo", 4.5, "Beautifully done. Couldn't have asked ...", "moo_tattoo");
+		
+		sInstance.addExperience(db, "Boathouse Row", "Kelly Dr., E. Fairmount Park, Philadelphia, PA 19130", 
+				"Walking and Biking", 4, "The best walking and biking route in ...", "boathouse_row");
+		
+		sInstance.addExperience(db, "The Dream Garden", "601 Walnut Street, Philadelphia, PA 19106", 
+				"Having a photoshoot", 4.5, "Hidden art gem: a stunning Tiffany glass ... ", "moo_tattoo");
+		
 		sInstance.addExpForItin(db, "Exploring Philly 8th St", "King of Prussia mall");
 		sInstance.addExpForItin(db, "Exploring Philly 8th St", "One Liberty Place");
 		sInstance.addExpForItin(db, "Exploring Philly 8th St", "Shake Shack");
