@@ -381,8 +381,11 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		polyoptions.addAll(mPolyOptions.getPoints());
 		map.addPolyline(polyoptions);
 		List<LatLng> pts = polyoptions.getPoints();
-		DrawArrowsTask dat = new DrawArrowsTask(pts, map, ItinMapFragment.this);
-		dat.execute();
+		for(int i = 0; i < pts.size() - 1; i++)
+		{
+			DrawArrowsTask dat = new DrawArrowsTask(map, ItinMapFragment.this, pts.get(i), pts.get(i + 1));
+			dat.execute();
+		}
 		MarkerOptions options = new MarkerOptions();
 		options.position(start);
 		//options.icon(BitmapDescriptorFactory.fromResource(R.drawable.start_blue));
