@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_height="@dimen/itinlist_sectionseparatorheight"
-        android:background="@drawable/background_itinlist_section_separator" />
+        android:background="#99999999" />
     
 
 </RelativeLayout>

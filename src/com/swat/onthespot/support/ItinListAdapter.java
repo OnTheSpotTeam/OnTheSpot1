@@ -2,10 +2,12 @@ package com.swat.onthespot.support;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +16,9 @@ import com.swat.onthespot.R;
 
 public class ItinListAdapter extends CursorAdapter {
 
+	private Boolean mHasCurrent;
+	private Context mContext;
+	
 	static class ViewHolder {
 		public int section;
 		public TextView sectionName;
@@ -25,15 +30,19 @@ public class ItinListAdapter extends CursorAdapter {
 
 	public ItinListAdapter(Context context, Cursor cursor){
 		super(context, cursor, 0);
-		/*
+		
+		mContext = context;
+		
 		cursor.moveToFirst();
+		mHasCurrent = false;
 		while (!cursor.isAfterLast()){
-			Log.d("Adapter", "name: " + cursor.getString(cursor.getColumnIndex(OTSDatabase.ITINS_KEY_NAME))
-					+ "section: " + cursor.getInt(cursor.getColumnIndex(OTSDatabase.USERS_ITINS_KEY_SECTION)) );
+			if (cursor.getInt(cursor.getColumnIndex(OTSDatabase.USERS_ITINS_KEY_SECTION)) == OTSDatabase.SECTION_CURRENT_CONTENT){ 
+				mHasCurrent = true;
+			}
 			cursor.moveToNext();
 		}
 		cursor.moveToFirst();
-		*/
+		
 	}
 
 	@Override
@@ -60,6 +69,21 @@ public class ItinListAdapter extends CursorAdapter {
 			rowView=inflater.inflate(R.layout.list_item_itinsection_current, null, true);
 			rowView.setClickable(false);
 			rowView.setFocusable(false);
+			
+			if (mHasCurrent){
+				int sectionHeightDp = (int) mContext.getResources().getDimension(R.dimen.itinlist_sectionheight);
+				int sectionHeightPx = (int) dipToPixels(mContext, sectionHeightDp);
+				rowView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, sectionHeightPx));
+				View divider = rowView.findViewById(R.id.itinlist_section_divider);
+				divider.setVisibility(View.GONE);
+			}else{
+				int sectionHeightDp = (int) mContext.getResources().getDimension(R.dimen.itinlist_sectionheightwithdivider);
+				int sectionHeightPx = (int) dipToPixels(mContext, sectionHeightDp);
+				rowView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, sectionHeightPx));
+				View divider = rowView.findViewById(R.id.itinlist_section_divider);
+				divider.setVisibility(View.VISIBLE);
+			}
+			
 			holder.sectionName=(TextView) rowView.findViewById(R.id.itinlist_sectionname);
 		}
 		else if (section == OTSDatabase.SECTION_PAST){
@@ -101,9 +125,12 @@ public class ItinListAdapter extends CursorAdapter {
 			holder.image.setImageResource(context.getResources().getIdentifier(
 					cursor.getString(cursor.getColumnIndex(OTSDatabase.ITINS_KEY_IMAGE)), 
 					"drawable", context.getPackageName()));
-
-
 		}
+	}
+	
+	public static float dipToPixels(Context context, float dipValue) {
+	    DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+	    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
 	}
 
 }
