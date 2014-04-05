@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/itinlist_sectionheight"
-    android:background="#ff0000ee" >
+    android:background="#62a5d4" >
     
     <TextView 
         android:id="@+id/itinlist_sectionname"

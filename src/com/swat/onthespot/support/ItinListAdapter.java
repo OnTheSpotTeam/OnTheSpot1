@@ -25,6 +25,7 @@ public class ItinListAdapter extends CursorAdapter {
 
 	public ItinListAdapter(Context context, Cursor cursor){
 		super(context, cursor, 0);
+		/*
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()){
 			Log.d("Adapter", "name: " + cursor.getString(cursor.getColumnIndex(OTSDatabase.ITINS_KEY_NAME))
@@ -32,6 +33,7 @@ public class ItinListAdapter extends CursorAdapter {
 			cursor.moveToNext();
 		}
 		cursor.moveToFirst();
+		*/
 	}
 
 	@Override
@@ -41,9 +43,10 @@ public class ItinListAdapter extends CursorAdapter {
 	
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
+		/*
 		Log.d("newView", "name: " + cursor.getString(cursor.getColumnIndex(OTSDatabase.ITINS_KEY_NAME))
 				+ "section: " + cursor.getInt(cursor.getColumnIndex(OTSDatabase.USERS_ITINS_KEY_SECTION)) );
-
+		*/
 		View rowView;
 		LayoutInflater inflater =  (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		ViewHolder holder = new ViewHolder();
