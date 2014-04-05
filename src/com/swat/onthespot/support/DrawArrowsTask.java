@@ -177,7 +177,7 @@ private void DrawArrowHead(Bitmap image)
     wideBmpCanvas.drawBitmap(image, src, dest, null);
 
     map.addMarker(new MarkerOptions()
-    .position(to)
+    .position(new LatLng((from.latitude + to.latitude) / 2, (from.longitude + to.longitude) / 2))
     .icon(BitmapDescriptorFactory.fromBitmap(wideBmp))
     .anchor(anchorX, anchorY));
 }
