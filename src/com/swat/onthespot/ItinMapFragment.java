@@ -364,27 +364,28 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	@Override
 	public void onRoutingSuccess(PolylineOptions mPolyOptions, LatLng start, LatLng end, int routeN, Route result) {
 
-		List<Segment> segments  = result.getSegments();
-		for(Segment segment : segments)
-		{
-			String segDir = segment.getInstruction();
-			String dirDist = segment.getText();
-			directions[routeN - 1].add(segDir + " (" + dirDist + ") ");
-		}
-
 		PolylineOptions polyoptions = new PolylineOptions();
 		if(routeN % 2 == 0)
 			polyoptions.color(Color.parseColor("#62a5d4"));
 		else
 			polyoptions.color(Color.parseColor("#c2d2da"));
-		polyoptions.width(10);
+		polyoptions.width(2);
 		polyoptions.addAll(mPolyOptions.getPoints());
 		map.addPolyline(polyoptions);
 		List<LatLng> pts = polyoptions.getPoints();
-		for(int i = 0; i < pts.size() - 1; i++)
+		List<Segment> segments  = result.getSegments();
+		
+		for(int i = 0; i < segments.size(); i++)
 		{
-			DrawArrowsTask dat = new DrawArrowsTask(map, ItinMapFragment.this, pts.get(i), pts.get(i + 1));
-			dat.execute();
+			Segment currSegment = segments.get(i);
+			String segDir = currSegment.getInstruction();
+			String dirDist = currSegment.getText();
+			directions[routeN - 1].add(segDir + " (" + dirDist + ") ");
+			if(i == segments.size() - 1)
+				break;
+			LatLng pt1 = currSegment.startPoint();
+			LatLng pt2 = segments.get(i + 1).startPoint();
+			DrawArrowsTask dat = new DrawArrowsTask(map, ItinMapFragment.this, pt1, pt2);
 		}
 		MarkerOptions options = new MarkerOptions();
 		options.position(start);
