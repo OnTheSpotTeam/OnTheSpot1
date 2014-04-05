@@ -183,21 +183,20 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		
 		sInstance.addExperience(db, "King of Prussia mall", "160 N Gulph Rd, King of Prussia, PA 19406", 
 				"Cologne Sampling", 4.5, "Lots of great fragrances with decent ...", "king_of_prussia");
-		sInstance.addExperience(db, "One Liberty Place", "1625 Chestnut Street, Philadelphia, PA 19103", 
-				"Watching the sunset", 5.0, "This is absolutely stunning!", "one_liberty_place");
 		sInstance.addExperience(db, "Shake Shack", "2000 Sansom St, Philadelphia, PA 19103", 
 				"Harlem Shaking", 3.0, "The locale was a little too approriate ...", "shake_shack");
-		
 		sInstance.addExperience(db, "Boathouse Row", "Kelly Dr., E. Fairmount Park, Philadelphia, PA 19130", 
 				"Walking and Biking", 4, "The best walking and biking route in ...", "boathouse_row");
-		
 		sInstance.addExperience(db, "The Dream Garden", "601 Walnut Street, Philadelphia, PA 19106", 
-				"Having a photoshoot", 4.5, "Hidden art gem: a stunning Tiffany glass ... ", "moo_tattoo");
+				"Having a Photoshoot", 4.5, "Hidden art gem: a stunning Tiffany glass ... ", "dream_garden");
+		sInstance.addExperience(db, "Magic Gardens", "1020 South Street, Philadelphia, PA 19147", 
+				"Exploring", 4.5, "An awe-inspiring mural art gallery and ... ", "magic_gardens");
+		sInstance.addExperience(db, "Penn's Landing", "101 Columbus Boulevard, Philadelphia, PA 19106", 
+				"Watching Sunset", 5, "The Delaware River Waterfront, just a short walk ... ", "penns_landing_sunset");
 		
 		sInstance.addExpForItin(db, "Exploring Philly 8th St", "King of Prussia mall");
-		sInstance.addExpForItin(db, "Exploring Philly 8th St", "One Liberty Place");
+		sInstance.addExpForItin(db, "Exploring Philly 8th St", "Penn's Landing");
 		sInstance.addExpForItin(db, "Exploring Philly 8th St", "Shake Shack");
-		sInstance.addExpForItin(db, "Exploring Philly 8th St", "Moo Tattoo");
 	}	
 	
 	// private helper methods for initializing database.
