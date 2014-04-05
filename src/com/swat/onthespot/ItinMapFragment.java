@@ -570,7 +570,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
         icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon("(" + place + ") " + names.get(place - 1)))).
         position(point).
         anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
-
+     
 			map.addMarker(markerOptions);
 		
 	}
