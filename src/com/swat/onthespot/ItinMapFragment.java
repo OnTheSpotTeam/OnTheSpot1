@@ -377,7 +377,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 			polyoptions.color(Color.parseColor("#62a5d4"));
 		else
 			polyoptions.color(Color.parseColor("#c2d2da"));
-		polyoptions.width(10);
+		polyoptions.width(2);
 		polyoptions.addAll(mPolyOptions.getPoints());
 		map.addPolyline(polyoptions);
 		List<LatLng> pts = polyoptions.getPoints();
