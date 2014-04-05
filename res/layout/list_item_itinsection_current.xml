@@ -13,5 +13,12 @@
        	android:textColor="#aa000000"
        	android:paddingLeft="4dp"/>
     
+    <View 
+        android:id="@+id/itinlist_section_divider"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="@dimen/itinlist_sectionseparatorheight"
+        android:background="@drawable/background_itinlist_section_separator" />
+    
 
 </RelativeLayout>

@@ -38,7 +38,7 @@ public class ItinListAdapter extends CursorAdapter {
 
 	@Override
 	public int getViewTypeCount(){
-		return 2;
+		return 3;
 	}
 	
 	@Override
@@ -56,7 +56,13 @@ public class ItinListAdapter extends CursorAdapter {
 		//int section = OTSDatabase.SECTION_CURRENT_CONTENT;
 		holder.section = section;
 
-		if (section == OTSDatabase.SECTION_CURRENT || section == OTSDatabase.SECTION_PAST){
+		if (section == OTSDatabase.SECTION_CURRENT){
+			rowView=inflater.inflate(R.layout.list_item_itinsection_current, null, true);
+			rowView.setClickable(false);
+			rowView.setFocusable(false);
+			holder.sectionName=(TextView) rowView.findViewById(R.id.itinlist_sectionname);
+		}
+		else if (section == OTSDatabase.SECTION_PAST){
 			rowView=inflater.inflate(R.layout.list_item_itinsection_past, null, true);
 			rowView.setClickable(false);
 			rowView.setFocusable(false);
