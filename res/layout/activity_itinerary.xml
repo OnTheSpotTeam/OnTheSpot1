@@ -11,27 +11,59 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/explist_sharebtn"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="@dimen/explist_tab_height"
             android:layout_weight="1"
-            android:background="@drawable/background_itinactivity_tab"
-            android:gravity="center"
-            android:text="Share This"
-            android:textSize="@dimen/explist_tab_textsize"
-            android:typeface="monospace" />
+            android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/explist_mapViewbtn"
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/explist_sharebtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_itinactivity_tab"
+                android:gravity="center"
+                android:text="Share This"
+                android:textSize="@dimen/explist_tab_textsize"
+                android:typeface="monospace" />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="@dimen/explist_tab_height"
             android:layout_weight="1"
-            android:background="@drawable/background_itinactivity_tab"
-            android:gravity="center"
-            android:text="Map View"
-            android:textSize="@dimen/explist_tab_textsize"
-            android:typeface="monospace" />
+            android:orientation="horizontal" >
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/explist_mapViewbtn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/explist_tab_height"
+                android:background="@drawable/background_itinactivity_tab"
+                android:gravity="center"
+                android:text="Map View"
+                android:textSize="@dimen/explist_tab_textsize"
+                android:typeface="monospace" />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -48,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/explist_titleheight" >
 
-            <!--  
+            <!--
             <TextView
                 android:id="@+id/explist_personName"
                 android:layout_width="wrap_content"
@@ -57,8 +89,8 @@
                 android:layout_alignParentTop="true"
                 android:text="Patrick Han"
                 android:textSize="@dimen/explist_personnamesize" />
-			-->
-			
+            -->
+
             <TextView
                 android:id="@+id/explist_itinName"
                 android:layout_width="wrap_content"
