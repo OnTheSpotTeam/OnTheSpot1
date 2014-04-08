@@ -192,11 +192,12 @@ public class OTSDatabase extends SQLiteOpenHelper {
 		sInstance.addExperience(db, "Magic Gardens", "1020 South Street, Philadelphia, PA 19147", 
 				"Exploring", 4.5, "An awe-inspiring mural art gallery and ... ", "magic_gardens");
 		sInstance.addExperience(db, "Penn's Landing", "101 Columbus Boulevard, Philadelphia, PA 19106", 
-				"Watching Sunset", 5, "The Delaware River Waterfront, just a short walk ... ", "penns_landing_sunset");
+				"Watching Sunset", 5, "The Delaware River Waterfront, just a short ... ", "penns_landing_sunset");
 		
 		sInstance.addExpForItin(db, "Exploring Philly 8th St", "King of Prussia mall");
 		sInstance.addExpForItin(db, "Exploring Philly 8th St", "Penn's Landing");
 		sInstance.addExpForItin(db, "Exploring Philly 8th St", "Shake Shack");
+		sInstance.addExpForItin(db, "Exploring Philly 8th St", "Magic Gardens");
 	}	
 	
 	// private helper methods for initializing database.
