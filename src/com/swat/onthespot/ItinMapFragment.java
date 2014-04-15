@@ -70,10 +70,11 @@ import com.swat.onthespot.support.SaveMapTask;
 import com.swat.onthespot.util.SystemUiHider;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+ * Map View Implementation. Contains an interactive map which
+ * shows a plotted route between Experiences.
  * 
- * @see SystemUiHider
+ * @Author: Richard Liang
+ * @Author: Peng Zhao
  */
 public class ItinMapFragment extends FragmentActivity implements RoutingListener
 {
@@ -108,19 +109,19 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 	 * The instance of the {@link SystemUiHider} for this activity.
 	 */
 	private SystemUiHider mSystemUiHider;
-	private GoogleMap map;
-	private LatLng start;
-	private LatLng end;
-	private Geocoder gc;
-	private ArrayList<String> addresses;
-	private ArrayList<String> names;
-	private boolean doneRouting;
-	private OTSDatabase mDatabase;
-	private ArrayList<String>[] directions;
-	private boolean hasN;
-	public Activity activity;
-	private ProgressDialog dialog;
-	
+	private GoogleMap map; //Main map.
+	private LatLng start; //Start point of one route.
+	private LatLng end; //End point of same route.
+	private Geocoder gc; //Placeholder - for use later.
+	private ArrayList<String> addresses; //List of Experience addresses.
+	private ArrayList<String> names; //List of Experience names.
+	private boolean doneRouting; //Placeholder - for use later.
+	private OTSDatabase mDatabase; //Local sqlite database.
+	private ArrayList<String>[] directions; //List of driving directions for each route.
+	private boolean hasN; //App has network connection or not?
+	public Activity activity; //Context of current activity.
+	private ProgressDialog dialog; //Dialog.
+
 	/*TODO: Make LatLng Queries AsyncTasks*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -138,13 +139,13 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		{
 			contentView = findViewById(R.id.map);
 		}
-		
+
 		setTitle("Map View");
 		SupportMapFragment fm = (SupportMapFragment)  getSupportFragmentManager().findFragmentById(R.id.map);
 		gc = new Geocoder(ItinMapFragment.this, Locale.getDefault());
 		map = fm.getMap();
 		final View controlsView = findViewById(R.id.fullscreen_content_controls);
-		
+
 
 		// Get instance of OTS database.
 		mDatabase = OTSDatabase.getInstance(this);
@@ -278,6 +279,14 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		mHideHandler.postDelayed(mHideRunnable, delayMillis);
 	}
 
+	/**
+	 * Function: updateMap()
+	 * 
+	 * Updates our Google Map with Experience info including routes from
+	 * one Experience to another, and informational markers for each Experience.
+	 * 
+	 * Returns: nothing
+	 */
 	public void updateMap()
 	{
 		addresses = new ArrayList<String>();
@@ -298,13 +307,19 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 				OTSDatabase.TABLE_ITINS_EXPS + "." + OTSDatabase.ITINS_EXPS_KEY_SORT + " ASC";
 		Cursor expsCursor = mDatabase.rawQuery(expsQuery, null);
 
-		// Store addresses into the arrag.
+		// Store addresses into the array.
 		expsCursor.moveToFirst();
+		//Find index of Experience address and name columns in cursor.
 		int addCol = expsCursor.getColumnIndex(OTSDatabase.EXPS_KEY_ADDR);
 		int nameCol = expsCursor.getColumnIndex(OTSDatabase.EXPS_KEY_NAME);
 		String address;
 		String name;
 		Log.i("ADDRESS", "RA");
+		
+		 
+		/* For each Experience, place its address and name 
+		 * in the apropriate array.
+		 */
 		while(!expsCursor.isAfterLast())
 		{
 			address = expsCursor.getString(addCol);
@@ -315,10 +330,12 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 			expsCursor.moveToNext();
 		}
 
+
 		directions = (ArrayList<String>[])new ArrayList[addresses.size() - 1];
 		for(int i = 0; i < directions.length; i++)
 			directions[i] = new ArrayList<String>();
 
+		//Place markers for each experience on map(TODO: make this Async).
 		ArrayList<LatLng> locationData = new ArrayList<LatLng>();
 		for(int i = 0; i < addresses.size(); i++)
 		{
@@ -326,6 +343,8 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 			locationData.add(toAdd);
 			addMarker(toAdd, i+1);
 		}
+		
+		//Plot routes for our Experiences.
 		for(int i = 0; i < locationData.size() - 1; i++)
 		{
 			start = locationData.get(i);
@@ -334,6 +353,8 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 			routing.registerListener(this);
 			routing.execute(start, end);
 		}
+		
+		//Update view to zoom in on first experience.
 		CameraUpdate center=CameraUpdateFactory.newLatLng(getLatLngFromLoc(addresses.get(0)));
 		CameraUpdate zoom=  CameraUpdateFactory.zoomTo(15);
 
@@ -387,7 +408,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		map.addPolyline(polyoptions);
 		List<LatLng> pts = polyoptions.getPoints();
 		List<Segment> segments  = result.getSegments();
-		
+
 		for(int i = 0; i < segments.size(); i++)
 		{
 			Segment currSegment = segments.get(i);
@@ -401,7 +422,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 			DrawArrowsTask dat = new DrawArrowsTask(map, ItinMapFragment.this, pt1, pt2);
 			dat.execute();*/
 		}
-		
+
 	}
 
 	/*public LatLng getLatLngFromLoc(String address) throws IOException{
@@ -509,7 +530,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		dialog = ProgressDialog.show(ItinMapFragment.this, "Save", "Please Wait...");
 		SaveMapTask smt = new SaveMapTask(FILE_NAME, map, dialog, ItinMapFragment.this);
 		smt.execute();
-		
+
 		/*SnapshotReadyCallback callback = new SnapshotReadyCallback() {
 			Bitmap bitmap;
 
@@ -546,7 +567,7 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 			ImageView imgV = (ImageView)findViewById(R.id.staticMap);
 			imgV.setImageBitmap(map);			
 
-			
+
 		} catch (FileNotFoundException e)
 		{
 			// TODO Auto-generated catch block
@@ -561,20 +582,20 @@ public class ItinMapFragment extends FragmentActivity implements RoutingListener
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
-	
+
 	void addMarker(LatLng point, int place)
 	{
 		IconGenerator iconFactory = new IconGenerator(this);
 		iconFactory.setStyle(IconGenerator.STYLE_BLUE);
 		MarkerOptions markerOptions = new MarkerOptions().
-        icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon("(" + place + ")"))).
-        title(names.get(place - 1)).
-        snippet(addresses.get(place - 1)).
-        position(point).
-        anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
-     
-			map.addMarker(markerOptions);
-		
+				icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon("(" + place + ")"))).
+				title(names.get(place - 1)).
+				snippet(addresses.get(place - 1)).
+				position(point).
+				anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
+
+		map.addMarker(markerOptions);
+
 	}
 
 }

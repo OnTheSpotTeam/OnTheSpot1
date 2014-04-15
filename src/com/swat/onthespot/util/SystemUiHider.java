@@ -96,7 +96,7 @@ public abstract class SystemUiHider
 	 *          {@link #FLAG_LAYOUT_IN_SCREEN_OLDER_DEVICES}.
 	 */
 	public static SystemUiHider getInstance(Activity activity, View anchorView,
-	    int flags)
+			int flags)
 	{
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 		{

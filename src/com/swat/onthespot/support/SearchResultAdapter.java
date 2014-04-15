@@ -20,22 +20,22 @@ import android.widget.TextView;
 import com.swat.onthespot.R;
 
 public class SearchResultAdapter extends CursorAdapter {
-	
+
 	private Context mContext;
 
-    static class ViewHolder {
-        public ImageView image;
-        public TextView name;
-        public TextView action;
-        public TextView comment; 
-        public Button button;
-    }
-    
-    public SearchResultAdapter(Context context, Cursor cursor){
-    	super(context, cursor, 0);
-    	mContext = context;
-    }
-    
+	static class ViewHolder {
+		public ImageView image;
+		public TextView name;
+		public TextView action;
+		public TextView comment; 
+		public Button button;
+	}
+
+	public SearchResultAdapter(Context context, Cursor cursor){
+		super(context, cursor, 0);
+		mContext = context;
+	}
+
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		ViewHolder holder = (ViewHolder) view.getTag();
@@ -44,7 +44,7 @@ public class SearchResultAdapter extends CursorAdapter {
 		String action = cursor.getString(cursor.getColumnIndex(OTSDatabase.EXPS_KEY_ACTION)) + " at";
 		String comment = cursor.getString(cursor.getColumnIndex(OTSDatabase.EXPS_KEY_COMMENT));
 		int eid = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
-		
+
 		holder.name.setText(name);
 		holder.action.setText(action);
 		holder.comment.setText(comment);
@@ -61,7 +61,7 @@ public class SearchResultAdapter extends CursorAdapter {
 				args.putInt(SearchResultAddDialog.KEY_EID, (Integer)view.getTag(R.id.searchresultlist_plusbtn_eidtag));
 				args.putString(SearchResultAddDialog.KEY_NAME, (String)view.getTag(R.id.searchresultlist_plusbtn_nametag));
 				dialog.setArguments(args);
-			    dialog.show(((Activity)SearchResultAdapter.this.mContext).getFragmentManager(), "missiles");
+				dialog.show(((Activity)SearchResultAdapter.this.mContext).getFragmentManager(), "missiles");
 			}
 		});
 
@@ -69,20 +69,20 @@ public class SearchResultAdapter extends CursorAdapter {
 
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-	    LayoutInflater inflater =  (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    View rowView = inflater.inflate(R.layout.list_item_searchresult,null,true);
+		LayoutInflater inflater =  (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View rowView = inflater.inflate(R.layout.list_item_searchresult,null,true);
 
-	    ViewHolder holder = new ViewHolder();
-	    holder.image = (ImageView) rowView.findViewById(R.id.searchresultlist_item_image);
-	    holder.name = (TextView) rowView.findViewById(R.id.searchresultlist_item_name);
-	    holder.action = (TextView) rowView.findViewById(R.id.searchresultlist_item_action);
-	    holder.comment = (TextView) rowView.findViewById(R.id.searchresultlist_item_comment);
-	    holder.button = (Button) rowView.findViewById(R.id.searchresultlist_item_plusbtn);
-	    rowView.setTag(holder);
+		ViewHolder holder = new ViewHolder();
+		holder.image = (ImageView) rowView.findViewById(R.id.searchresultlist_item_image);
+		holder.name = (TextView) rowView.findViewById(R.id.searchresultlist_item_name);
+		holder.action = (TextView) rowView.findViewById(R.id.searchresultlist_item_action);
+		holder.comment = (TextView) rowView.findViewById(R.id.searchresultlist_item_comment);
+		holder.button = (Button) rowView.findViewById(R.id.searchresultlist_item_plusbtn);
+		rowView.setTag(holder);
 
-	    return rowView;
+		return rowView;
 	}
-	
+
 	@Override
 	public Cursor swapCursor(Cursor newCursor){
 		return super.swapCursor(newCursor);

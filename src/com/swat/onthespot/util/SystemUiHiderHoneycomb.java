@@ -59,7 +59,7 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase
 			// at compile-time and do nothing on pre-Jelly Bean devices.
 			mShowFlags |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 			mHideFlags |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-			    | View.SYSTEM_UI_FLAG_FULLSCREEN;
+					| View.SYSTEM_UI_FLAG_FULLSCREEN;
 		}
 
 		if ((mFlags & FLAG_HIDE_NAVIGATION) != 0)
@@ -67,7 +67,7 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase
 			// If the client requested hiding navigation, add relevant flags.
 			mShowFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 			mHideFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-			    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+					| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 			mTestFlags |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 		}
 	}
@@ -77,7 +77,7 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase
 	public void setup()
 	{
 		mAnchorView
-		    .setOnSystemUiVisibilityChangeListener(mSystemUiVisibilityChangeListener);
+		.setOnSystemUiVisibilityChangeListener(mSystemUiVisibilityChangeListener);
 	}
 
 	/** {@inheritDoc} */
@@ -115,8 +115,8 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase
 					// and use the old window flags API.
 					mActivity.getActionBar().hide();
 					mActivity.getWindow().setFlags(
-					    WindowManager.LayoutParams.FLAG_FULLSCREEN,
-					    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+							WindowManager.LayoutParams.FLAG_FULLSCREEN,
+							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				}
 
 				// Trigger the registered listener and cache the visibility
@@ -133,7 +133,7 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase
 					// and use the old window flags API.
 					mActivity.getActionBar().show();
 					mActivity.getWindow().setFlags(0,
-					    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				}
 
 				// Trigger the registered listener and cache the visibility

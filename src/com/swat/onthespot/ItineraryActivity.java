@@ -33,34 +33,34 @@ import com.swat.onthespot.support.OTSDatabase;
 public class ItineraryActivity extends FragmentActivity {
 	ArrayList<String> addresses;
 	private OTSDatabase mDatabase;
-	
+
 	private static final String TAG = "ItineraryActivity";
 	private static final String fragmentTAG = "DragSortFragment";
 	public static final String INTENT_EXTRA = "Extra";
-  
-    private SearchView mSearchView = null;
-    private MenuItem mSearchItem = null;
-    
+
+	private SearchView mSearchView = null;
+	private MenuItem mSearchItem = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		// Set the action bar color.
 		//ActionBar bar = getActionBar();
 		//bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#62a5d4")));
-		
+
 		setContentView(R.layout.activity_itinerary);
-		
+
 		// Show the Up button in the action bar.
 		setupActionBar();
-		
+
 		// Get the OTSDatabase instance
 		mDatabase = OTSDatabase.getInstance(this);
-		
+
 		// Display the itinerary name
 		final String itinName = getIntent().getStringExtra(ProfileFragmentItins.INTENT_EXTRA);
 		((TextView) findViewById(R.id.explist_itinName)).setText(itinName);
-		
+
 		// Set the "map view" button
 		TextView mapViewBtn = (TextView)findViewById(R.id.explist_mapViewbtn);
 		mapViewBtn.setOnClickListener(new OnClickListener() {
@@ -71,7 +71,7 @@ public class ItineraryActivity extends FragmentActivity {
 				startActivityForResult(intent, 1);
 			}
 		});
-		
+
 		// Set the "share this" button
 		TextView shareBtn = (TextView)findViewById(R.id.explist_sharebtn);
 		shareBtn.setOnClickListener(new OnClickListener() {
@@ -80,12 +80,12 @@ public class ItineraryActivity extends FragmentActivity {
 				// Do nothing right now.
 			}
 		});
-		
+
 		// Instantiate the DragSortListView.
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.itinerary_expList, 
-            		getItinListFragment(itinName), fragmentTAG).commit();
-        }
+		if (savedInstanceState == null) {
+			getSupportFragmentManager().beginTransaction().add(R.id.itinerary_expList, 
+					getItinListFragment(itinName), fragmentTAG).commit();
+		}
 	}
 
 	/**
@@ -93,11 +93,11 @@ public class ItineraryActivity extends FragmentActivity {
 	 * @param itinName Name of the itinerary.
 	 * @return The DragSortListView that populates the experience list.
 	 */
-    private Fragment getItinListFragment(String itinName) {
-        ItinDragDropList f = ItinDragDropList.newInstance(this, itinName);
-        return f;
-    }
-    
+	private Fragment getItinListFragment(String itinName) {
+		ItinDragDropList f = ItinDragDropList.newInstance(this, itinName);
+		return f;
+	}
+
 	/**
 	 * Set up the {@link android.app.ActionBar}.
 	 */
@@ -114,7 +114,7 @@ public class ItineraryActivity extends FragmentActivity {
 		getMenuInflater().inflate(R.menu.itinerary, menu);
 		//Setting up search configuration
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-	   	mSearchItem = menu.findItem(R.id.menu_action_search);
+		mSearchItem = menu.findItem(R.id.menu_action_search);
 		mSearchView = (SearchView)mSearchItem.getActionView();
 		SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
 		mSearchView.setSearchableInfo(info);
@@ -126,19 +126,19 @@ public class ItineraryActivity extends FragmentActivity {
 		float dp = 1000f; // 6 inches in a 160 dpi screen is probably enough.
 		int pixels = (int) (metrics.density * dp + 0.5f);
 		mSearchView.setMaxWidth(pixels);
-		
-        int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
-        View searchPlate = mSearchView.findViewById(searchPlateId);
-        if (searchPlate!=null) {
-            searchPlate.setBackgroundColor(0x88ffffff);
-            int searchTextId = searchPlate.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-            TextView searchText = (TextView) searchPlate.findViewById(searchTextId);
-            if (searchText!=null) {
-	            searchText.setTextColor(0x66000000);
-	            searchText.setHintTextColor(0x66000000);
-            }
-        }
-        
+
+		int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
+		View searchPlate = mSearchView.findViewById(searchPlateId);
+		if (searchPlate!=null) {
+			searchPlate.setBackgroundColor(0x88ffffff);
+			int searchTextId = searchPlate.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+			TextView searchText = (TextView) searchPlate.findViewById(searchTextId);
+			if (searchText!=null) {
+				searchText.setTextColor(0x66000000);
+				searchText.setHintTextColor(0x66000000);
+			}
+		}
+
 		return true;
 	}
 
@@ -161,7 +161,7 @@ public class ItineraryActivity extends FragmentActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		
+
 		// Decide whether we go back to MainActivity, or stay in ItineraryActivity.
 		if (requestCode == 1) {
 			if(resultCode == RESULT_OK){      
@@ -169,13 +169,13 @@ public class ItineraryActivity extends FragmentActivity {
 				if (result.equals(ItinMapFragment.RESULT_MAIN)){
 					finish();
 				}
-		    }
-		    if (resultCode == RESULT_CANCELED) {    
-		        //Write your code if there's no result
-		    }
+			}
+			if (resultCode == RESULT_CANCELED) {    
+				//Write your code if there's no result
+			}
 		}
 	}
-	
+
 	@Override
 	protected void onPause(){
 		super.onPause();
@@ -183,21 +183,21 @@ public class ItineraryActivity extends FragmentActivity {
 				getSupportFragmentManager().findFragmentByTag(fragmentTAG);
 		list.writeBackChanges();
 	}
-	
+
 	@Override
 	protected void onResume(){
 		super.onResume();
-		
-        // If SearchView has focus, collapse it.
-        if(mSearchView != null){
-        	if(mSearchView.hasFocus()){
-        		MenuItemCompat.collapseActionView(mSearchItem);
-        	}
-        }
-        
+
+		// If SearchView has focus, collapse it.
+		if(mSearchView != null){
+			if(mSearchView.hasFocus()){
+				MenuItemCompat.collapseActionView(mSearchItem);
+			}
+		}
+
 		ItinDragDropList list = (ItinDragDropList) 
 				getSupportFragmentManager().findFragmentByTag(fragmentTAG);
 		list.updateList();
 	}
-	
+
 }

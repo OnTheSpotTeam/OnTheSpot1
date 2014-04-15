@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class ProfileFragmentFavorites extends Fragment {
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
- 
-        View rootView = inflater.inflate(R.layout.profile_tab_favorites, container, false);
-        TextView text = (TextView) rootView.findViewById(R.id.profile_tab_favorites_text);
-        text.setText("This is the favorites tab");
-        
-        return rootView;
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		View rootView = inflater.inflate(R.layout.profile_tab_favorites, container, false);
+		TextView text = (TextView) rootView.findViewById(R.id.profile_tab_favorites_text);
+		text.setText("This is the favorites tab");
+
+		return rootView;
+	}
 }

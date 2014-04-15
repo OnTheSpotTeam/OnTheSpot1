@@ -18,7 +18,7 @@ public class ItinListAdapter extends CursorAdapter {
 
 	private Boolean mHasCurrent;
 	private Context mContext;
-	
+
 	static class ViewHolder {
 		public int section;
 		public TextView sectionName;
@@ -30,9 +30,9 @@ public class ItinListAdapter extends CursorAdapter {
 
 	public ItinListAdapter(Context context, Cursor cursor){
 		super(context, cursor, 0);
-		
+
 		mContext = context;
-		
+
 		cursor.moveToFirst();
 		mHasCurrent = false;
 		while (!cursor.isAfterLast()){
@@ -42,20 +42,20 @@ public class ItinListAdapter extends CursorAdapter {
 			cursor.moveToNext();
 		}
 		cursor.moveToFirst();
-		
+
 	}
 
 	@Override
 	public int getViewTypeCount(){
 		return 3;
 	}
-	
+
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		/*
 		Log.d("newView", "name: " + cursor.getString(cursor.getColumnIndex(OTSDatabase.ITINS_KEY_NAME))
 				+ "section: " + cursor.getInt(cursor.getColumnIndex(OTSDatabase.USERS_ITINS_KEY_SECTION)) );
-		*/
+		 */
 		View rowView;
 		LayoutInflater inflater =  (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		ViewHolder holder = new ViewHolder();
@@ -69,7 +69,7 @@ public class ItinListAdapter extends CursorAdapter {
 			rowView=inflater.inflate(R.layout.list_item_itinsection_current, null, true);
 			rowView.setClickable(false);
 			rowView.setFocusable(false);
-			
+
 			if (mHasCurrent){
 				int sectionHeightDp = (int) mContext.getResources().getDimension(R.dimen.itinlist_sectionheight);
 				rowView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, sectionHeightDp));
@@ -81,7 +81,7 @@ public class ItinListAdapter extends CursorAdapter {
 				View divider = rowView.findViewById(R.id.itinlist_section_divider);
 				divider.setVisibility(View.VISIBLE);
 			}
-			
+
 			holder.sectionName=(TextView) rowView.findViewById(R.id.itinlist_sectionname);
 		}
 		else if (section == OTSDatabase.SECTION_PAST){
@@ -125,6 +125,6 @@ public class ItinListAdapter extends CursorAdapter {
 					"drawable", context.getPackageName()));
 		}
 	}
-	
+
 
 }

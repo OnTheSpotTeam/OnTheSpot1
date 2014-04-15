@@ -17,26 +17,26 @@ import com.swat.onthespot.support.ItinListAdapter;
 import com.swat.onthespot.support.OTSDatabase;
 
 public class ProfileFragmentItins extends Fragment {
-	
+
 	// Key for the new activity to retrieve extra message
 	public static final String INTENT_EXTRA = "Extra Message";
-	
+
 	// OTSDatabase instance.
 	private OTSDatabase mDatabase;
-	
+
 	// Store a cursor for itineraries.
 	public static CharSequence[] sItinNames = null;
 	public static int[] sItinIds = null;
-	
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-  
-        View rootView = inflater.inflate(R.layout.profile_tab_itins, container, false);
-        
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		View rootView = inflater.inflate(R.layout.profile_tab_itins, container, false);
+
 		mDatabase = OTSDatabase.getInstance(getActivity());
 		String userName = MainActivity.USER_NAME;
-		
+
 		// Query the Itineraries that a User has.
 		String selection = OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_ID + " AS _id , " +
 				OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_NAME + " , " +
@@ -45,8 +45,8 @@ public class ProfileFragmentItins extends Fragment {
 				OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_COMMENT + " , " + 
 				OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_IMAGE + " , " +
 				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION;
-		
-		
+
+
 		String itinQuery = "SELECT " + selection + " FROM " + 
 				OTSDatabase.TABLE_ITINS + ", " + OTSDatabase.TABLE_USERS_ITINS + " " +
 				"WHERE " + OTSDatabase.TABLE_ITINS + "." + OTSDatabase.ITINS_KEY_ID + "=" + 
@@ -54,8 +54,8 @@ public class ProfileFragmentItins extends Fragment {
 				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_USRID + "=" + 
 				mDatabase.UserNameToIds(userName)[0] + " ORDER BY " + 
 				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION + " ASC";
-		
-		
+
+
 		/*
 		String pastItinQuery = "SELECT " + selection + " FROM " + 
 				OTSDatabase.TABLE_ITINS + ", " + OTSDatabase.TABLE_USERS_ITINS + " " +
@@ -65,18 +65,18 @@ public class ProfileFragmentItins extends Fragment {
 				mDatabase.UserNameToIds(userName)[0] + " AND " +
 				OTSDatabase.TABLE_USERS_ITINS + "." + OTSDatabase.USERS_ITINS_KEY_SECTION + "=" +
 				OTSDatabase.SECTION_PAST;
-		*/
-		
+		 */
+
 		Cursor itinsCursor = mDatabase.rawQuery(itinQuery, null);
 		storeItinNames(itinsCursor);
 		ItinListAdapter itinsAdapter = new ItinListAdapter(getActivity(), itinsCursor);
-		
+
 		// Get and populate the listview
 		ListView list = (ListView)rootView.findViewById(R.id.profile_itins_itinList);
 		list.setAdapter(itinsAdapter);
 
-	    list.setClickable(true);
-	    list.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		list.setClickable(true);
+		list.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -90,18 +90,18 @@ public class ProfileFragmentItins extends Fragment {
 				}
 			}
 		});
-	    return rootView;
+		return rootView;
 	}
-    
-    private void storeItinNames(Cursor cursor){
-    	sItinNames = new CharSequence[cursor.getCount()];
-    	sItinIds = new int[cursor.getCount()];
-    	cursor.moveToFirst();
-    	while (!cursor.isAfterLast()){
-    		sItinNames[cursor.getPosition()] = cursor.getString(cursor.getColumnIndex(OTSDatabase.ITINS_KEY_NAME));
-    		sItinIds[cursor.getPosition()] = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
-    		cursor.moveToNext();
-    	}
-    	cursor.moveToFirst();
-    }
+
+	private void storeItinNames(Cursor cursor){
+		sItinNames = new CharSequence[cursor.getCount()];
+		sItinIds = new int[cursor.getCount()];
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()){
+			sItinNames[cursor.getPosition()] = cursor.getString(cursor.getColumnIndex(OTSDatabase.ITINS_KEY_NAME));
+			sItinIds[cursor.getPosition()] = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
+			cursor.moveToNext();
+		}
+		cursor.moveToFirst();
+	}
 }
